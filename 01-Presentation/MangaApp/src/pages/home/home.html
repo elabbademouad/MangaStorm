@@ -1,21 +1,13 @@
-<ion-header>
-  <ion-navbar>
+<ion-header >
+  <ion-navbar color="dark">
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title style="direction: rtl ;font-family: 'Cairo', sans-serif;">قائمة  المانغا</ion-title>
+    <ion-title class="amiri">قائمة  المانغا</ion-title>    
   </ion-navbar>
 </ion-header>
-
-<ion-content no-padding>
-    <ion-row no-padding>
-      <ion-col>
-          <ion-card >
-              <img src="https://www.manga.ae/images/manga/shingeki-no-kyojin.jpg"/>
-              <ion-card-content>
-                <ion-title style="direction: rtl ;font-family: 'Cairo', sans-serif;"> Shingeki no Kyojin manga</ion-title>
-              </ion-card-content>
-          </ion-card>
-      </ion-col>
-    </ion-row>
+<ion-content no-padding>  
+    <ion-list>
+        <manga-item  *ngFor="let mangaItem of mangaList" [item]="mangaItem"></manga-item>
+    </ion-list>
 </ion-content>
