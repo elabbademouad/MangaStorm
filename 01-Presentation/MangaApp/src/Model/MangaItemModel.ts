@@ -1,4 +1,5 @@
 export class MangaItemModel {
+    id : number;
     name : string;
     coverUrl : string;
     coverType : string;
