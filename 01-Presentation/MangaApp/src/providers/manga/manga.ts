@@ -2,12 +2,6 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { MangaItemModel } from '../../Model/MangaItemModel';
 
-/*
-  Generated class for the MangaProvider provider.
-
-  See https://angular.io/guide/dependency-injection for more info on providers
-  and Angular DI.
-*/
 @Injectable()
 export class MangaProvider {
 
