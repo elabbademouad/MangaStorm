@@ -21,14 +21,14 @@ namespace MangaScrap
         static void Main(string[] args)
         {
             Console.WriteLine("Welcome To Manga Scraping :");
-            //foreach (var item in Params.MangaUrls)
-            //{
-            //    Console.WriteLine(item);
-            //    var manga = ScrapingManga(item);
-            //    SaveOrUpdateDataBase(manga, Params.RootPath);
+            foreach (var item in Params.MangaUrls)
+            {
+                Console.WriteLine(item);
+                var manga = ScrapingManga(item);
+                SaveOrUpdateDataBase(manga, Params.RootPath);
 
-            //}
-            RetryGetPendingPages(Params.RootPath);
+            }
+            //RetryGetPendingPages(Params.RootPath);
             Console.ReadKey();     
         }
         static void SaveOrUpdateDataBase(MangaScrapModel manga,string rootPath)

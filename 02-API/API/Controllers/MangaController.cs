@@ -18,7 +18,7 @@ namespace Api.Controllers
         [HttpGet("GetMangaItems")]
         public ActionResult<IEnumerable<MangaItemModel>> GetMangaItems()
         {
-            string rootPath = "F:/";
+            string rootPath = "http://localhost:5000/";
             string connectionString = "Data Source="+rootPath+"Manga/ManagDb.db";
             using (var db =new MangaDataContext(connectionString))
             {
@@ -26,7 +26,7 @@ namespace Api.Controllers
                         .Select(m=>new MangaItemModel() {
                             Id=m.Id,
                             ChapterCount=m.Chapter.Count.ToString(),
-                            Cover= rootPath+m.CoverInternalUrl,
+                            Cover= rootPath+ m.CoverInternalUrl,
                             Date=m.Date,
                             Name=m.Name,
                             Resume=m.Resume,
