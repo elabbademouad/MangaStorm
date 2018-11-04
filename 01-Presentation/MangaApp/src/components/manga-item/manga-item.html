@@ -2,7 +2,7 @@
     <ion-row>
         <ion-col>
             <h3 class="amiri"><span class="label-description" >{{ressources.name}}</span> <span style="font-size: 15px;font-weight: bold;"> {{item.name}}</span></h3>
-            <h3 class="amiri"><span class="label-description" >{{ressources.dateEdition}}</span>  {{item.dateEdition}}</h3>
+            <h3 class="amiri"><span class="label-description" >{{ressources.dateEdition}}</span>  {{item.date}}</h3>
             <h3 class="amiri"><span class="label-description">{{ressources.chapter}}</span>  {{item.chapterCount}}</h3>
             <h3 class="amiri"><span class="label-description">{{ressources.state}}</span>  {{item.state}}</h3>
             <h3 class="amiri"><span class="label-description">{{ressources.tags}}</span>  {{item.tags}}</h3>
@@ -10,7 +10,7 @@
             <h3 class="amiri">  {{item.resume.slice(0, 80)+'...'}}</h3>
         </ion-col>
         <ion-col col-4>
-            <img src="{{'data:image/'+item.coverType+';base64,'+item.coverBase64}}"/>
+            <img src="{{item.cover}}"/>
         </ion-col>
     </ion-row>
 </ion-card>

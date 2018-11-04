@@ -1,0 +1,8 @@
+{
+  "ExpandedNodes": [
+    "\\02-API\\Api\\Controllers",
+    "\\03-DataAccess\\DataAccess\\DataContext",
+    "\\03-DataAccess\\DataAccess\\Entity"
+  ],
+  "PreviewInSolutionExplorer": false
+}

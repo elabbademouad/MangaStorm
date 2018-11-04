@@ -1,11 +1,9 @@
 export class MangaItemModel {
     id : number;
     name : string;
-    coverUrl : string;
-    coverType : string;
-    coverBase64 : string;
+    cover : string;
     chapterCount : number;
-    dateEdition: string;
+    date: string;
     state: string;
     resume: string;
     tags: string;

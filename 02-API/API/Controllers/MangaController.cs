@@ -5,6 +5,9 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using DataAccess.DataContext;
 using DataAccess.Entity;
+using Microsoft.EntityFrameworkCore;
+using Api.Model;
+
 namespace Api.Controllers
 {
     [Route("api/[controller]")]
@@ -12,12 +15,25 @@ namespace Api.Controllers
     public class MangaController : ControllerBase
     {
         // GET api/values
-        [HttpGet]
-        public ActionResult<IEnumerable<Manga>> Get()
+        [HttpGet("GetMangaItems")]
+        public ActionResult<IEnumerable<MangaItemModel>> GetMangaItems()
         {
-            using (var db =new MangaDataContext("Data source = C:/Users/Elabbade Mouad/Documents/VisualStudioProjects/MangaApp/03-DataAccess/DataAccess/ManagDb.db"))
+            string rootPath = "F:/";
+            string connectionString = "Data Source="+rootPath+"Manga/ManagDb.db";
+            using (var db =new MangaDataContext(connectionString))
             {
-                return db.Mangas.ToList();
+                var mangaList=db.Mangas.Include(m=>m.Chapter)
+                        .Select(m=>new MangaItemModel() {
+                            Id=m.Id,
+                            ChapterCount=m.Chapter.Count.ToString(),
+                            Cover= rootPath+m.CoverInternalUrl,
+                            Date=m.Date,
+                            Name=m.Name,
+                            Resume=m.Resume,
+                            State=m.State,
+                            Tags=m.Tags
+                        }).ToList();
+                return mangaList;
             }
         }
     }

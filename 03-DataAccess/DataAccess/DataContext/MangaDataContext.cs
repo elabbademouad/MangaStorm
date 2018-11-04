@@ -24,7 +24,5 @@ namespace DataAccess.DataContext
         public DbSet<Manga> Mangas { get; set;}
         public DbSet<Chapter> Chapters { get; set;}
         public DbSet<Page> Pages { get; set;}
-        public DbSet<Tag> Tags { get; set;}
-        public DbSet<MangaTag> MangaTags { get; set; }
     }
 }

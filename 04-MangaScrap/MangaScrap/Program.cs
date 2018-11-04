@@ -9,6 +9,9 @@ using DataAccess.DataContext;
 using DataAccess.Entity;
 using System.Collections.Generic;
 using MangaScrap.ScrapingModel;
+using MangaScrap.ScrapParams;
+using Newtonsoft.Json;
+using Microsoft.EntityFrameworkCore;
 
 namespace MangaScrap
 {
@@ -17,70 +20,62 @@ namespace MangaScrap
 
         static void Main(string[] args)
         {
-            string connectionString="Data Source=C:/Users/Elabbade Mouad/Documents/VisualStudioProjects/MangaApp/03-DataAccess/DataAccess/ManagDb.db";
-            Console.WriteLine("Scraping manga set manga Url :");
-            string mangaUrl=Console.ReadLine();
-            var manga=ScrapingManga(mangaUrl);
-            Console.WriteLine("scraping done");
-            using (var dbContext=new MangaDataContext(connectionString))
+            Console.WriteLine("Welcome To Manga Scraping :");
+            //foreach (var item in Params.MangaUrls)
+            //{
+            //    Console.WriteLine(item);
+            //    var manga = ScrapingManga(item);
+            //    SaveOrUpdateDataBase(manga, Params.RootPath);
+
+            //}
+            RetryGetPendingPages(Params.RootPath);
+            Console.ReadKey();     
+        }
+        static void SaveOrUpdateDataBase(MangaScrapModel manga,string rootPath)
+        {
+            string connectionString = "Data Source="+rootPath+"/Manga/ManagDb.db";
+            using (var dbContext = new MangaDataContext(connectionString))
             {
-                if(manga!=null)
+                if (manga != null)
                 {
-                    Manga mangaEnt=new Manga();
-                    mangaEnt.Name=manga.Title;
-                    mangaEnt.Resume=manga.Resume;
-                    mangaEnt.State=manga.State;
-                    mangaEnt.Date=manga.DateEdition;
-                    mangaEnt.CoverUrl=manga.CoverUrl;
-                    mangaEnt.CoverImage=manga.Cover;
-                    mangaEnt.CoverType=manga.CoverType;
-                    mangaEnt.MangaTags=new List<MangaTag>();
-                    dbContext.Mangas.Add(mangaEnt);
-                    foreach (var tag in manga.Tags)
-                    {
-                        if(dbContext.Tags.FirstOrDefault(t=>t.Label==tag.Trim())==null)
-                        {
-                            var tagent= new Tag(){Label=tag};
-                            dbContext.Tags.Add(tagent);
-                            mangaEnt.MangaTags.Add(new MangaTag(){
-                                Manga=mangaEnt,
-                                Tag=tagent
-                            }) ;          
-                        }else if (mangaEnt.MangaTags.Where(mt=>mt.Tag.Label==tag).FirstOrDefault()==null)
-                        {
-                            mangaEnt.MangaTags.Add(new MangaTag(){
-                                Tag=dbContext.Tags.FirstOrDefault(t=>t.Label==tag.Trim()),
-                                Manga=mangaEnt
-                            });
-                        }
-                    }
-                    mangaEnt.Chapter=new List<Chapter>();
+                    Manga mangaEnt = new Manga();
+                    mangaEnt.Name = manga.Title.Replace("manga", "").Trim();
+                    mangaEnt.Resume = manga.Resume;
+                    mangaEnt.State = manga.State;
+                    mangaEnt.Date = manga.DateEdition;
+                    mangaEnt.CoverExteranlUrl = manga.CoverUrl;
+                    mangaEnt.CoverInternalUrl = ImageHelper.SavaInternal(manga.CoverUrl, rootPath, "Manga/" + mangaEnt.Name.Replace(" ","_"), "cover");
+                    mangaEnt.Tags = string.Join(" ", manga.Tags.ToArray());
+                    mangaEnt.Chapter = new List<Chapter>();
                     foreach (var chapter in manga.Chapters)
                     {
-                        var chapterEnt=new Chapter(){
-                            Title=chapter.Title,
-                            Url=chapter.Url,
-                            Number=manga.Chapters.IndexOf(chapter)+1,
-                            Seen=false
+                        var chapterEnt = new Chapter()
+                        {
+                            Title = chapter.Title,
+                            Url = chapter.Url,
+                            Number = manga.Chapters.IndexOf(chapter) + 1,
                         };
-                        chapterEnt.Pages=new List<Page>();
+                        chapterEnt.Pages = new List<Page>();
                         foreach (var page in chapter.Pages)
                         {
-                            chapterEnt.Pages.Add(new Page(){
-                                Content=page.Content,
-                                ContentType=page.ContentType,
-                                Number=page.Number,
-                                Url=page.Url
+                            var internalUrl = ImageHelper.SavaInternal(page.Url, rootPath, "Manga/" + mangaEnt.Name.Replace(" ", "_") + "/chapter" + chapter.Number, page.Number.ToString());
+                            chapterEnt.Pages.Add(new Page()
+                            {
+                                Number = page.Number,
+                                ExternalUrl = page.Url,
+                                InternalUrl = "Manga/" + mangaEnt.Name.Replace(" ", "_") + "/chapter" + chapter.Number+"/"+ page.Number.ToString(),
+                                Pending=string.IsNullOrEmpty(internalUrl)
                             });
+                            Console.WriteLine();
                         }
                         mangaEnt.Chapter.Add(chapterEnt);
                     }
+                    dbContext.Mangas.Add(mangaEnt);
                     dbContext.SaveChanges();
-                    
+
                 }
             }
         }
-
         static MangaScrapModel ScrapingManga(string url)
         {
             MangaScrapModel manga=new MangaScrapModel();
@@ -94,9 +89,7 @@ namespace MangaScrap
                     manga.Title=item.Value;
                 if(item.Name=="src")
                 {
-                    manga.Cover=ImageHelper.ConvertImageURLToBase64(item.Value);
                     manga.CoverUrl=item.Value;
-                    manga.CoverType=item.Value.Split('.').Last();
                 }
             } 
             Console.WriteLine("get cover (picture and title) done");   
@@ -131,10 +124,7 @@ namespace MangaScrap
                 urlch+="0/full";
                 chapter.Url=urlch;
                 chapter.Pages=GetPages(urlch);
-                if(item.InnerHtml.Contains(':'))
-                    chapter.Title=item.InnerHtml.Split(':').Last().ToString();
-                else
-                    chapter.Title=item.InnerHtml;
+                chapter.Title=item.InnerHtml;
                 manga.Chapters.Add(chapter);
                 Console.WriteLine("get chapter number "+chNb+" done");
                 chNb++;
@@ -155,15 +145,31 @@ namespace MangaScrap
                 {
                     var page=new PageScrapModel();
                     page.Number=pageNb; 
-                    page.ContentType=item.Attributes["src"].Value.Split('.').Last();
                     page.Url=item.Attributes["src"].Value;
-                    //page.Content=ImageHelper.ConvertImageURLToBase64(item.Attributes["src"].Value);
                     pages.Add(page);
                     Console.WriteLine("get page number "+pageNb+" done");
                     pageNb++;
                 }  
             }
             return pages;
+        }
+
+        static void RetryGetPendingPages(string rootPath)
+        {
+            string connectionString = "Data Source=" + rootPath + "/Manga/ManagDb.db";
+            using (var db=new MangaDataContext(connectionString))
+            {
+                var pendingPages = db.Pages.Where(p => p.Pending).ToList();
+                foreach (var page in pendingPages)
+                {
+                    page.Pending = string.IsNullOrEmpty(ImageHelper.SavaInternal(page.ExternalUrl, rootPath, page.InternalUrl,""));
+                    if(!page.Pending)
+                    {
+                        Console.WriteLine("Done :" + page.Number);
+                    }
+                }
+                db.SaveChanges();
+            }
         }
     }
 }

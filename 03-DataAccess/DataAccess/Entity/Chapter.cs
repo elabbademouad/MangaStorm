@@ -9,6 +9,5 @@ namespace DataAccess.Entity
         public string Title { get; set; }
         public string Url { get; set; }
         public List<Page> Pages{get; set; }
-        public bool Seen { get; set; }
     }
 }
