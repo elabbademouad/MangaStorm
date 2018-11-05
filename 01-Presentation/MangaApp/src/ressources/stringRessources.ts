@@ -7,6 +7,8 @@ export class stringRessources {
     resume : string;
     name : string;
     mangaList : string;
+    search : string;
+    home : string;
     constructor(){
 
         this.chapter = 'عدد الفصول :';
@@ -16,6 +18,8 @@ export class stringRessources {
         this.tags="التصنيفات :";
         this.name="الإسم :";
         this.mangaList="قائمة  المانغا";
+        this.search="بحث";
+        this.home="الرئيسية";
         
 
     }

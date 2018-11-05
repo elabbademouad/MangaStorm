@@ -4,6 +4,7 @@ import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
 import { ListPage } from '../pages/list/list';
+import { MangaDetailsPage } from '../pages/manga-details/manga-details'
 import { HttpClientModule } from '@angular/common/http'; 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -13,7 +14,8 @@ import { MangaProvider } from '../providers/manga/manga';
   declarations: [
     MyApp,
     HomePage,
-    ListPage
+    ListPage,
+    MangaDetailsPage
   ],
   imports: [
     BrowserModule,
@@ -25,7 +27,8 @@ import { MangaProvider } from '../providers/manga/manga';
   entryComponents: [
     MyApp,
     HomePage,
-    ListPage
+    ListPage,
+    MangaDetailsPage
   ],
   providers: [
     StatusBar,

@@ -18,8 +18,8 @@ namespace Api.Controllers
         [HttpGet("GetMangaItems")]
         public ActionResult<IEnumerable<MangaItemModel>> GetMangaItems()
         {
-            string rootPath = "http://localhost:5000/";
-            string connectionString = "Data Source="+rootPath+"Manga/ManagDb.db";
+            string rootPath = "http://192.168.43.200:5000/";
+            string connectionString = "Data Source=F:/Manga/ManagDb.db";
             using (var db =new MangaDataContext(connectionString))
             {
                 var mangaList=db.Mangas.Include(m=>m.Chapter)
@@ -35,6 +35,27 @@ namespace Api.Controllers
                         }).ToList();
                 return mangaList;
             }
+        }
+
+        [HttpGet("GetTags")]
+        public ActionResult<IEnumerable<string>> GetTags()
+        {
+            List<string> tags = new List<string>();
+            using (var db=new MangaDataContext("Data Source=F:/Manga/ManagDb.db"))
+            {
+                var tagsData=db.Mangas.Select(m => m.Tags);
+                foreach (var tagCollection in tagsData)
+                {
+                    foreach (var tag in tagCollection.Split(" "))
+                    {
+                        if(!tags.Contains(tag))
+                        {
+                            tags.Add(tag);
+                        }
+                    }
+                }
+            }
+            return tags;
         }
     }
 }

@@ -7,7 +7,24 @@
     </ion-navbar>
 </ion-header>
 <ion-content no-padding>  
+    <ion-navbar color="primary" >
+        <ion-searchbar (ionInput)="handleSearchChange($event)" class="amiri" left [showCancelButton]="true" placeholder="{{ressources.search}}"></ion-searchbar>
+        <ion-buttons end>
+            <button right ion-button (click)="handleFiltreClick()"  clear >
+                <ion-icon  name="options" ></ion-icon>
+            </button>
+        </ion-buttons>
+    </ion-navbar>
+    <ion-card  *ngIf="filtreCardIsVisible">
+        <ion-card-content no-padding >
+            <ion-badge class="amiri" color="{{t.selected ? 'secondary':'light'}}" (click)="handleSelectTagClick(t)" style="margin: 2px;" *ngFor="let t of tags">{{t.tag}}</ion-badge>    
+        </ion-card-content>
+    </ion-card>
     <ion-list>
-        <manga-item  *ngFor="let mangaItem of mangaList" [item]="mangaItem"></manga-item>
+        <manga-item  *ngFor="let mangaItem of mangaListFiltred" [item]="mangaItem"></manga-item>
     </ion-list>
+    <ion-fab   right bottom>
+        <button color="secondary" ion-fab mini  ><ion-icon name="arrow-dropup" ></ion-icon>
+    </button>
+    </ion-fab>
 </ion-content>  

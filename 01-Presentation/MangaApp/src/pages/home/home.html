@@ -3,12 +3,8 @@
     <button ion-button menuToggle >
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title class="amiri">قائمة  المانغا</ion-title>    
+    <ion-title class="amiri">{{ressources.home}}</ion-title>    
   </ion-navbar>
 </ion-header>
 <ion-content no-padding>  
-    <ion-list>
-        <manga-item  *ngFor="let mangaItem of mangaList" [item]="mangaItem"></manga-item>
-    </ion-list>
-    <img src="http://localhost:5000/Manga/FIRE_PUNCH/cover.gif" alt="">
 </ion-content>

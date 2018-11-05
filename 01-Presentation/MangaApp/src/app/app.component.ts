@@ -12,7 +12,7 @@ import { stringRessources } from '../ressources/stringRessources';
 export class MyApp {
   @ViewChild(Nav) nav: Nav;
 
-  rootPage: any = HomePage;
+  rootPage: any = ListPage;
 
   pages: Array<{title: string, component: any}>;
   ressources: stringRessources;
@@ -22,7 +22,7 @@ export class MyApp {
     this.ressources=new stringRessources();
     // used for an example of ngFor and navigation
     this.pages = [
-      { title: 'Home', component: HomePage },
+      { title: this.ressources.home, component: HomePage },
       { title: this.ressources.mangaList, component: ListPage }
     ];
 
@@ -30,16 +30,12 @@ export class MyApp {
 
   initializeApp() {
     this.platform.ready().then(() => {
-      // Okay, so the platform is ready and our plugins are available.
-      // Here you can do any higher level native things you might need.
       this.statusBar.styleDefault();
       this.splashScreen.hide();
     });
   }
 
   openPage(page) {
-    // Reset the content nav to have just this page
-    // we wouldn't want the back button to show in this scenario
     this.nav.setRoot(page.component);
   }
 }

@@ -21,14 +21,35 @@ namespace MangaScrap
         static void Main(string[] args)
         {
             Console.WriteLine("Welcome To Manga Scraping :");
-            foreach (var item in Params.MangaUrls)
-            {
-                Console.WriteLine(item);
-                var manga = ScrapingManga(item);
-                SaveOrUpdateDataBase(manga, Params.RootPath);
+            //foreach (var item in Params.MangaUrls)
+            //{
 
-            }
+            //Console.WriteLine(item);
+            //var manga = ScrapingManga(item);
+            //SaveOrUpdateDataBase(manga, Params.RootPath);
+
+            //}
             //RetryGetPendingPages(Params.RootPath);
+            using (var db=new MangaDataContext("Data Source=" + Params.RootPath + "/Manga/ManagDb.db"))
+            {
+                foreach (var page in db.Pages)
+                {
+                    try
+                    {
+                        var fileExtention = page.ExternalUrl.Split('.').Last();
+                        var newFileName = page.InternalUrl + "." + fileExtention;
+                        File.Move(Params.RootPath + "/" + page.InternalUrl, Params.RootPath + "/" + newFileName);
+                        page.ExternalUrl = newFileName;
+                        Console.WriteLine(newFileName);
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine("Error :{0}",ex.Message);
+                    }
+
+                }
+                db.SaveChanges();
+            }
             Console.ReadKey();     
         }
         static void SaveOrUpdateDataBase(MangaScrapModel manga,string rootPath)
@@ -170,6 +191,11 @@ namespace MangaScrap
                 }
                 db.SaveChanges();
             }
+        }
+
+        static void FixingData()
+        {
+
         }
     }
 }
