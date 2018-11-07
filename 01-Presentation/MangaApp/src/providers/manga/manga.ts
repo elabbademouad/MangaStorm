@@ -9,11 +9,11 @@ export class MangaProvider {
   }
 
   public GetMangaList(){  
-      return this._http.get("http://192.168.43.200:5000/api/manga/GetMangaItems");
+      return this._http.get("http://192.168.1.74:5000/api/manga/GetMangaItems");
   }
 
   public GetTags(){  
-    return this._http.get("http://192.168.43.200:5000/api/manga/GetTags");
+    return this._http.get("http://192.168.1.74:5000/api/manga/GetTags");
   }
 
 }

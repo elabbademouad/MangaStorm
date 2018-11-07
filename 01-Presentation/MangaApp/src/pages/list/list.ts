@@ -2,7 +2,8 @@ import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
 import { MangaItemModel } from '../../Model/MangaItemModel';
 import { stringRessources } from '../../ressources/stringRessources';
-import { MangaProvider} from '../../providers/manga/manga'
+import { MangaProvider} from '../../providers/manga/manga';
+import {MangaDetailsPage } from '../manga-details/manga-details';
 @Component({
   selector: 'page-list',
   templateUrl: 'list.html'
@@ -16,17 +17,6 @@ export class ListPage {
     this.init();
   }
 
-
-  /****************************************************
-   * Public properties
-  *****************************************************/
-  mangaList : Array<MangaItemModel>;
-  ressources: any;
-  filtreCardIsVisible:boolean
-  tags:Array<{tag:any,selected:any}>
-  searchInput:string;
-  mangaListFiltred : Array<MangaItemModel>;
-
   /***************************************************
   * Initialize component
   ****************************************************/ 
@@ -35,10 +25,22 @@ export class ListPage {
     this.mangaListFiltred=[];
     this.tags=[];
     this.searchInput="";
+    this.isLoaded=false;
     this.ressources=new stringRessources();
     this.GetMangaListService();
     this.GetTagsService();    
   }
+
+  /****************************************************
+   * Public properties
+  *****************************************************/
+    mangaList : Array<MangaItemModel>;
+    ressources: any;
+    filtreCardIsVisible:boolean
+    tags:Array<{tag:any,selected:any}>
+    searchInput:string;
+    mangaListFiltred : Array<MangaItemModel>;
+    isLoaded:boolean
   /***************************************************
   * UI event handler 
   ****************************************************/ 
@@ -54,6 +56,13 @@ export class ListPage {
   handleSearchChange(ev:any){
       this.searchInput=ev.target.value
       this.actionFiltreMangas(this.searchInput);
+  }
+  handleSaerchClear(){
+    this.searchInput="";
+    this.actionFiltreMangas(this.searchInput);
+  }
+  handleClickMangaItem(mangaItem:MangaItemModel){
+      this.navCtrl.push(MangaDetailsPage,mangaItem);
   }
   /***************************************************
    * action and private methode
@@ -74,7 +83,7 @@ export class ListPage {
           {
             tagsResult=true;
           }
-          if(m.name.toLowerCase().includes(search.toLowerCase())){
+          if(search ===undefined || m.name.toLowerCase().includes(search.toLowerCase())){
             searchResult=true;
           }
           return  searchResult && tagsResult
@@ -84,10 +93,12 @@ export class ListPage {
    * Services Handler
    * ************************************************/
   GetMangaListService(){
+    this.isLoaded=false;
     this._mangaProvider.GetMangaList()
     .subscribe((data : Array<MangaItemModel>) => {
       this.mangaList=data;
       this.actionFiltreMangas(this.searchInput); 
+      this.isLoaded=true;
     });
   }
   GetTagsService(){
