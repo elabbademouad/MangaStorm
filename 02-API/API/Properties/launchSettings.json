@@ -2,9 +2,9 @@
   "$schema": "http://json.schemastore.org/launchsettings.json",
   "iisSettings": {
     "windowsAuthentication": false, 
-    "anonymousAuthentication": true, 
+    "anonymousAuthentication": true,
     "iisExpress": {
-      "applicationUrl": "http://192.168.1.74:42540",
+      "applicationUrl": "http://192.168.43.200:42540",
       "sslPort": 44368
     }
   },
@@ -21,7 +21,7 @@
       "commandName": "Project",
       "launchBrowser": true,
       "launchUrl": "api/manga/GetMangaItems",
-      "applicationUrl": "http://192.168.1.74;http://192.168.1.74:5000",
+      "applicationUrl": "http://192.168.43.200;http://192.168.43.200:5000",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }

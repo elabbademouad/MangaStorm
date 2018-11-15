@@ -4,7 +4,7 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { HomePage } from '../pages/home/home';
 import { ListPage } from '../pages/list/list';
-import { stringRessources } from '../ressources/stringRessources';
+import { RessourcesProvider } from '../providers/ressources/ressources'
 
 @Component({
   templateUrl: 'app.html'
@@ -15,11 +15,10 @@ export class MyApp {
   rootPage: any = ListPage;
 
   pages: Array<{title: string, component: any}>;
-  ressources: stringRessources;
+  ressources: any;
 
-  constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen) {
+  constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen,public _ressources:RessourcesProvider) {
     this.initializeApp();
-    this.ressources=new stringRessources();
     // used for an example of ngFor and navigation
     this.pages = [
       { title: this.ressources.home, component: HomePage },
@@ -29,6 +28,7 @@ export class MyApp {
   }
 
   initializeApp() {
+    this.ressources=this._ressources.stringResources;
     this.platform.ready().then(() => {
       this.statusBar.styleDefault();
       this.splashScreen.hide();

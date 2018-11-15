@@ -10,6 +10,7 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import {ComponentsModule} from '../components/components.module'
 import { MangaProvider } from '../providers/manga/manga';
+import { RessourcesProvider } from '../providers/ressources/ressources';
 @NgModule({
   declarations: [
     MyApp,
@@ -34,7 +35,8 @@ import { MangaProvider } from '../providers/manga/manga';
     StatusBar,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
-    MangaProvider
+    MangaProvider,
+    RessourcesProvider
   ]
 })
 export class AppModule {}

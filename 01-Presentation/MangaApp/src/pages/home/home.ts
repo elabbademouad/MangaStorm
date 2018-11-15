@@ -1,14 +1,18 @@
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
-import {stringRessources } from '../../ressources/stringRessources'
+import { RessourcesProvider } from '../../providers/ressources/ressources'
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html'
 })
 export class HomePage {
-  ressources:stringRessources;
-  constructor(public navCtrl: NavController) {
-        this.ressources=new stringRessources();
+  ressources:any;
+  constructor(public navCtrl: NavController,public _ressources:RessourcesProvider) {
+        
+  }
+
+  init(){
+    this.ressources=this._ressources.stringResources;     
   }
 
 }

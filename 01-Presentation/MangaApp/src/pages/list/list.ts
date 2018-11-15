@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
 import { MangaItemModel } from '../../Model/MangaItemModel';
-import { stringRessources } from '../../ressources/stringRessources';
 import { MangaProvider} from '../../providers/manga/manga';
 import {MangaDetailsPage } from '../manga-details/manga-details';
+import {RessourcesProvider } from '../../providers/ressources/ressources'
+import {LoadingController} from 'ionic-angular'
 @Component({
   selector: 'page-list',
   templateUrl: 'list.html'
@@ -13,7 +14,10 @@ export class ListPage {
   /****************************************************
    * Constructor
    ****************************************************/
-  constructor(public navCtrl: NavController,public _mangaProvider:MangaProvider) {
+  constructor(public navCtrl: NavController,
+              public _mangaProvider:MangaProvider,
+              public _ressources: RessourcesProvider,
+              public _loadingCtrl:LoadingController) {
     this.init();
   }
 
@@ -26,7 +30,7 @@ export class ListPage {
     this.tags=[];
     this.searchInput="";
     this.isLoaded=false;
-    this.ressources=new stringRessources();
+    this.ressources=this._ressources.stringResources;
     this.GetMangaListService();
     this.GetTagsService();    
   }
@@ -93,12 +97,15 @@ export class ListPage {
    * Services Handler
    * ************************************************/
   GetMangaListService(){
-    this.isLoaded=false;
+    let loading = this._loadingCtrl.create({
+      content: 'جاري التحميل...'
+    });
+    loading.present();
     this._mangaProvider.GetMangaList()
     .subscribe((data : Array<MangaItemModel>) => {
       this.mangaList=data;
       this.actionFiltreMangas(this.searchInput); 
-      this.isLoaded=true;
+      loading.dismiss();
     });
   }
   GetTagsService(){

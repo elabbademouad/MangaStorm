@@ -3,27 +3,25 @@
     <ion-title >{{mangaItem.name}}</ion-title>
   </ion-navbar>
 </ion-header>
-<ion-content no-padding>
+<ion-content class="amiri" no-padding>
   <ion-card no-padding >
-      <img src="{{mangaItem.cover}}" alt="">
-      <div padding>
-      <ion-segment [(ngModel)]="pet">
-        <ion-segment-button value="Infos">
-          Infos
-        </ion-segment-button>
+      <div no-padding>
+      <ion-segment [(ngModel)]="pet"> 
         <ion-segment-button value="Chapters">
-          Chapters
+          {{ressources.chapters}}
+        </ion-segment-button>
+        <ion-segment-button value="Infos">
+            {{ressources.infos}}
         </ion-segment-button>
       </ion-segment>
     </div>
   <div [ngSwitch]="pet">
       <ion-list *ngSwitchCase="'Infos'">
-        <h1>Infos</h1>
+          <manga-details [item]="mangaItem"></manga-details>
       </ion-list>    
       <ion-list *ngSwitchCase="'Chapters'">
-          <h1>Chapters</h1>
+          <h1>{{ressources.chapters}}</h1>
       </ion-list>
   </div>
   </ion-card>
-  
 </ion-content>

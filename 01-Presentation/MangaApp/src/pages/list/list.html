@@ -16,22 +16,15 @@
             </button>
         </ion-buttons>
     </ion-navbar>
-    <div *ngIf="!isLoaded" class="progress">
-            <div class="indeterminate"></div>
-        </div>
-    <ion-card  *ngIf="filtreCardIsVisible">
-        <ion-card-content no-padding >
-            <ion-badge class="amiri" color="{{t.selected ? 'secondary':'light'}}" (click)="handleSelectTagClick(t)" style="margin: 2px;" *ngFor="let t of tags">{{t.tag}}</ion-badge>    
-        </ion-card-content>
-    </ion-card>
-    <ion-list *ngIf="isLoaded">
+    <div style="padding: 7px; " text-center  *ngIf="filtreCardIsVisible">
+        <ion-badge class="amiri" color="{{t.selected ? 'secondary':'light'}}" (click)="handleSelectTagClick(t)" style="margin: 4px;" *ngFor="let t of tags">{{t.tag}}</ion-badge>    
+    </div>
+    <ion-list>
         <manga-item (click)="handleClickMangaItem(mangaItem)" *ngFor="let mangaItem of mangaListFiltred" [item]="mangaItem"></manga-item>
     </ion-list>
     <ion-fab   right bottom>
-            <a href="#top"><button color="secondary" ion-fab mini  ><ion-icon name="arrow-dropup" ></ion-icon>
-       
-            </button></a>
-        
+        <a href="#top"><button color="secondary" ion-fab mini  ><ion-icon name="arrow-dropup" ></ion-icon>     
+        </button></a>
     </ion-fab>
     
 </ion-content>  

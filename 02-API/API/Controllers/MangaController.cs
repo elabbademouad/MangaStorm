@@ -18,7 +18,7 @@ namespace Api.Controllers
         [HttpGet("GetMangaItems")]
         public ActionResult<IEnumerable<MangaItemModel>> GetMangaItems()
         {
-            string rootPath = "http://192.168.1.74:5000/";
+            string rootPath = "http://192.168.43.200:5000/";
             string connectionString = "Data Source=F:/Manga/ManagDb.db";
             using (var db =new MangaDataContext(connectionString))
             {

@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import {MangaItemModel} from "../../Model/MangaItemModel"
-import {stringRessources} from '../../ressources/stringRessources';
+import { RessourcesProvider } from '../../providers/ressources/ressources'
 @Component({
   selector: 'manga-item',
   templateUrl: 'manga-item.html'
@@ -8,10 +8,22 @@ import {stringRessources} from '../../ressources/stringRessources';
 
 export class MangaItemComponent {
 
-  @Input() item : MangaItemModel;
-  ressources : object;
-  constructor() {     
-    this.ressources=new stringRessources();
+  
+  /****************************************************
+   * Constructor
+   ****************************************************/
+  constructor(public _ressources:RessourcesProvider) {     
+   this.init();
   }
-
+  /****************************************************
+   * Public properties
+  *****************************************************/
+  @Input() item : MangaItemModel;
+  ressources : any;
+  /***************************************************
+  * Initialize component
+  ****************************************************/ 
+  init(){
+    this.ressources=this._ressources.stringResources;
+  }
 }
