@@ -1,16 +1,29 @@
-<ion-card no-padding >
+<ion-card no-padding  >
+    <ion-item  class="amiri" style="font-weight: 100;" color="light">
+        {{item.name}}<div class="amiri" item-end ><ion-icon name="stats"></ion-icon>{{item.state}} </div>
+    </ion-item>
     <ion-row>
-        <ion-col>
-            <h3 class="amiri"><span class="label-description" >{{ressources.name}}</span> <span style="font-size: 16px;font-weight: bold;"> {{item.name}}</span></h3>
-            <h3 class="amiri"><span class="label-description" >{{ressources.dateEdition}}</span>  {{item.date}}</h3>
-            <h3 class="amiri"><span class="label-description">{{ressources.chapter}}</span>  {{item.chapterCount}}</h3>
-            <h3 class="amiri"><span class="label-description">{{ressources.state}}</span>  {{item.state}}</h3>
-            <h3 class="amiri"><span class="label-description">{{ressources.tags}}</span>  {{item.tags}}</h3>
-            <h3 class="amiri"><span class="label-description">{{ressources.resume}}</span></h3>
-            <h3 class="amiri">  {{item.resume.slice(0, 80)+'...'}}</h3>
-        </ion-col>
-        <ion-col col-5>
-            <img src="{{item.cover}}"/>
-        </ion-col>
-    </ion-row>
+            <ion-col col-7>
+                <ion-row >
+                    <ion-col  >
+                        <p style="font-size: 12px;" class="amiri">
+                            <span class="label-description" >{{ressources.dateEdition}}</span>  {{item.date}}
+                            <button style="float: left; height: 19px; font-size: 18px;padding: 1px;" no-padding (click)="handleClickFavorie(item)" color="light" ion-button clear   ><ion-icon   name="{{(item.isFavorite)?'heart':'heart-outline'}}"></ion-icon></button><br/>
+                            <span class="label-description">{{ressources.chapter}}</span>  {{item.chapterCount}}<br/>
+                            <span class="label-description">{{ressources.tags}}</span><br/>
+                            {{item.tags}}<br/>
+                            <span class="label-description">{{ressources.resume}}</span><br/>
+                            {{item.resume.slice(0,100)+'...'}}
+                        </p>
+                        <button (click)="handleClickRead(item)" color="light" ion-button small ><ion-icon  name="play"></ion-icon></button>
+                        <button color="light" ion-button small  ><ion-icon name="sync" ></ion-icon ></button>
+                    </ion-col>
+                </ion-row>
+                
+            </ion-col>
+            <ion-col col-5>
+                <img  src="{{item.cover}}"/>
+            </ion-col>
+            
+        </ion-row>  
 </ion-card>

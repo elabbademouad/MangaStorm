@@ -4,24 +4,7 @@
   </ion-navbar>
 </ion-header>
 <ion-content class="amiri" no-padding>
-  <ion-card no-padding >
-      <div no-padding>
-      <ion-segment [(ngModel)]="pet"> 
-        <ion-segment-button value="Chapters">
-          {{ressources.chapters}}
-        </ion-segment-button>
-        <ion-segment-button value="Infos">
-            {{ressources.infos}}
-        </ion-segment-button>
-      </ion-segment>
-    </div>
-  <div [ngSwitch]="pet">
-      <ion-list *ngSwitchCase="'Infos'">
-          <manga-details [item]="mangaItem"></manga-details>
-      </ion-list>    
-      <ion-list *ngSwitchCase="'Chapters'">
-          <h1>{{ressources.chapters}}</h1>
-      </ion-list>
-  </div>
-  </ion-card>
+  <ion-list>
+    <ion-item (click)="handleClickChapter(chapter)"  *ngFor="let chapter of chapters"><p>{{ressources.chapterTitle+chapter.title}}</p></ion-item>
+  </ion-list>
 </ion-content>

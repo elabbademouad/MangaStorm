@@ -67,6 +67,7 @@ namespace MangaScrap
                     finalPath=finalPath.Remove(finalPath.Length - 1);
                 }
                 File.WriteAllBytes(finalPath, buf);
+                Console.WriteLine("Success :"+path + "/" + fileName);
                 return path + "/" + fileName;
             }
             catch (Exception ex)

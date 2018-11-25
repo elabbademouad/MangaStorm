@@ -9,7 +9,8 @@ namespace MangaScrap.ScrapParams
         public static readonly string RootPath = "F:";
         public static readonly List<string> MangaUrls = new List<string>()
         {
-            "https://www.manga.ae/tokyo-ghoul/"
+            "https://www.manga.ae/one-piece-green-secret-pieces/"
         };
+        public static readonly string ConnectionString = "Data Source=" +RootPath + "/Manga/ManagDb.db";
     }
 }

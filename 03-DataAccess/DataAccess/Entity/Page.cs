@@ -7,5 +7,6 @@ namespace DataAccess.Entity
         public string ExternalUrl { get; set; }
         public string InternalUrl { get; set; }
         public bool Pending { get; set; }
+        public int ChapterId { get; set; }
     }
 }

@@ -9,6 +9,7 @@ namespace Api.Model
     {
         public int Id { get; set; }
         public string Name { get; set; }
+        public string Matricule { get; set; }
         public string Date { get; set; }
         public string Resume { get; set; }
         public string Cover { get; set; }

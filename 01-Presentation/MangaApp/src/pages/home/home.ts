@@ -8,11 +8,11 @@ import { RessourcesProvider } from '../../providers/ressources/ressources'
 export class HomePage {
   ressources:any;
   constructor(public navCtrl: NavController,public _ressources:RessourcesProvider) {
-        
+        this.init();
   }
-
+  tab1 :any
   init(){
-    this.ressources=this._ressources.stringResources;     
+    this.ressources=this._ressources.stringResources;   
   }
 
 }

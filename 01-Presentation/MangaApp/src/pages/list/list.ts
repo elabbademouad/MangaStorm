@@ -2,9 +2,9 @@ import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
 import { MangaItemModel } from '../../Model/MangaItemModel';
 import { MangaProvider} from '../../providers/manga/manga';
-import {MangaDetailsPage } from '../manga-details/manga-details';
 import {RessourcesProvider } from '../../providers/ressources/ressources'
-import {LoadingController} from 'ionic-angular'
+import {LoadingController} from 'ionic-angular';
+import { DataBaseProvider} from '../../providers/data-base/data-base'
 @Component({
   selector: 'page-list',
   templateUrl: 'list.html'
@@ -17,10 +17,10 @@ export class ListPage {
   constructor(public navCtrl: NavController,
               public _mangaProvider:MangaProvider,
               public _ressources: RessourcesProvider,
-              public _loadingCtrl:LoadingController) {
+              public _loadingCtrl:LoadingController,
+              public _database:DataBaseProvider) {
     this.init();
   }
-
   /***************************************************
   * Initialize component
   ****************************************************/ 
@@ -65,9 +65,7 @@ export class ListPage {
     this.searchInput="";
     this.actionFiltreMangas(this.searchInput);
   }
-  handleClickMangaItem(mangaItem:MangaItemModel){
-      this.navCtrl.push(MangaDetailsPage,mangaItem);
-  }
+  
   /***************************************************
    * action and private methode
   ****************************************************/
@@ -98,13 +96,16 @@ export class ListPage {
    * ************************************************/
   GetMangaListService(){
     let loading = this._loadingCtrl.create({
-      content: 'جاري التحميل...'
+      content: this.ressources.loading
     });
     loading.present();
     this._mangaProvider.GetMangaList()
     .subscribe((data : Array<MangaItemModel>) => {
       this.mangaList=data;
+      
       this.actionFiltreMangas(this.searchInput); 
+      this._database.setFavorieOrDownlodedManga(this.mangaList);
+      
       loading.dismiss();
     });
   }

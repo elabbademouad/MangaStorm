@@ -11,12 +11,20 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import {ComponentsModule} from '../components/components.module'
 import { MangaProvider } from '../providers/manga/manga';
 import { RessourcesProvider } from '../providers/ressources/ressources';
+import { MangaPagePage} from '../pages/manga-page/manga-page';
+import { MangaFavorisPage} from '../pages/manga-favoris/manga-favoris';
+import { SQLite} from '@ionic-native/sqlite'
+import { DataBaseProvider } from '../providers/data-base/data-base';
+import { MangaDownloadsPage} from '../pages/manga-downloads/manga-downloads'
 @NgModule({
   declarations: [
     MyApp,
     HomePage,
     ListPage,
-    MangaDetailsPage
+    MangaDetailsPage,
+    MangaPagePage,
+    MangaDownloadsPage,
+    MangaFavorisPage
   ],
   imports: [
     BrowserModule,
@@ -29,14 +37,19 @@ import { RessourcesProvider } from '../providers/ressources/ressources';
     MyApp,
     HomePage,
     ListPage,
-    MangaDetailsPage
+    MangaDetailsPage,
+    MangaPagePage,
+    MangaDownloadsPage,
+    MangaFavorisPage
   ],
   providers: [
     StatusBar,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     MangaProvider,
-    RessourcesProvider
+    RessourcesProvider,
+    SQLite,
+    DataBaseProvider
   ]
 })
 export class AppModule {}

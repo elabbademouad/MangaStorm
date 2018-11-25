@@ -2,7 +2,7 @@
 
 namespace DataAccess.Migrations
 {
-    public partial class createDataBase : Migration
+    public partial class createdatabase : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -26,6 +26,19 @@ namespace DataAccess.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Tags",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Label = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Tags", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Chapters",
                 columns: table => new
                 {
@@ -34,7 +47,7 @@ namespace DataAccess.Migrations
                     Number = table.Column<int>(nullable: false),
                     Title = table.Column<string>(nullable: true),
                     Url = table.Column<string>(nullable: true),
-                    MangaId = table.Column<int>(nullable: true)
+                    MangaId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -44,7 +57,7 @@ namespace DataAccess.Migrations
                         column: x => x.MangaId,
                         principalTable: "Mangas",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -57,7 +70,7 @@ namespace DataAccess.Migrations
                     ExternalUrl = table.Column<string>(nullable: true),
                     InternalUrl = table.Column<string>(nullable: true),
                     Pending = table.Column<bool>(nullable: false),
-                    ChapterId = table.Column<int>(nullable: true)
+                    ChapterId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -67,7 +80,7 @@ namespace DataAccess.Migrations
                         column: x => x.ChapterId,
                         principalTable: "Chapters",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
@@ -85,6 +98,9 @@ namespace DataAccess.Migrations
         {
             migrationBuilder.DropTable(
                 name: "Pages");
+
+            migrationBuilder.DropTable(
+                name: "Tags");
 
             migrationBuilder.DropTable(
                 name: "Chapters");
