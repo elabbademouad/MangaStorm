@@ -28,7 +28,6 @@ export class MangaItemComponent {
   ****************************************************/ 
   init(){
     this.ressources=this._ressources.stringResources;
-    //console.log("item :",this.item.isFavorite);
   }
  /***************************************************
   * UI event handler 

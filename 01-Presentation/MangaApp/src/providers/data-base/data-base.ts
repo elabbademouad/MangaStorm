@@ -108,6 +108,9 @@ export class DataBaseProvider {
   public getManga() {
       return this.dbContext.executeSql(this.sqlScripts.selectAllManga, []);
   }
+  public getFavoriteManga() {
+    return this.dbContext.executeSql("SELECT * FROM Manga where isFavorite=?;", [true]);
+  }
   public addOrRemoveMangaFromFavorie(manga: MangaItemModel) {
       this.dbContext.executeSql("SELECT matricule FROM Manga WHERE matricule=?", [manga.matricule])
           .then((r) => {

@@ -107,6 +107,8 @@ export class ListPage {
       });
       
       loading.dismiss();
+    },(errr)=>{
+      loading.dismiss();
     });
   }
   GetTagsService(){

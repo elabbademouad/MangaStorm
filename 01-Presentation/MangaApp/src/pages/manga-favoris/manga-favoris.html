@@ -7,5 +7,9 @@
     </ion-navbar>
 </ion-header>
 <ion-content  no-padding >
-    <h1 class="amiri">{{ressources.favoris}}</h1>
+    <ion-list >
+        <div  *ngFor="let mangaItem of favoriteManga">
+            <manga-item  *ngIf="mangaItem.isFavorite" [item]="mangaItem"></manga-item>
+        </div>
+    </ion-list>
 </ion-content>

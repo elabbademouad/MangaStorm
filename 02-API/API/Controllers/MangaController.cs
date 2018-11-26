@@ -50,13 +50,13 @@ namespace Api.Controllers
             
         }
 
-        [HttpGet("GetChaptersById/{mangaId}")]
-        public ActionResult<IEnumerable<Chapter>> GetChaptersById(int mangaId)
+        [HttpGet("GetChaptersByMatricule/{matricule}")]
+        public ActionResult<IEnumerable<Chapter>> GetChaptersById(string matricule)
         {
             using (var db=new MangaDataContext("Data Source=F:/Manga/ManagDb.db"))
             {
                 var chapters = db.Mangas.Include(m => m.Chapters)
-                                        .Where(m=>m.Id==mangaId)
+                                        .Where(m=>m.Matricule==matricule)
                                         .First()
                                         .Chapters
                                         .OrderByDescending(c=>c.Number);

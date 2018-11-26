@@ -31,11 +31,13 @@ export class MangaDetailsPage {
       content: this.ressources.loading
     });
     loading.present();
-    this._mangaProvider.GetChapters(this.mangaItem.id)
+    this._mangaProvider.GetChapters(this.mangaItem.matricule)
                        .subscribe((data)=>{
                          this.chapters=data;
                          loading.dismiss();
-                       })
+                       },(errr)=>{
+                        loading.dismiss();
+                      })
   }
   /****************************************************
    * Public properties

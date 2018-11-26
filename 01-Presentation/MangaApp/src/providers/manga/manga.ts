@@ -34,7 +34,7 @@ export class MangaProvider {
   }
 
   public GetChapters(mangaid){  
-    return this._http.get(this.urlBase+"/api/manga/GetChaptersById/"+mangaid);
+    return this._http.get(this.urlBase+"/api/manga/GetChaptersByMatricule/"+mangaid);
   }
 
   public GetPagesByChapter(chapterId){
