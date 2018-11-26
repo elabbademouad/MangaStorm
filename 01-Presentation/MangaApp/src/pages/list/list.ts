@@ -101,10 +101,10 @@ export class ListPage {
     loading.present();
     this._mangaProvider.GetMangaList()
     .subscribe((data : Array<MangaItemModel>) => {
-      this.mangaList=data;
-      
-      this.actionFiltreMangas(this.searchInput); 
-      this._database.setFavorieOrDownlodedManga(this.mangaList);
+      this.mangaList=data; 
+      this._database.setFavorieOrDownlodedManga(this.mangaList,()=>{
+        this.actionFiltreMangas(this.searchInput);
+      });
       
       loading.dismiss();
     });

@@ -143,7 +143,7 @@ export class DataBaseProvider {
               }
           }).catch(err => console.log(JSON.stringify(err)));
   }
-  public setFavorieOrDownlodedManga(mangaList: Array < MangaItemModel > ) {
+  public setFavorieOrDownlodedManga(mangaList: Array < MangaItemModel >,after:Function ) {
       this.dbContext.executeSql("SELECT * FROM Manga", [])
           .then((r) => {
               for (let i = 0; i < r.rows.length; i++) {
@@ -151,9 +151,10 @@ export class DataBaseProvider {
                   let manga = mangaList.find((m) => {
                       return m.matricule == element.Matricule
                   });
-                  manga.isFavorite =element.IsFavorite;
-                  manga.isDownloaded = element.IsDownloaded;
+                  manga.isFavorite =eval(element.IsFavorite);
+                  manga.isDownloaded = eval(element.IsDownloaded);
               }
+              after();
           }).catch((error) => {
               console.log("set favori or downloaded error :" + JSON.stringify(error, Object.getOwnPropertyNames(error)))
           });;
