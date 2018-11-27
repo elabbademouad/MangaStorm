@@ -7,3 +7,13 @@
 .p {
     font-size: 20px;
 }
+
+.mangaHeader{
+    font-family: 'Aref Ruqaa', serif;
+    direction: rtl ;
+    font-size: 14px;
+    background-color: map-get($colors, light);
+    font-weight: bold;
+    padding: 10px;
+    color: white;
+}
