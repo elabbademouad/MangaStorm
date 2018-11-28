@@ -129,8 +129,9 @@ export class DataBaseProvider {
                       tags: manga.tags
                   }).then(r => {
                       let toast = this._toastCtrl.create({
-                          message: 'manga was added to favorite successfully',
-                          duration: 3000
+                          message: manga.name+' '+ this._ressources.stringResources.addFavoriteSuccess,
+                          duration: 3000,
+                          cssClass:"toast"
                       });
                       toast.present();
                   }).catch(err => console.log("add Manga eror:" + JSON.stringify(err)));
@@ -138,8 +139,9 @@ export class DataBaseProvider {
                   this.dbContext.executeSql("UPDATE Manga SET IsFavorite=? WHERE matricule=?", [manga.isFavorite, manga.matricule])
                       .then(() => {
                           let toast = this._toastCtrl.create({
-                              message: (manga.isFavorite) ? 'manga was added to favorite successfully' : 'manga was removed from favorite successfully',
-                              duration: 3000
+                              message: (manga.isFavorite) ? manga.name+' '+this._ressources.stringResources.addFavoriteSuccess : manga.name+' '+this._ressources.stringResources.removeFavorite,
+                              duration: 3000,
+                              cssClass:"toast"
                           });
                           toast.present();
                       });

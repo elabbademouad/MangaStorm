@@ -30,7 +30,9 @@ export class RessourcesProvider {
       "chapterTitle" :'الفصل ',
       "loading":'جاري التحميل...',
       "downloads":"التحميلات",
-      "favoris":"المفضلة"
+      "favoris":"المفضلة",
+      "addFavoriteSuccess":"أضيفت إلى المفضلة بنجاح",
+      "removeFavorite":"حذفت من المفضلة بنجاح"
       };
     this.sqlScript={
       createMangaTable:"CREATE TABLE IF NOT EXISTS `Manga`( `Id` INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, `Name` TEXT,`Matricule` TEXT, `Date` TEXT,`ChapterCount` INTEGER, `Resume` TEXT, `Cover` TEXT, `State` TEXT, `Tags` TEXT, `IsFavorite` INTEGER DEFAULT 0, `IsDownloaded` INTEGER DEFAULT 0);",
