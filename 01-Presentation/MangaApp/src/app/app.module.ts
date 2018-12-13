@@ -14,8 +14,10 @@ import { RessourcesProvider } from '../providers/ressources/ressources';
 import { MangaPagePage} from '../pages/manga-page/manga-page';
 import { MangaFavorisPage} from '../pages/manga-favoris/manga-favoris';
 import { SQLite} from '@ionic-native/sqlite'
+import { File} from '@ionic-native/file'
 import { DataBaseProvider } from '../providers/data-base/data-base';
 import { MangaDownloadsPage} from '../pages/manga-downloads/manga-downloads'
+import { FileProvider } from '../providers/file/file';
 @NgModule({
   declarations: [
     MyApp,
@@ -49,7 +51,9 @@ import { MangaDownloadsPage} from '../pages/manga-downloads/manga-downloads'
     MangaProvider,
     RessourcesProvider,
     SQLite,
-    DataBaseProvider
+    DataBaseProvider,
+    FileProvider,
+    File
   ]
 })
 export class AppModule {}

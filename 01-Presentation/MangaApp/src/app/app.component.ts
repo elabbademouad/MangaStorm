@@ -8,7 +8,8 @@ import { MangaDownloadsPage} from '../pages/manga-downloads/manga-downloads'
 import { RessourcesProvider } from '../providers/ressources/ressources'
 import { DataBaseProvider } from '../providers/data-base/data-base'
 import { MangaFavorisPage } from '../pages/manga-favoris/manga-favoris';
-
+import { File} from '@ionic-native/file';
+import {FileProvider} from '../providers/file/file'
 
 @Component({
   templateUrl: 'app.html'
@@ -25,7 +26,8 @@ export class MyApp {
               public statusBar: StatusBar, 
               public splashScreen: SplashScreen,
               public _ressources:RessourcesProvider,
-              public _dataBase:DataBaseProvider) {
+              public _dataBase:DataBaseProvider,
+              public _fileProvider:FileProvider) {
     this.initializeApp();
     this.pages = [
       { title: this.ressources.home, component: HomePage,icon: 'home' },
@@ -44,7 +46,7 @@ export class MyApp {
       this.rootPage=ListPage;
     });
     //this._dataBase.deleteDatabase();
-    
+    //this._fileProvider.init();
     });
   }
   openPage(page) {
