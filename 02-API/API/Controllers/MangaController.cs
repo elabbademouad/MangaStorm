@@ -15,7 +15,7 @@ namespace Api.Controllers
     public class MangaController : ControllerBase
     {
         string connectionString = "Data Source=../../../MangaData/Manga/ManagDb.db";
-        string rootPath = "https://35.211.13.59:5001/";
+        string rootPath = "https://35.211.13.59:441/";
         [HttpGet("GetMangaItems")]
         public ActionResult<IEnumerable<MangaItemModel>> GetMangaItems()
         {
