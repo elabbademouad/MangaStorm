@@ -27,7 +27,7 @@ namespace Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddMvc();
             services.AddCors();
             services.AddDirectoryBrowser();
         }
@@ -43,22 +43,22 @@ namespace Api
             {
                 app.UseHsts();
             }
+            app.UseStaticFiles(new StaticFileOptions
+            {
+                FileProvider = new PhysicalFileProvider(
+                    Path.Combine(Directory.GetCurrentDirectory(), "../../../MangaData/")),
+            });
+
+            app.UseDirectoryBrowser(new DirectoryBrowserOptions
+            {
+                FileProvider = new PhysicalFileProvider(
+                    Path.Combine(Directory.GetCurrentDirectory(), "../../../MangaData/")),
+            });
             app.UseCors(builder =>
                     builder.AllowAnyOrigin()
                     .AllowAnyHeader()
                     .AllowAnyMethod()
-                    );
-            app.UseStaticFiles(new StaticFileOptions
-                {
-                    FileProvider = new PhysicalFileProvider(
-                        Path.Combine(Directory.GetCurrentDirectory(), "F:/"))
-                });
-                app.UseDirectoryBrowser(new DirectoryBrowserOptions
-                {
-                    FileProvider = new PhysicalFileProvider(
-                        Path.Combine(Directory.GetCurrentDirectory(), "F:/"))
-                });
-            app.UseFileServer(enableDirectoryBrowsing: true);
+            );
             app.UseHttpsRedirection();
             app.UseMvc();
         }

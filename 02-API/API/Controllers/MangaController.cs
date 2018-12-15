@@ -14,12 +14,11 @@ namespace Api.Controllers
     [ApiController]
     public class MangaController : ControllerBase
     {
-        // GET api/values
+        string connectionString = "Data Source=../../../MangaData/Manga/ManagDb.db";
+        string rootPath = "https://0.0.0.0:5001/";
         [HttpGet("GetMangaItems")]
         public ActionResult<IEnumerable<MangaItemModel>> GetMangaItems()
         {
-            string rootPath = "http://192.168.43.200:5000/";
-            string connectionString = "Data Source=F:/Manga/ManagDb.db";
             using (var db =new MangaDataContext(connectionString))
             {
                 var mangaList=db.Mangas.Include(m=>m.Chapters)
@@ -42,7 +41,7 @@ namespace Api.Controllers
         public ActionResult<IEnumerable<string>> GetTags()
         {
             List<string> tags = new List<string>();
-            using (var db=new MangaDataContext("Data Source=F:/Manga/ManagDb.db"))
+            using (var db=new MangaDataContext(connectionString))
             {
 
                 return Ok(db.Tags.Select(t=>t.Label).ToList());
@@ -53,7 +52,7 @@ namespace Api.Controllers
         [HttpGet("GetChaptersByMatricule/{matricule}")]
         public ActionResult<IEnumerable<Chapter>> GetChaptersById(string matricule)
         {
-            using (var db=new MangaDataContext("Data Source=F:/Manga/ManagDb.db"))
+            using (var db=new MangaDataContext(connectionString))
             {
                 var chapters = db.Mangas.Include(m => m.Chapters)
                                         .Where(m=>m.Matricule==matricule)
@@ -66,8 +65,7 @@ namespace Api.Controllers
         [HttpGet("GetPagesById/{chapterId}")]
         public ActionResult<IEnumerable<Page>> GetPagesById(int chapterId)
         {
-            string rootPath = "http://192.168.43.200:5000/";
-            using (var db = new MangaDataContext("Data Source=F:/Manga/ManagDb.db"))
+            using (var db = new MangaDataContext(connectionString))
             {
                 var pages = db.Chapters.Include(c=>c.Pages)
                                     .Where(c => c.Id == chapterId)
