@@ -6,7 +6,7 @@
 
 
   <ItemGroup>
-    <Folder Include="../../../MangaData/" />
+    <Folder Include="../../MangaData/" />
   </ItemGroup>
 
   <ItemGroup>
