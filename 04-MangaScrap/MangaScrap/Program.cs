@@ -10,7 +10,6 @@ using DataAccess.Entity;
 using System.Collections.Generic;
 using MangaScrap.ScrapingModel;
 using MangaScrap.ScrapParams;
-using Newtonsoft.Json;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 using System.Threading;
@@ -23,13 +22,13 @@ namespace MangaScrap
         static void Main(string[] args)
         {
             Console.WriteLine("Welcome To Manga Scraping :");
-
-            foreach (var item in Params.MangaUrls)
-            {
-                Console.WriteLine(item);
-                var manga = ScrapingManga(item);
-                CreateOrUpdateDataBase(manga, Params.RootPath);
-            }
+            DataMigration();
+            //foreach (var item in Params.MangaUrls)
+            //{
+            //    Console.WriteLine(item);
+            //    var manga = ScrapingManga(item);
+            //    CreateOrUpdateDataBase(manga, Params.RootPath);
+            //}
             //RetryGetPendingPages(Params.RootPath);
             Console.ReadKey();     
         }
@@ -263,6 +262,49 @@ namespace MangaScrap
                     
                 }
             }
+        }
+
+        static void DataMigration()
+        {
+            using (var dbSource = new MangaDataContext("Data Source=C:/Users/Elabbade Mouad/Documents/VisualStudioProjects/MangaProject/MangaApp/04-MangaScrap/MangaScrap/ManagDbSource.db; "))
+            {
+                var resu = dbSource.Mangas.ToList();
+                using (var dbTarget = new MangaDataContext("Data Source=C:/Users/Elabbade Mouad/Documents/VisualStudioProjects/MangaProject/MangaApp/04-MangaScrap/MangaScrap/ManagDbTarget.db; "))
+                {
+                    foreach (var mangaSrc in dbSource.Mangas)
+                    {
+                        var mangaToInsert = new Manga
+                        {
+                            Name = mangaSrc.Name,
+                            Tags = mangaSrc.Tags,
+                            CoverExteranlUrl = mangaSrc.CoverExteranlUrl,
+                            CoverInternalUrl = mangaSrc.CoverInternalUrl,
+                            Date = mangaSrc.Date,
+                            Matricule = mangaSrc.Matricule,
+                            Resume = mangaSrc.Resume,
+                            State = mangaSrc.State
+                        };
+                        mangaToInsert.Chapters = new List<Chapter>();
+                        var chaptersSrc = dbSource.Chapters.Include(c => c.Pages).Where(c => c.MangaId == mangaSrc.Id);
+                        foreach (var chapter in chaptersSrc)
+                        {
+                            var chapterToInsert = new Chapter
+                            {
+                                Number = chapter.Number,
+                                Title = chapter.Title,
+                                Url = chapter.Url
+                            };
+                            chapter.Pages.ForEach(p => p.Id = 0);
+                            chapterToInsert.Pages = chapter.Pages.ToList();
+                            mangaToInsert.Chapters.Add(chapterToInsert);
+                        }
+                        dbTarget.Mangas.Add(mangaToInsert);
+
+                    }
+                    dbTarget.SaveChanges();
+
+                }
+         }
         }
     }
 }

@@ -19,7 +19,7 @@ export class ListPage {
               public _ressources: RessourcesProvider,
               public _loadingCtrl:LoadingController,
               public _database:DataBaseProvider) {
-    this.init();
+      this.ressources=this._ressources.stringResources;
   }
   /***************************************************
   * Initialize component
@@ -29,12 +29,13 @@ export class ListPage {
     this.mangaListFiltred=[];
     this.tags=[];
     this.searchInput="";
-    this.isLoaded=false;
     this.ressources=this._ressources.stringResources;
     this.GetMangaListService();
     this.GetTagsService();    
   }
-
+  ionViewDidLoad(){
+    this.init();
+  }
   /****************************************************
    * Public properties
   *****************************************************/
