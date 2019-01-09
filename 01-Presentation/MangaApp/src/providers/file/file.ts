@@ -14,10 +14,6 @@ export class FileProvider {
   init(){
     this.rootPah=this._file.applicationDirectory;
     this.rootStoragePath=this._file.applicationStorageDirectory;
-    
-    this._file.listDir(this.rootStoragePath,"").then((d)=>{
-      console.log(JSON.stringify(d));
-    })
     console.log("rootPath:"+this.rootPah);
     console.log("rootStoragePath:"+this.rootStoragePath);
     //this._file.createDir()

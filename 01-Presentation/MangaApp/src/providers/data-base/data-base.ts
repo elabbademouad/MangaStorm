@@ -164,4 +164,16 @@ export class DataBaseProvider {
               console.log("set favori or downloaded error :" + JSON.stringify(error, Object.getOwnPropertyNames(error)))
           });;
   }
+
+  public setChapterAsRead(mangaName:string,chapterNumber:string,chapterName:string){
+    this.dbContext.executeSql(this._ressources.sqlScript.insertChapterAsRead, [mangaName,chapterNumber,chapterName,Date.now()])
+          .then((r) => {
+             
+          }).catch((error) => {
+              console.log("setChapterAsRead error :" + JSON.stringify(error, Object.getOwnPropertyNames(error)))
+          });
+  }
+  public getReadMangaChapters(mangaName:string){
+    return this.dbContext.executeSql("SELECT `ChapterNumber` FROM `ReadChapter` WHERE `MangaName`=? ", [mangaName]);
+  }
 }

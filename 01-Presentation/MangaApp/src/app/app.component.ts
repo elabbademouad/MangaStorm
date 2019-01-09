@@ -2,14 +2,10 @@ import { Component, ViewChild } from '@angular/core';
 import { Nav, Platform } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
-import { HomePage } from '../pages/home/home';
 import { ListPage } from '../pages/list/list';
-import { MangaDownloadsPage} from '../pages/manga-downloads/manga-downloads'
 import { RessourcesProvider } from '../providers/ressources/ressources'
 import { DataBaseProvider } from '../providers/data-base/data-base'
 import { MangaFavorisPage } from '../pages/manga-favoris/manga-favoris';
-import { File} from '@ionic-native/file';
-import {FileProvider} from '../providers/file/file'
 
 @Component({
   templateUrl: 'app.html'
@@ -26,13 +22,10 @@ export class MyApp {
               public statusBar: StatusBar, 
               public splashScreen: SplashScreen,
               public _ressources:RessourcesProvider,
-              public _dataBase:DataBaseProvider,
-              public _fileProvider:FileProvider) {
+              public _dataBase:DataBaseProvider) {
     this.initializeApp();
     this.pages = [
-      { title: this.ressources.home, component: HomePage,icon: 'home' },
       { title: this.ressources.mangaList, component: ListPage ,icon: 'list' },
-      { title: this.ressources.downloads, component: MangaDownloadsPage, icon: 'download' },
       { title: this.ressources.favoris, component: MangaFavorisPage, icon: 'heart' }
     ];
   }
@@ -40,16 +33,21 @@ export class MyApp {
   initializeApp() {
     this.ressources=this._ressources.stringResources;
     this.platform.ready().then(() => {
-    this.statusBar.styleDefault();
-    this.splashScreen.hide(); 
-    this._dataBase.createOrUpdateDatabase(()=>{
-      this.rootPage=ListPage;
-    });
-    //this._dataBase.deleteDatabase();
-    //this._fileProvider.init();
+      this._dataBase.createOrUpdateDatabase(()=>{
+        this.rootPage=ListPage;
+        this.splashScreen.hide();
+      });
+      this.statusBar.overlaysWebView(true);
+      this.statusBar.backgroundColorByHexString('#26418f');
     });
   }
   openPage(page) {
     this.nav.setRoot(page.component);
+  }
+  deleteData(){
+    this._dataBase.deleteDatabase();
+    this._dataBase.createOrUpdateDatabase(()=>{
+      this.nav.setRoot(ListPage);
+    });
   }
 }

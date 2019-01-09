@@ -38,8 +38,9 @@ export class RessourcesProvider {
       createMangaTable:"CREATE TABLE IF NOT EXISTS `Manga`( `Id` INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, `Name` TEXT,`Matricule` TEXT, `Date` TEXT,`ChapterCount` INTEGER, `Resume` TEXT, `Cover` TEXT, `State` TEXT, `Tags` TEXT, `IsFavorite` INTEGER DEFAULT 0, `IsDownloaded` INTEGER DEFAULT 0);",
       createChapterTable:"CREATE TABLE IF NOT EXISTS `Chapter`( `Id` INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, `Number` INTEGER NOT NULL, `Title` TEXT, `MangaId` INTEGER NOT NULL);",
       createPageTable:" CREATE TABLE IF NOT EXISTS `Page`( `Id` INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, `Number` INTEGER NOT NULL, `fileName` TEXT, `ChapterId` INTEGER NOT NULL);",
-      createReadChapter:"CREATE TABLE IF NOT EXISTS `ReadChapter`( `Id` INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, `MangaName` TEXT, `ChapterNumber` INTEGER NOT NULL, `Date` TEXT);",
+      createReadChapter:"CREATE TABLE IF NOT EXISTS `ReadChapter`( `Id` INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, `MangaName` TEXT, `ChapterNumber` TEXT,`ChapterName` TEXT, `Date` TEXT);",
       createManga:"INSERT INTO `Manga` ( `Name`,`Matricule` , `Date`,`ChapterCount`, `Resume` , `Cover`, `State`, `Tags` , `IsFavorite`, `IsDownloaded`) VALUES( ?,?,?,?,?,?,?,?,?,?);",
+      insertChapterAsRead :"INSERT INTO `ReadChapter` ( `MangaName`,`ChapterNumber` , `ChapterName`,`Date`) VALUES( ?,?,?,?);",
       selectAllManga:"SELECT * FROM `Manga`",
       updateManga:"UPDATE `Manga` SET `State`=? ,`ChapterCount`=? ,`Name`=? WHERE `Matricule`=?;",
     }

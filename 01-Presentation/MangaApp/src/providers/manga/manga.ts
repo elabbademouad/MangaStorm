@@ -1,6 +1,5 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-
 @Injectable()
 export class MangaProvider {
 
@@ -16,7 +15,7 @@ export class MangaProvider {
   * Initialize component
   ****************************************************/ 
   init(){
-    this.urlBase="http://192.168.43.200:5000";
+    this.urlBase="http://35.211.13.59";
   }
    /****************************************************
    * Public properties
