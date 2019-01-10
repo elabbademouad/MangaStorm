@@ -11,6 +11,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure", "..\04-Inf
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MangaScrap", "..\05-Tools\DataScraping\DataScraping\MangaScrap.csproj", "{89A0A013-0F05-4A9E-852A-13133CA014BE}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Application", "..\03-Application\Application\Application.csproj", "{72139C7D-9E4A-49B9-B39A-A6BBB56E4A48}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{89A0A013-0F05-4A9E-852A-13133CA014BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{89A0A013-0F05-4A9E-852A-13133CA014BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{89A0A013-0F05-4A9E-852A-13133CA014BE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{72139C7D-9E4A-49B9-B39A-A6BBB56E4A48}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{72139C7D-9E4A-49B9-B39A-A6BBB56E4A48}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{72139C7D-9E4A-49B9-B39A-A6BBB56E4A48}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{72139C7D-9E4A-49B9-B39A-A6BBB56E4A48}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
