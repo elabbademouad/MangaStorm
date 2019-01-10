@@ -1,7 +1,0 @@
-{
-  "name": "MangaApp",
-  "integrations": {
-    "cordova": {}
-  },
-  "type": "ionic-angular"
-}

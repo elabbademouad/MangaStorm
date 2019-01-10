@@ -1,0 +1,24 @@
+<ion-header >
+    <ion-navbar color="primary">
+      <button ion-button menuToggle >
+        <ion-icon name="menu"></ion-icon>
+      </button>
+      <ion-title class="amiri">{{ressources.mangaList}}</ion-title>    
+    </ion-navbar>
+</ion-header>
+<ion-content class="content"  no-padding>  
+    <ion-navbar  color="primary" >
+        <ion-searchbar  (ionInput)="handleSearchChange($event)" (ionClear)="handleSaerchClear()" class="amiri" left [showCancelButton]="true" placeholder="{{ressources.search}}"></ion-searchbar>
+        <ion-buttons end>
+            <button right ion-button (click)="handleFiltreClick()"  clear >
+                <ion-icon  name="options" ></ion-icon>
+            </button>
+        </ion-buttons>
+    </ion-navbar>
+    <div style="padding: 7px; " text-center  *ngIf="filtreCardIsVisible">
+        <ion-badge class="amiri" color="{{t.selected ? 'secondary':'light'}}" (click)="handleSelectTagClick(t)" style="margin: 4px;" *ngFor="let t of tags">{{t.tag}}</ion-badge>    
+    </div>
+    <ion-list >
+        <manga-item  *ngFor="let mangaItem of mangaListFiltred" [item]="mangaItem"></manga-item>
+    </ion-list>
+</ion-content>

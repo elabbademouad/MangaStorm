@@ -1,0 +1,28 @@
+<ion-card no-padding  >
+    <div  class="mangaHeader">
+        {{item.name}}<span style="float: left;" class="amiri" item-end ><ion-icon name="stats"></ion-icon>{{item.state}} </span>
+    </div>
+    <ion-row>
+            <ion-col col-7>
+                <ion-row >
+                    <ion-col  >
+                        <p style="font-size: 12px;" class="amiri">
+                            <span class="label-description" >{{ressources.dateEdition}}</span>  {{item.date}}
+                            <button style="float: left; height: 19px; font-size: 18px;padding: 1px;" no-padding (click)="handleClickFavorie(item)" color="primary" ion-button clear   ><ion-icon   name="{{(item.isFavorite)?'heart':'heart-outline'}}"></ion-icon></button><br/>
+                            <span class="label-description">{{ressources.chapter}}</span>  {{item.chapterCount}}<br/>
+                            <span class="label-description">{{ressources.tags}}</span><br/>
+                            {{item.tags}}<br/>
+                            <span class="label-description">{{ressources.resume}}</span><br/>
+                            {{item.resume.slice(0,100)+'...'}}
+                        </p>
+                        <button (click)="handleClickRead(item)" color="primary" ion-button round small ><ion-icon  name="book"></ion-icon></button>
+                        <!--<button color="primary" ion-button small  ><ion-icon name="download" ></ion-icon ></button>-->
+                    </ion-col>
+                </ion-row>               
+            </ion-col>
+            <ion-col col-5>
+                <img  src="{{item.cover}}"/>
+            </ion-col>
+            
+        </ion-row>  
+</ion-card>
