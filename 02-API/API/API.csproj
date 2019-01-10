@@ -13,6 +13,6 @@
     <PackageReference Include="Microsoft.AspNetCore.App" />
   </ItemGroup>
   <ItemGroup>
-      <ProjectReference Include="../../03-DataAccess/DataAccess/DataAccess.csproj" />
+      <ProjectReference Include="../../03-DataAccessSQLite/DataAccess/DataAccess.csproj" />
   </ItemGroup>
 </Project>
