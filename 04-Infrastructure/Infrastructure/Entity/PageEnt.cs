@@ -3,10 +3,8 @@ using MongoDB.Bson.Serialization.Attributes;
 
 namespace Infrastructure.Entity
 {
-    public class Page
+    public class PageEnt : EntityBase
     {
-        public ObjectId Id { get; set; }
-
         [BsonElement("Number")]
         public int Number { get; set; }
 

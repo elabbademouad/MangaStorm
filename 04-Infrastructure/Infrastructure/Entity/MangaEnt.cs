@@ -5,11 +5,8 @@ using System.Collections.Generic;
 
 namespace Infrastructure.Entity
 {
-    public class Manga 
+    public class MangaEnt :EntityBase
     {
-
-        public ObjectId Id { get; set; }
-
         [BsonElement("Matricule")]
         public string Matricule { get; set; }
 
@@ -31,7 +28,7 @@ namespace Infrastructure.Entity
         [BsonElement("State")]
         public string State { get; set; }
 
-        public List<Chapter> Chapters{get; set;}
+        public List<ChapterEnt> Chapters{get; set;}
 
         [BsonElement("Tags")]
         public string Tags {get; set;}

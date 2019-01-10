@@ -4,10 +4,8 @@ using System.Collections.Generic;
 
 namespace Infrastructure.Entity
 {
-    public class Chapter
+    public class ChapterEnt : EntityBase
     {
-        public ObjectId Id { get; set; }
-
         [BsonElement("Number")]
         public int Number { get; set; }
 

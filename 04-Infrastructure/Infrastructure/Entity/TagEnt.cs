@@ -6,10 +6,8 @@ using System.Text;
 
 namespace Infrastructure.Entity
 {
-    public class Tag
+    public class TagEnt : EntityBase
     {
-        public ObjectId Id { get; set; }
-
         [BsonElement("Label")]
         public string Label { get; set; }
     }
