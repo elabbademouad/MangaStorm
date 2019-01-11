@@ -4,14 +4,16 @@ using MongoDB.Bson;
 using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Text;
 
 namespace Infrastructure.Repositories
 {
-    public class MangaRepository : RepositoryBase<MangaEnt>, IMangaRepository
+    public class TagRepository : RepositoryBase<TagEnt>, ITagRepository
     {
-        public MangaRepository(IMongoDatabase dbContext) : base(dbContext)
+        public TagRepository(IMongoDatabase dbContext) : base(dbContext)
         {
+
         }
     }
 }

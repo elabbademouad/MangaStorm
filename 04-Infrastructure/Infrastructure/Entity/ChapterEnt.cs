@@ -16,6 +16,6 @@ namespace Infrastructure.Entity
         public string Url { get; set; }
 
         [BsonElement("MangaId")]
-        public int MangaId { get; set; }
+        public ObjectId MangaId { get; set; }
     }
 }

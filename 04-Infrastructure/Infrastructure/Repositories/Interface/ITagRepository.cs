@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Infrastructure.Repositories.Interface
 {
-    interface IMangaRepository
+    interface ITagRepository
     {
     }
 }

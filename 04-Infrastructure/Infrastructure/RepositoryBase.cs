@@ -2,55 +2,59 @@
 using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Linq.Expressions;
 
 namespace Infrastructure
 {
     public class RepositoryBase<T> : IRepository<T, ObjectId> where T : Entity.EntityBase
     {
-        string _collectionName;
-        public IMongoDatabase DbContext { get; set; }
-        public RepositoryBase(string connectionString, string dataBaseName)
-        {
-            var client = new MongoClient("mongodb://35.211.13.59:27017");
-            DbContext = client.GetDatabase("testDatabase");
-            _collectionName = typeof(T).Name;
+        readonly IMongoCollection<T> _collection;
 
+        protected IMongoDatabase _dbContext { get; set; }
+
+        public RepositoryBase(IMongoDatabase dbContext)
+        {
+            _dbContext = dbContext;
+            var collectionName = typeof(T).Name.Substring(0, typeof(T).Name.Length - 3);
+            _collection = _dbContext.GetCollection<T>(collectionName);
         }
 
         public List<T> GetAll()
         {
-            return DbContext.GetCollection<T>(_collectionName).Find(o => true).ToList();
+            return _collection.Find(o => true).ToList(); ;
         }
 
         public T GetById(ObjectId id)
         {
-            return DbContext.GetCollection<T>(_collectionName).Find<T>(o => o.Id == id).FirstOrDefault();
+            return _collection.Find<T>(o => o.Id == id).FirstOrDefault();
         }
 
-        public T Create(T entity)
+        public void Create(T entity)
         {
-            throw new NotImplementedException();
+            entity.CreatedDate = DateTime.Now;
+            entity.UpdatedDate = DateTime.Now;
+            _collection.InsertOne(entity);
         }
 
-        public T Update(T entity)
+        public void Update(T entity)
         {
-            throw new NotImplementedException();
+            entity.UpdatedDate = DateTime.Now;
+            _collection.ReplaceOne(o => o.Id == entity.Id, entity);
         }
 
         public bool Delete(T entity)
         {
-            throw new NotImplementedException();
+            return Delete(entity.Id);
         }
 
         public bool Delete(ObjectId id)
         {
-            throw new NotImplementedException();
+            return _collection.DeleteOne(o => o.Id == id).DeletedCount == 1;
         }
 
-        public List<T> Query(Func<T, bool> query)
+        public List<T> Query(Expression<Func<T, bool>> query)
         {
-            throw new NotImplementedException();
+            return _collection.Find(query).ToList();
         }
     }
 }

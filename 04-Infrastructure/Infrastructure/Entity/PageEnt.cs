@@ -18,6 +18,6 @@ namespace Infrastructure.Entity
         public bool Pending { get; set; }
 
         [BsonElement("ChapterId")]
-        public int ChapterId { get; set; }
+        public ObjectId ChapterId { get; set; }
     }
 }
