@@ -1,12 +1,12 @@
-﻿using Infrastructure.Entity;
-using Infrastructure.Repositories.Interface;
-using MongoDB.Driver;
+﻿using Application.Entities;
+using Application.Interfaces;
+using Microsoft.Extensions.Configuration;
 
 namespace Infrastructure.Repositories
 {
-    public class ChapterRepository : RepositoryBase<ChapterEnt>, IChapterRepository
+    public class ChapterRepository : Repository<Chapter>, IChapterRepository
     {
-        public ChapterRepository(IMongoDatabase dbContext) : base(dbContext)
+        public ChapterRepository(IConfiguration config) : base(config)
         {
         }
     }

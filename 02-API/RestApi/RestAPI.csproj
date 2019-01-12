@@ -10,9 +10,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="8.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
   </ItemGroup>
   <ItemGroup>
       <ProjectReference Include="../../03-DataAccessSQLite/DataAccess/DataAccess.csproj" />
+      <ProjectReference Include="..\..\04-Infrastructure\Infrastructure\Infrastructure.csproj" />
   </ItemGroup>
 </Project>

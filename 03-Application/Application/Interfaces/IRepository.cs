@@ -1,12 +1,11 @@
-﻿using MongoDB.Driver;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Text;
 
-namespace Infrastructure
+namespace Application.Interfaces
 {
-    interface IRepository<T, K>
+    public interface IRepository<T, K> where T : IBaseEntity
     {
         List<T> GetAll();
         T GetById(K id);

@@ -3,19 +3,24 @@ using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
+using Application.Interfaces;
+using Microsoft.Extensions.Configuration;
 
 namespace Infrastructure
 {
-    public class RepositoryBase<T> : IRepository<T, ObjectId> where T : Entity.EntityBase
+    public class Repository<T> : IRepository<T, Guid> where T : IBaseEntity
     {
         readonly IMongoCollection<T> _collection;
 
         protected IMongoDatabase _dbContext { get; set; }
 
-        public RepositoryBase(IMongoDatabase dbContext)
+        public Repository(IConfiguration config)
         {
-            _dbContext = dbContext;
-            var collectionName = typeof(T).Name.Substring(0, typeof(T).Name.Length - 3);
+            string url = config["DataBaseSettings:ConnectionsString"];
+            var client = new MongoClient(url);
+            client.GetDatabase(MongoUrl.Create(url).DatabaseName);
+            _dbContext = client.GetDatabase(MongoUrl.Create(url).DatabaseName);
+            var collectionName = typeof(T).Name;
             _collection = _dbContext.GetCollection<T>(collectionName);
         }
 
@@ -24,7 +29,7 @@ namespace Infrastructure
             return _collection.Find(o => true).ToList(); ;
         }
 
-        public T GetById(ObjectId id)
+        public T GetById(Guid id)
         {
             return _collection.Find<T>(o => o.Id == id).FirstOrDefault();
         }
@@ -33,6 +38,7 @@ namespace Infrastructure
         {
             entity.CreatedDate = DateTime.Now;
             entity.UpdatedDate = DateTime.Now;
+            var dr = new InsertOneOptions();
             _collection.InsertOne(entity);
         }
 
@@ -47,7 +53,7 @@ namespace Infrastructure
             return Delete(entity.Id);
         }
 
-        public bool Delete(ObjectId id)
+        public bool Delete(Guid id)
         {
             return _collection.DeleteOne(o => o.Id == id).DeletedCount == 1;
         }

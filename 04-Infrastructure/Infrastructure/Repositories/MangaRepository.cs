@@ -1,16 +1,12 @@
-﻿using Infrastructure.Entity;
-using Infrastructure.Repositories.Interface;
-using MongoDB.Bson;
-using MongoDB.Driver;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Application.Entities;
+using Application.Interfaces;
+using Microsoft.Extensions.Configuration;
 
 namespace Infrastructure.Repositories
 {
-    public class MangaRepository : RepositoryBase<MangaEnt>, IMangaRepository
+    public class MangaRepository : Repository<Manga>, IMangaRepository
     {
-        public MangaRepository(IMongoDatabase dbContext) : base(dbContext)
+        public MangaRepository(IConfiguration config) : base(config)
         {
         }
     }

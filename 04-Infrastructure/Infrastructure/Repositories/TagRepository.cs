@@ -1,19 +1,13 @@
-﻿using Infrastructure.Entity;
-using Infrastructure.Repositories.Interface;
-using MongoDB.Bson;
-using MongoDB.Driver;
-using System;
-using System.Collections.Generic;
-using System.Linq.Expressions;
-using System.Text;
+﻿using Application.Entities;
+using Application.Interfaces;
+using Microsoft.Extensions.Configuration;
 
 namespace Infrastructure.Repositories
 {
-    public class TagRepository : RepositoryBase<TagEnt>, ITagRepository
+    public class TagRepository : Repository<Tag>, ITagRepository
     {
-        public TagRepository(IMongoDatabase dbContext) : base(dbContext)
+        public TagRepository(IConfiguration config) : base(config)
         {
-
         }
     }
 }

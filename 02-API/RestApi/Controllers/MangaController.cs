@@ -7,6 +7,9 @@ using DataAccess.DataContext;
 using DataAccess.Entity;
 using Microsoft.EntityFrameworkCore;
 using Api.Model;
+using System.Configuration;
+using Application.Interfaces;
+using Application.Services;
 
 namespace Api.Controllers
 {
@@ -16,22 +19,27 @@ namespace Api.Controllers
     {
         string connectionString = "Data Source=../../../MangaData/Manga/ManagDb.db";
         string rootPath = "http://35.211.13.59/";
+
+        public MangaController(MangaService mangaService)
+        {
+        }
         [HttpGet("GetMangaItems")]
         public ActionResult<IEnumerable<MangaItemModel>> GetMangaItems()
         {
-            using (var db =new MangaDataContext(connectionString))
+            using (var db = new MangaDataContext(connectionString))
             {
-                var mangaList=db.Mangas.Include(m=>m.Chapters)
-                        .Select(m=>new MangaItemModel() {
-                            Id=m.Id,
-                            ChapterCount=m.Chapters.Count.ToString(),
-                            Cover= rootPath+ m.CoverInternalUrl,
-                            Date=m.Date,
-                            Name=m.Name,
-                            Resume=m.Resume,
-                            State=m.State,
-                            Tags=m.Tags,
-                            Matricule=m.Matricule
+                var mangaList = db.Mangas.Include(m => m.Chapters)
+                        .Select(m => new MangaItemModel()
+                        {
+                            Id = m.Id,
+                            ChapterCount = m.Chapters.Count.ToString(),
+                            Cover = rootPath + m.CoverInternalUrl,
+                            Date = m.Date,
+                            Name = m.Name,
+                            Resume = m.Resume,
+                            State = m.State,
+                            Tags = m.Tags,
+                            Matricule = m.Matricule
                         }).ToList();
                 return Ok(mangaList);
             }
@@ -41,24 +49,24 @@ namespace Api.Controllers
         public ActionResult<IEnumerable<string>> GetTags()
         {
             List<string> tags = new List<string>();
-            using (var db=new MangaDataContext(connectionString))
+            using (var db = new MangaDataContext(connectionString))
             {
 
-                return Ok(db.Tags.Select(t=>t.Label).ToList());
+                return Ok(db.Tags.Select(t => t.Label).ToList());
             }
-            
+
         }
 
         [HttpGet("GetChaptersByMatricule/{matricule}")]
         public ActionResult<IEnumerable<Chapter>> GetChaptersById(string matricule)
         {
-            using (var db=new MangaDataContext(connectionString))
+            using (var db = new MangaDataContext(connectionString))
             {
                 var chapters = db.Mangas.Include(m => m.Chapters)
-                                        .Where(m=>m.Matricule==matricule)
+                                        .Where(m => m.Matricule == matricule)
                                         .First()
                                         .Chapters
-                                        .OrderByDescending(c=>c.Number);
+                                        .OrderByDescending(c => c.Number);
                 return Ok(chapters);
             }
         }
@@ -67,20 +75,20 @@ namespace Api.Controllers
         {
             using (var db = new MangaDataContext(connectionString))
             {
-                var pages = db.Chapters.Include(c=>c.Pages)
+                var pages = db.Chapters.Include(c => c.Pages)
                                     .Where(c => c.Id == chapterId)
                                     .First()
                                     .Pages
-                                    .Select(p=>new Page()
+                                    .Select(p => new Page()
                                     {
-                                        Id=p.Id,
-                                        ChapterId=p.ChapterId,
-                                        InternalUrl=rootPath+p.InternalUrl,
-                                        Number=p.Number,
-                                        ExternalUrl=p.ExternalUrl,
-                                        Pending=p.Pending
+                                        Id = p.Id,
+                                        ChapterId = p.ChapterId,
+                                        InternalUrl = rootPath + p.InternalUrl,
+                                        Number = p.Number,
+                                        ExternalUrl = p.ExternalUrl,
+                                        Pending = p.Pending
                                     })
-                                    .OrderBy(c => c.Number);                
+                                    .OrderBy(c => c.Number);
                 return Ok(pages);
             }
         }

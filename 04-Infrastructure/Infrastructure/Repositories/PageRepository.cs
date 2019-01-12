@@ -1,14 +1,12 @@
-﻿using Infrastructure.Entity;
-using MongoDB.Driver;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Application.Entities;
+using Application.Interfaces;
+using Microsoft.Extensions.Configuration;
 
 namespace Infrastructure.Repositories
 {
-    public class PageRepository : RepositoryBase<PageEnt>
+    public class PageRepository : Repository<Page>, IPageRepository
     {
-        public PageRepository(IMongoDatabase dbContext) : base(dbContext)
+        public PageRepository(IConfiguration config) : base(config)
         {
         }
     }
