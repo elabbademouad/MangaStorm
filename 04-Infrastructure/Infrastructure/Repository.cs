@@ -62,5 +62,10 @@ namespace Infrastructure
         {
             return _collection.Find(query).ToList();
         }
+
+        public long Count(Expression<Func<T, bool>> filter)
+        {
+            return _collection.CountDocuments(filter);
+        }
     }
 }

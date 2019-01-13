@@ -14,5 +14,6 @@ namespace Application.Interfaces
         bool Delete(T entity);
         bool Delete(K id);
         List<T> Query(Expression<Func<T, bool>> query);
+        long Count(Expression<Func<T, bool>> filter);
     }
 }

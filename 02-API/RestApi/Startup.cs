@@ -3,8 +3,11 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Api.Model;
+using Application.Entities;
 using Application.Interfaces;
 using Application.Services;
+using AutoMapper;
 using Infrastructure.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -15,6 +18,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using RestAPI.Mapper;
 
 namespace Api
 {
@@ -38,9 +42,12 @@ namespace Api
             services.AddMvc();
             services.AddCors();
             services.AddDirectoryBrowser();
+            ApplicationMapperConfig mapperConfig = new ApplicationMapperConfig(Configuration);
+            mapperConfig.Initialize();
             services.AddSingleton<IConfiguration>(Configuration);
             //Repositories DI (Infrastrucure layer)
             services.AddScoped<IMangaRepository, MangaRepository>();
+            services.AddScoped<IChapterRepository, ChapterRepository>();
             //Service DI (Application layer)
             services.AddScoped<MangaService>();
         }

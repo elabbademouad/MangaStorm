@@ -9,6 +9,7 @@ using System.Configuration;
 using Application.Interfaces;
 using Application.Services;
 using Application.Entities;
+using AutoMapper;
 
 namespace Api.Controllers
 {
@@ -16,13 +17,16 @@ namespace Api.Controllers
     [ApiController]
     public class MangaController : ControllerBase
     {
+        private readonly MangaService _mangaService;
         public MangaController(MangaService mangaService)
         {
+            _mangaService = mangaService;
         }
-        [HttpGet("GetMangaItems")]
-        public ActionResult<IEnumerable<MangaItemModel>> GetMangaItems()
+        [HttpGet("GetAll")]
+        public ActionResult<IEnumerable<MangaIDetailsModel>> GetAll()
         {
-            return Ok(null);
+            var result = Mapper.Map<List<MangaIDetailsModel>>(_mangaService.GetMangaDetailsList());
+            return Ok(result);
         }
 
         [HttpGet("GetTags")]

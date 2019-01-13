@@ -7,7 +7,6 @@
   <ItemGroup>
     <Folder Include="Exceptions\" />
     <Folder Include="Enum\" />
-    <Folder Include="DataModel\" />
     <Folder Include="Validations\" />
   </ItemGroup>
 
