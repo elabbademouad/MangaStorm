@@ -24,7 +24,6 @@ namespace Api
         {
             var builder = new ConfigurationBuilder()
                     .SetBasePath(env.ContentRootPath)
-                    .AddJsonFile("appsettings.json", false, true)
                     .AddJsonFile($"appsettings.{ env.EnvironmentName}.json", true)
                     .AddEnvironmentVariables();
             Configuration = builder.Build();
@@ -57,17 +56,12 @@ namespace Api
             {
                 app.UseHsts();
             }
-            //app.UseStaticFiles(new StaticFileOptions
-            //{
-            //    FileProvider = new PhysicalFileProvider(
-            //        Path.Combine(Directory.GetCurrentDirectory(), "../../../MangaData/")),
-            //})
-            //.UseDirectoryBrowser(new DirectoryBrowserOptions
-            //{
-            //    FileProvider = new PhysicalFileProvider(
-            //        Path.Combine(Directory.GetCurrentDirectory(), "../../../MangaData/")),
-            //})
-            app.UseCors(builder =>
+            app.UseStaticFiles(new StaticFileOptions
+            {
+                FileProvider = new PhysicalFileProvider(
+                    Path.Combine(Directory.GetCurrentDirectory(), Configuration["ApiSettings:MediaPath"])),
+            })
+            .UseCors(builder =>
                     builder.AllowAnyOrigin()
                     .AllowAnyHeader()
                     .AllowAnyMethod()

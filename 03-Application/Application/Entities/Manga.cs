@@ -5,8 +5,6 @@ namespace Application.Entities
 {
     public class Manga : BaseEntity
     {
-        public string Matricule { get; set; }
-
         public string Name { get; set; }
 
         public string Date { get; set; }

@@ -26,7 +26,7 @@ namespace Infrastructure
 
         public List<T> GetAll()
         {
-            return _collection.Find(o => true).ToList(); ;
+            return _collection.Find(o => true).ToList();
         }
 
         public T GetById(Guid id)

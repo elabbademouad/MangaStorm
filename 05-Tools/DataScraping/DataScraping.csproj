@@ -10,6 +10,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\03-DataAccessSQlite\DataAccess\DataAccess.csproj" />
+    <ProjectReference Include="..\..\03-Application\Application\Application.csproj" />
+    <ProjectReference Include="..\..\04-Infrastructure\Infrastructure\Infrastructure.csproj" />
   </ItemGroup>
 </Project>

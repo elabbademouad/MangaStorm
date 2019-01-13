@@ -3,13 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using DataAccess.DataContext;
-using DataAccess.Entity;
 using Microsoft.EntityFrameworkCore;
 using Api.Model;
 using System.Configuration;
 using Application.Interfaces;
 using Application.Services;
+using Application.Entities;
 
 namespace Api.Controllers
 {
@@ -17,80 +16,30 @@ namespace Api.Controllers
     [ApiController]
     public class MangaController : ControllerBase
     {
-        string connectionString = "Data Source=../../../MangaData/Manga/ManagDb.db";
-        string rootPath = "http://35.211.13.59/";
-
         public MangaController(MangaService mangaService)
         {
         }
         [HttpGet("GetMangaItems")]
         public ActionResult<IEnumerable<MangaItemModel>> GetMangaItems()
         {
-            using (var db = new MangaDataContext(connectionString))
-            {
-                var mangaList = db.Mangas.Include(m => m.Chapters)
-                        .Select(m => new MangaItemModel()
-                        {
-                            Id = m.Id,
-                            ChapterCount = m.Chapters.Count.ToString(),
-                            Cover = rootPath + m.CoverInternalUrl,
-                            Date = m.Date,
-                            Name = m.Name,
-                            Resume = m.Resume,
-                            State = m.State,
-                            Tags = m.Tags,
-                            Matricule = m.Matricule
-                        }).ToList();
-                return Ok(mangaList);
-            }
+            return Ok(null);
         }
 
         [HttpGet("GetTags")]
         public ActionResult<IEnumerable<string>> GetTags()
         {
-            List<string> tags = new List<string>();
-            using (var db = new MangaDataContext(connectionString))
-            {
-
-                return Ok(db.Tags.Select(t => t.Label).ToList());
-            }
-
+            return Ok(null);
         }
 
         [HttpGet("GetChaptersByMatricule/{matricule}")]
         public ActionResult<IEnumerable<Chapter>> GetChaptersById(string matricule)
         {
-            using (var db = new MangaDataContext(connectionString))
-            {
-                var chapters = db.Mangas.Include(m => m.Chapters)
-                                        .Where(m => m.Matricule == matricule)
-                                        .First()
-                                        .Chapters
-                                        .OrderByDescending(c => c.Number);
-                return Ok(chapters);
-            }
+            return Ok(null);
         }
         [HttpGet("GetPagesById/{chapterId}")]
         public ActionResult<IEnumerable<Page>> GetPagesById(int chapterId)
         {
-            using (var db = new MangaDataContext(connectionString))
-            {
-                var pages = db.Chapters.Include(c => c.Pages)
-                                    .Where(c => c.Id == chapterId)
-                                    .First()
-                                    .Pages
-                                    .Select(p => new Page()
-                                    {
-                                        Id = p.Id,
-                                        ChapterId = p.ChapterId,
-                                        InternalUrl = rootPath + p.InternalUrl,
-                                        Number = p.Number,
-                                        ExternalUrl = p.ExternalUrl,
-                                        Pending = p.Pending
-                                    })
-                                    .OrderBy(c => c.Number);
-                return Ok(pages);
-            }
+            return null;
         }
     }
 }
