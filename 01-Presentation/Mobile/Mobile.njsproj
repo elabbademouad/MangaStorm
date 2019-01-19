@@ -1,0 +1,197 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{bce85c91-22c1-413c-b114-bbd062e605e0}</ProjectGuid>
+    <ProjectHome>.</ProjectHome>
+    <ProjectView>ProjectFiles</ProjectView>
+    <StartupFile />
+    <WorkingDirectory>.</WorkingDirectory>
+    <OutputPath>.</OutputPath>
+    <ProjectTypeGuids>{3AF33F2E-1136-4D97-BBB7-1795711AC8B8};{349c5851-65df-11da-9384-00065b846f21};{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}</ProjectTypeGuids>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">14.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+    <LastActiveSolutionConfig>Debug|Any CPU</LastActiveSolutionConfig>
+    <StartWebBrowser>True</StartWebBrowser>
+    <SaveNodeJsSettingsInProjectFile>True</SaveNodeJsSettingsInProjectFile>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)' == 'Debug'" />
+  <PropertyGroup Condition="'$(Configuration)' == 'Release'" />
+  <ItemGroup>
+    <Content Include="ionic.config.json" />
+    <Content Include="package-lock.json" />
+    <Content Include="package.json" />
+    <Content Include="src\app\app.html" />
+    <Content Include="src\app\app.scss" />
+    <Content Include="src\assets\icon\favicon.ico" />
+    <Content Include="src\assets\imgs\logo.png" />
+    <Content Include="src\components\manga-item\manga-item.html" />
+    <Content Include="src\components\manga-item\manga-item.scss" />
+    <Content Include="src\index.html" />
+    <Content Include="src\manifest.json" />
+    <Content Include="src\pages\home\home.html" />
+    <Content Include="src\pages\home\home.scss" />
+    <Content Include="src\pages\list\list.html" />
+    <Content Include="src\pages\list\list.scss" />
+    <Content Include="src\pages\manga-details\manga-details.html" />
+    <Content Include="src\pages\manga-details\manga-details.scss" />
+    <Content Include="src\pages\manga-downloads\manga-downloads.html" />
+    <Content Include="src\pages\manga-downloads\manga-downloads.scss" />
+    <Content Include="src\pages\manga-favoris\manga-favoris.html" />
+    <Content Include="src\pages\manga-favoris\manga-favoris.scss" />
+    <Content Include="src\pages\manga-page\manga-page.html" />
+    <Content Include="src\pages\manga-page\manga-page.scss" />
+    <Content Include="src\theme\variables.scss" />
+    <Content Include="tslint.json" />
+    <Content Include="config.xml" />
+    <Content Include="resources\icon.png" />
+    <Content Include="resources\splash.png" />
+    <Content Include="resources\README.md" />
+    <Content Include="resources\android\icon\drawable-hdpi-icon.png" />
+    <Content Include="resources\android\icon\drawable-ldpi-icon.png" />
+    <Content Include="resources\android\icon\drawable-mdpi-icon.png" />
+    <Content Include="resources\android\icon\drawable-xhdpi-icon.png" />
+    <Content Include="resources\android\icon\drawable-xxhdpi-icon.png" />
+    <Content Include="resources\android\icon\drawable-xxxhdpi-icon.png" />
+    <Content Include="resources\android\splash\drawable-land-hdpi-screen.png" />
+    <Content Include="resources\android\splash\drawable-land-ldpi-screen.png" />
+    <Content Include="resources\android\splash\drawable-land-mdpi-screen.png" />
+    <Content Include="resources\android\splash\drawable-land-xhdpi-screen.png" />
+    <Content Include="resources\android\splash\drawable-land-xxhdpi-screen.png" />
+    <Content Include="resources\android\splash\drawable-land-xxxhdpi-screen.png" />
+    <Content Include="resources\android\splash\drawable-port-hdpi-screen.png" />
+    <Content Include="resources\android\splash\drawable-port-ldpi-screen.png" />
+    <Content Include="resources\android\splash\drawable-port-mdpi-screen.png" />
+    <Content Include="resources\android\splash\drawable-port-xhdpi-screen.png" />
+    <Content Include="resources\android\splash\drawable-port-xxhdpi-screen.png" />
+    <Content Include="resources\android\splash\drawable-port-xxxhdpi-screen.png" />
+    <Content Include="resources\ios\icon\icon-1024.png" />
+    <Content Include="resources\ios\icon\icon-40.png" />
+    <Content Include="resources\ios\icon\icon-40@2x.png" />
+    <Content Include="resources\ios\icon\icon-40@3x.png" />
+    <Content Include="resources\ios\icon\icon-50.png" />
+    <Content Include="resources\ios\icon\icon-50@2x.png" />
+    <Content Include="resources\ios\icon\icon-60.png" />
+    <Content Include="resources\ios\icon\icon-60@2x.png" />
+    <Content Include="resources\ios\icon\icon-60@3x.png" />
+    <Content Include="resources\ios\icon\icon-72.png" />
+    <Content Include="resources\ios\icon\icon-72@2x.png" />
+    <Content Include="resources\ios\icon\icon-76.png" />
+    <Content Include="resources\ios\icon\icon-76@2x.png" />
+    <Content Include="resources\ios\icon\icon-83.5@2x.png" />
+    <Content Include="resources\ios\icon\icon-small.png" />
+    <Content Include="resources\ios\icon\icon-small@2x.png" />
+    <Content Include="resources\ios\icon\icon-small@3x.png" />
+    <Content Include="resources\ios\icon\icon.png" />
+    <Content Include="resources\ios\icon\icon@2x.png" />
+    <Content Include="resources\ios\splash\Default-568h@2x~iphone.png" />
+    <Content Include="resources\ios\splash\Default-667h.png" />
+    <Content Include="resources\ios\splash\Default-736h.png" />
+    <Content Include="resources\ios\splash\Default-Landscape-736h.png" />
+    <Content Include="resources\ios\splash\Default-Landscape@2x~ipad.png" />
+    <Content Include="resources\ios\splash\Default-Landscape@~ipadpro.png" />
+    <Content Include="resources\ios\splash\Default-Landscape~ipad.png" />
+    <Content Include="resources\ios\splash\Default-Portrait@2x~ipad.png" />
+    <Content Include="resources\ios\splash\Default-Portrait@~ipadpro.png" />
+    <Content Include="resources\ios\splash\Default-Portrait~ipad.png" />
+    <Content Include="resources\ios\splash\Default@2x~iphone.png" />
+    <Content Include="resources\ios\splash\Default@2x~universal~anyany.png" />
+    <Content Include="resources\ios\splash\Default~iphone.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="resources" />
+    <Folder Include="resources\android" />
+    <Folder Include="resources\android\icon" />
+    <Folder Include="resources\android\splash" />
+    <Folder Include="resources\ios" />
+    <Folder Include="resources\ios\icon" />
+    <Folder Include="resources\ios\splash" />
+    <Folder Include="src\" />
+    <Folder Include="src\app\" />
+    <Folder Include="src\assets\" />
+    <Folder Include="src\assets\icon\" />
+    <Folder Include="src\assets\imgs\" />
+    <Folder Include="src\components\" />
+    <Folder Include="src\components\manga-item\" />
+    <Folder Include="src\Model\" />
+    <Folder Include="src\pages\" />
+    <Folder Include="src\pages\home\" />
+    <Folder Include="src\pages\list\" />
+    <Folder Include="src\pages\manga-details\" />
+    <Folder Include="src\pages\manga-downloads\" />
+    <Folder Include="src\pages\manga-favoris\" />
+    <Folder Include="src\pages\manga-page\" />
+    <Folder Include="src\providers\" />
+    <Folder Include="src\providers\data-base\" />
+    <Folder Include="src\providers\data-base\entity\" />
+    <Folder Include="src\providers\file\" />
+    <Folder Include="src\providers\manga\" />
+    <Folder Include="src\providers\ressources\" />
+    <Folder Include="src\theme\" />
+  </ItemGroup>
+  <ItemGroup>
+    <TypeScriptCompile Include="src\app\app.component.ts" />
+    <TypeScriptCompile Include="src\app\app.module.ts" />
+    <TypeScriptCompile Include="src\app\main.ts" />
+    <TypeScriptCompile Include="src\components\components.module.ts" />
+    <TypeScriptCompile Include="src\components\manga-item\manga-item.ts" />
+    <TypeScriptCompile Include="src\Model\MangaItemModel.ts" />
+    <TypeScriptCompile Include="src\pages\home\home.ts" />
+    <TypeScriptCompile Include="src\pages\list\list.ts" />
+    <TypeScriptCompile Include="src\pages\manga-details\manga-details.ts" />
+    <TypeScriptCompile Include="src\pages\manga-downloads\manga-downloads.ts" />
+    <TypeScriptCompile Include="src\pages\manga-favoris\manga-favoris.ts" />
+    <TypeScriptCompile Include="src\pages\manga-page\manga-page.ts" />
+    <TypeScriptCompile Include="src\providers\data-base\data-base.ts" />
+    <TypeScriptCompile Include="src\providers\data-base\entity\mangaEnt.ts" />
+    <TypeScriptCompile Include="src\providers\file\file.ts" />
+    <TypeScriptCompile Include="src\providers\manga\manga.ts" />
+    <TypeScriptCompile Include="src\providers\ressources\ressources.ts" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="src\service-worker.js" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.Common.targets" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <!--Do not delete the following Import Project.  While this appears to do nothing it is a marker for setting TypeScript properties before our import that depends on them.-->
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets" Condition="False" />
+  <Import Project="$(VSToolsPath)\Node.js Tools\Microsoft.NodejsTools.targets" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>False</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>0</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:48022/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>True</UseCustomServer>
+          <CustomServerUrl>http://localhost:1337</CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}" User="">
+        <WebProjectProperties>
+          <StartPageUrl>
+          </StartPageUrl>
+          <StartAction>CurrentPage</StartAction>
+          <AspNetDebugging>True</AspNetDebugging>
+          <SilverlightDebugging>False</SilverlightDebugging>
+          <NativeDebugging>False</NativeDebugging>
+          <SQLDebugging>False</SQLDebugging>
+          <ExternalProgram>
+          </ExternalProgram>
+          <StartExternalURL>
+          </StartExternalURL>
+          <StartCmdLineArguments>
+          </StartCmdLineArguments>
+          <StartWorkingDirectory>
+          </StartWorkingDirectory>
+          <EnableENC>False</EnableENC>
+          <AlwaysStartWebServerOnDebug>False</AlwaysStartWebServerOnDebug>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+</Project>
