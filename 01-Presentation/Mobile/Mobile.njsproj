@@ -43,6 +43,7 @@
     <Content Include="src\pages\manga-page\manga-page.html" />
     <Content Include="src\pages\manga-page\manga-page.scss" />
     <Content Include="src\theme\variables.scss" />
+    <Content Include="tsconfig.json" />
     <Content Include="tslint.json" />
     <Content Include="config.xml" />
     <Content Include="resources\icon.png" />

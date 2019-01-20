@@ -18,7 +18,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using RestAPI.Mapper;
+using RestAPI.MapperConfig;
 
 namespace Api
 {
@@ -48,8 +48,13 @@ namespace Api
             //Repositories DI (Infrastrucure layer)
             services.AddScoped<IMangaRepository, MangaRepository>();
             services.AddScoped<IChapterRepository, ChapterRepository>();
+            services.AddScoped<IPageRepository, PageRepository>();
+            services.AddScoped<ITagRepository, TagRepository>();
             //Service DI (Application layer)
             services.AddScoped<MangaService>();
+            services.AddScoped<ChapterService>();
+            services.AddScoped<PageService>();
+            services.AddScoped<TagService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

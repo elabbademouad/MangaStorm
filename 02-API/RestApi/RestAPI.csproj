@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.2</TargetFramework>
+    <TypeScriptToolsVersion>3.1</TypeScriptToolsVersion>
   </PropertyGroup>
 
 
@@ -12,8 +13,15 @@
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="8.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.0" />
   </ItemGroup>
   <ItemGroup>
       <ProjectReference Include="..\..\04-Infrastructure\Infrastructure\Infrastructure.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Update="Model\MangaDetailsModel.cs">
+      <Generator>DtsGenerator</Generator>
+      <LastGenOutput>MangaDetailsModel.cs.d.ts</LastGenOutput>
+    </Compile>
   </ItemGroup>
 </Project>

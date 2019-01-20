@@ -22,28 +22,12 @@ namespace Api.Controllers
         {
             _mangaService = mangaService;
         }
+
         [HttpGet("GetAll")]
-        public ActionResult<IEnumerable<MangaIDetailsModel>> GetAll()
+        public ActionResult<IEnumerable<MangaDetailsModel>> GetAll()
         {
-            var result = Mapper.Map<List<MangaIDetailsModel>>(_mangaService.GetMangaDetailsList());
+            var result = Mapper.Map<List<MangaDetailsModel>>(_mangaService.GetMangaDetailsList());
             return Ok(result);
-        }
-
-        [HttpGet("GetTags")]
-        public ActionResult<IEnumerable<string>> GetTags()
-        {
-            return Ok(null);
-        }
-
-        [HttpGet("GetChaptersByMatricule/{matricule}")]
-        public ActionResult<IEnumerable<Chapter>> GetChaptersById(string matricule)
-        {
-            return Ok(null);
-        }
-        [HttpGet("GetPagesById/{chapterId}")]
-        public ActionResult<IEnumerable<Page>> GetPagesById(int chapterId)
-        {
-            return null;
         }
     }
 }

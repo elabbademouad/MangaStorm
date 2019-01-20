@@ -8,8 +8,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 using Application.DataModel;
+using RestAPI.Model;
 
-namespace RestAPI.Mapper
+namespace RestAPI.MapperConfig
 {
     public class ApplicationMapperConfig
     {
@@ -24,8 +25,12 @@ namespace RestAPI.Mapper
             var baseUrl = _config["ApiSettings:BaseUrl"];
             AM.Mapper.Initialize(cfg =>
             {
-                cfg.CreateMap<MangaDetails, MangaIDetailsModel>()
+                cfg.CreateMap<MangaDetails, MangaDetailsModel>()
                 .ForMember(d => d.Cover, c => c.MapFrom(s => baseUrl + s.Cover));
+                cfg.CreateMap<Chapter, ChapterModel>();
+                cfg.CreateMap<Page, PageModel>()
+                .ForMember(d => d.Url, c => c.MapFrom(s => baseUrl + s.InternalUrl));
+
             });
         }
     }

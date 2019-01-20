@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Api.Model
 {
-    public class MangaIDetailsModel
+    public class MangaDetailsModel
     {
         public Guid Id { get; set; }
         public string Name { get; set; }
