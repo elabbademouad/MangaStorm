@@ -24,4 +24,24 @@
       <LastGenOutput>MangaDetailsModel.cs.d.ts</LastGenOutput>
     </Compile>
   </ItemGroup>
+  <ItemGroup>
+    <None Update="dsdsModel.ts">
+      <CustomToolNamespace>Model\dsdsModel.cs</CustomToolNamespace>
+    </None>
+    <None Update="manga-details.ts">
+      <CustomToolNamespace>Model\MangaDetailsModel.cs</CustomToolNamespace>
+    </None>
+    <None Update="MangaDetailsModel - Copy.ts">
+      <CustomToolNamespace>Model\MangaDetailsModel.cs</CustomToolNamespace>
+    </None>
+    <None Update="PageModel.ts">
+      <CustomToolNamespace>Model\PageModel.cs</CustomToolNamespace>
+    </None>
+    <None Update="sqsqsModel - Copy.ts">
+      <CustomToolNamespace>Model\sqsqsModel.cs</CustomToolNamespace>
+    </None>
+    <None Update="zezeModel.ts">
+      <CustomToolNamespace>Model\zezeModel.cs</CustomToolNamespace>
+    </None>
+  </ItemGroup>
 </Project>

@@ -5,7 +5,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{bce85c91-22c1-413c-b114-bbd062e605e0}</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <ProjectView>ProjectFiles</ProjectView>
+    <ProjectView>ShowAllFiles</ProjectView>
     <StartupFile />
     <WorkingDirectory>.</WorkingDirectory>
     <OutputPath>.</OutputPath>
@@ -42,6 +42,7 @@
     <Content Include="src\pages\manga-favoris\manga-favoris.scss" />
     <Content Include="src\pages\manga-page\manga-page.html" />
     <Content Include="src\pages\manga-page\manga-page.scss" />
+    <Content Include="src\providers\controllers\mangaController.ts" />
     <Content Include="src\theme\variables.scss" />
     <Content Include="tsconfig.json" />
     <Content Include="tslint.json" />
@@ -128,6 +129,7 @@
     <Folder Include="src\providers\data-base\entity\" />
     <Folder Include="src\providers\file\" />
     <Folder Include="src\providers\manga\" />
+    <Folder Include="src\providers\controllers\" />
     <Folder Include="src\providers\ressources\" />
     <Folder Include="src\theme\" />
   </ItemGroup>
@@ -137,7 +139,10 @@
     <TypeScriptCompile Include="src\app\main.ts" />
     <TypeScriptCompile Include="src\components\components.module.ts" />
     <TypeScriptCompile Include="src\components\manga-item\manga-item.ts" />
+    <TypeScriptCompile Include="src\Model\chapter-model.ts" />
+    <TypeScriptCompile Include="src\Model\manga-details-model.ts" />
     <TypeScriptCompile Include="src\Model\MangaItemModel.ts" />
+    <TypeScriptCompile Include="src\Model\page-model.ts" />
     <TypeScriptCompile Include="src\pages\home\home.ts" />
     <TypeScriptCompile Include="src\pages\list\list.ts" />
     <TypeScriptCompile Include="src\pages\manga-details\manga-details.ts" />
