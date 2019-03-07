@@ -1,6 +1,6 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
-namespace MangaScrap.ScrapingModel
+namespace DataScraping.Model
 {
     public class ChapterScrapModel
     {

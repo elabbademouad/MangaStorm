@@ -1,6 +1,6 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
-namespace MangaScrap.ScrapingModel
+namespace DataScraping.Model
 {
     public class MangaScrapModel
     {
@@ -9,7 +9,7 @@ namespace MangaScrap.ScrapingModel
         public string DateEdition { get; set; }
         public string State { get; set; }
         public string Resume { get; set; }
-        public List<ChapterScrapModel> Chapters { get; set;}
+        public List<ChapterScrapModel> Chapters { get; set; }
         public List<string> Tags { get; set; }
     }
 }

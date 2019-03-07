@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "DataScraping": {
+      "commandName": "Project",
+      "commandLineArgs": "Development"
+    }
+  }
+}
