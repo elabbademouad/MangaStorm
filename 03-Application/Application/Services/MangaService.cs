@@ -1,9 +1,7 @@
-﻿using Application.DataModel;
-using Application.Entities;
+﻿using Application.Entities;
 using Application.Interfaces;
-using System;
+using Application.Model;
 using System.Collections.Generic;
-using System.Text;
 
 namespace Application.Services
 {

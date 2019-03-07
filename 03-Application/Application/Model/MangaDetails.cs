@@ -1,9 +1,6 @@
-﻿using Application.Entities;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System;
 
-namespace Application.DataModel
+namespace Application.Model
 {
     public class MangaDetails
     {
