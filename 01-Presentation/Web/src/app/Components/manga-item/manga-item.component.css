@@ -1,0 +1,9 @@
+.card {
+    max-width: 120px;
+    margin: 6px;
+    cursor: pointer;
+}
+img{
+    width: 120px;
+    margin: auto;
+}
