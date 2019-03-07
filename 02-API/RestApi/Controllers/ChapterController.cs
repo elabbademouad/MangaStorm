@@ -1,11 +1,9 @@
 ﻿using Application.Services;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using RestAPI.Model;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using AutoMapper;
 
 namespace RestAPI.Controllers
 {
@@ -26,7 +24,5 @@ namespace RestAPI.Controllers
             var result = Mapper.Map<List<ChapterModel>>(_chapterService.GetChaptersByMangaId(mangaId));
             return Ok(result);
         }
-
-
     }
 }

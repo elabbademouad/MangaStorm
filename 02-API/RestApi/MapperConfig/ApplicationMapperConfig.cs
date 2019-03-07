@@ -1,14 +1,9 @@
 ﻿using Api.Model;
 using Application.Entities;
-using AM = AutoMapper;
-using System.Configuration;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Application.Model;
 using Microsoft.Extensions.Configuration;
-using Application.DataModel;
 using RestAPI.Model;
+using AM = AutoMapper;
 
 namespace RestAPI.MapperConfig
 {
