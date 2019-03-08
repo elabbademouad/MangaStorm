@@ -1,0 +1,38 @@
+.card{
+    direction: rtl;
+    margin: auto;
+    margin-top: 1%;
+    max-width: 250px;
+}
+img{
+    width: 100%;
+    max-width: 250px;
+    margin: auto;
+}
+.description{
+    text-align: right;
+    width: 100%;
+    margin: 4px;
+    font-family: 'Amiri', serif;
+}
+.label{
+    font-weight: bold;
+    font-family: 'Amiri', serif;
+}
+
+.flex-container > div {
+    margin: 5px;
+    text-align: center;
+  }
+  .flex-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-content: space-between;
+  }
+.chapter-card{
+    min-width: 300px;
+    direction: rtl;
+    margin: auto;
+    margin-top: 1%;
+}

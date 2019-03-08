@@ -2,7 +2,7 @@
 using Application.Interfaces;
 using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Linq;
 
 namespace Application.Services
 {
@@ -16,7 +16,8 @@ namespace Application.Services
 
         public List<Chapter> GetChaptersByMangaId(Guid id)
         {
-            return _chapterRepository.Query(c => c.MangaId == id);
+            var result = _chapterRepository.Query(c => c.MangaId == id);
+            return result.OrderBy(c => c.Number).ToList();
         }
     }
 }

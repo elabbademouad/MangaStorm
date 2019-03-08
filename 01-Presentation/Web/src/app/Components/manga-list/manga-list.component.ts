@@ -21,7 +21,7 @@ export class MangaListComponent implements OnInit {
   
   ngOnInit() {
   }
-  public handlerMangaItemClick(mangaId){debugger
+  public handlerMangaItemClick(mangaId){
     this.router.navigate(['/mangaList', mangaId]);
   }
 }

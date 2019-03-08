@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Api.Model;
-using System.Configuration;
-using Application.Interfaces;
+﻿using Api.Model;
 using Application.Services;
-using Application.Entities;
 using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Collections.Generic;
 
 namespace Api.Controllers
 {
@@ -27,6 +21,14 @@ namespace Api.Controllers
         public ActionResult<IEnumerable<MangaDetailsModel>> GetAll()
         {
             var result = Mapper.Map<List<MangaDetailsModel>>(_mangaService.GetMangaDetailsList());
+            return Ok(result);
+        }
+
+        [HttpGet("GetById/{mangaId}")]
+        public ActionResult<MangaDetailsModel> GetById(string mangaId)
+        {
+            var mangGuid = Guid.Parse(mangaId);
+            var result = Mapper.Map<MangaDetailsModel>(_mangaService.GetMangaDetailsById(mangGuid));
             return Ok(result);
         }
     }

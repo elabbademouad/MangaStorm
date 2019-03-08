@@ -1,6 +1,7 @@
 ﻿using Application.Entities;
 using Application.Interfaces;
 using Application.Model;
+using System;
 using System.Collections.Generic;
 
 namespace Application.Services
@@ -43,6 +44,22 @@ namespace Application.Services
                 });
             }
             return mangaDetailsList;
+        }
+
+        public MangaDetails GetMangaDetailsById(Guid mangaId)
+        {
+            var manga = _mangaRepository.GetById(mangaId);
+            return new MangaDetails()
+            {
+                Cover = manga.CoverInternalUrl,
+                Date = manga.Date,
+                Id = manga.Id,
+                Name = manga.Name,
+                Resume = manga.Resume,
+                State = manga.State,
+                Tags = manga.Tags,
+                CountChapters = _chapterRepository.Count(c => c.MangaId == manga.Id),
+            };
         }
     }
 }

@@ -13,6 +13,9 @@ import { MangaItemComponent } from './Components/manga-item/manga-item.component
 import { MatCardModule } from '@angular/material/card';
 import { MangaListComponent } from './Components/manga-list/manga-list.component';
 import { MangaDetailsComponent } from './Components/manga-details/manga-details.component';
+import { MatGridListModule } from '@angular/material/grid-list';
+import { MatListModule} from '@angular/material/list';
+import { PageComponent } from './Components/page/page.component'
 
 
 @NgModule({
@@ -20,7 +23,8 @@ import { MangaDetailsComponent } from './Components/manga-details/manga-details.
     AppComponent,
     MangaItemComponent,
     MangaListComponent,
-    MangaDetailsComponent
+    MangaDetailsComponent,
+    PageComponent
   ],
   imports: [
     BrowserModule,
@@ -32,7 +36,9 @@ import { MangaDetailsComponent } from './Components/manga-details/manga-details.
     MatToolbarModule,
     HttpClientModule,
     MatCardModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    MatGridListModule,
+    MatListModule
 
   ],
   providers: [],
