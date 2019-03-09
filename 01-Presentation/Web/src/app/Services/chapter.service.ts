@@ -6,7 +6,7 @@ import { HttpClient } from '@angular/common/http';
 })
 export class ChapterService {
 
-  private baseUrl:string="http://localhost:5000/"
+  private baseUrl:string="http://35.211.13.59/"
   private getChaptersByMangaIdApi:string="api/Chapter/GetChaptersByMangaId/";
 
   constructor(public _http:HttpClient) { }

@@ -6,7 +6,7 @@ import { HttpClient } from '@angular/common/http';
 })
 export class PageService {
 
-  private baseUrl:string="http://localhost:5000/"
+  private baseUrl:string="http://35.211.13.59/"
   private getPagesByChapterId:string="api/Page/GetPagesByChapterId/";
 
   constructor(public _http:HttpClient) { }

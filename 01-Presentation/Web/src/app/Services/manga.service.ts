@@ -5,7 +5,7 @@ import { HttpClient } from '@angular/common/http';
   providedIn: 'root'
 })
 export class MangaService {
-  private baseUrl:string="http://localhost:5000/"
+  private baseUrl:string="http://35.211.13.59/"
   private getAllApi:string="api/manga/getAll";
   private getMangaFullDetailApi:string="api/manga/getById/";
 
