@@ -1,11 +1,13 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
-import { MangaItemModel } from '../../Model/MangaItemModel';
 import { RessourcesProvider } from '../../providers/ressources/ressources'
-import { MangaProvider } from '../../providers/manga/manga';
 import { MangaPagePage } from '../../pages/manga-page/manga-page';
 import { LoadingController } from 'ionic-angular'
 import { DataBaseProvider } from '../../providers/data-base/data-base'
+import { MangaDetailsViewModel } from '../../ViewModel/manga-details-View-model';
+import { ChapterViewModel } from '../../ViewModel/chapter-view-model';
+import { MangaController } from '../../providers/controllers/manga-Controller';
+import { ChapterController } from '../../providers/controllers/chapter-Controller';
 @Component({
   selector: 'manga-details',
   templateUrl: 'manga-details.html'
@@ -17,7 +19,8 @@ export class MangaDetailsPage {
    ****************************************************/
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
-    public _mangaProvider: MangaProvider,
+    public _mangaCtr:MangaController,
+    public _chapterCtr:ChapterController,
     public _ressources: RessourcesProvider,
     public _loading: LoadingController,
     public _database: DataBaseProvider) {
@@ -36,24 +39,22 @@ export class MangaDetailsPage {
       content: this.ressources.loading
     });
     loading.present();
-    this._mangaProvider.GetChapters(this.mangaItem.matricule)
-      .subscribe((data: Array<any>) => {
+    this._chapterCtr.getByMangaId(this.mangaItem.item.id)
+      .subscribe((data) => {
         data.forEach((c) => {
           this.chapters.push({
-            id: c.id,
-            number: c.number,
-            read: false,
-            title: c.title
+            chapter:c,
+            read:false
           })
         })
-        this._database.getReadMangaChapters(this.mangaItem.name)
+        this._database.getReadMangaChapters(this.mangaItem.item.name)
           .then((data) => {
             for (let i = 0; i < data.rows.length; i++) {
               let element = data.rows.item(i);
               this.readChapters.push(element.ChapterNumber.toString());
             }
             this.chapters.forEach(c => {
-              c.read = this.readChapters.findIndex(r => r == c.number) !== -1;
+              c.read = this.readChapters.findIndex(r => r == c.chapter.number) !== -1;
             })
           })
         loading.dismiss();
@@ -64,16 +65,16 @@ export class MangaDetailsPage {
   /****************************************************
    * Public properties
   *****************************************************/
-  mangaItem: MangaItemModel;
+  mangaItem: MangaDetailsViewModel;
   ressources: any;
-  chapters: Array<{ id: number, number: string, title: string, read: boolean }>;
+  chapters: Array<ChapterViewModel>;
   readChapters: Array<string>;
   /****************************************************
    * UI event handler 
   *****************************************************/
-  handleClickChapter(chapter: any) {
-    this._database.setChapterAsRead(this.mangaItem.name, chapter.number, chapter.title);
-    chapter.read = true;
-    this.navCtrl.push(MangaPagePage, chapter);
+  handleClickChapter(chapterVm: ChapterViewModel) {
+    this._database.setChapterAsRead(chapterVm.chapter,this.mangaItem.item.name);
+    chapterVm.read = true;
+    this.navCtrl.push(MangaPagePage, chapterVm);
   }
 }

@@ -1,9 +1,9 @@
 import { Component, Input } from '@angular/core';
-import {MangaItemModel} from "../../Model/MangaItemModel"
 import { RessourcesProvider } from '../../providers/ressources/ressources'
 import { DataBaseProvider} from '../../providers/data-base/data-base';
-import {MangaDetailsPage } from '../../pages/manga-details/manga-details';
+import { MangaDetailsPage } from '../../pages/manga-details/manga-details';
 import { NavController } from 'ionic-angular';
+import { MangaDetailsViewModel } from '../../ViewModel/manga-details-View-model';
 @Component({
   selector: 'manga-item',
   templateUrl: 'manga-item.html'
@@ -21,7 +21,7 @@ export class MangaItemComponent {
   /****************************************************
    * Public properties
   *****************************************************/
-  @Input() item : MangaItemModel;
+  @Input() item : MangaDetailsViewModel;
   ressources : any;
   /***************************************************
   * Initialize component
@@ -32,11 +32,11 @@ export class MangaItemComponent {
  /***************************************************
   * UI event handler 
   ****************************************************/ 
-  handleClickRead(mangaItem:MangaItemModel){
-    this.navCtrl.push(MangaDetailsPage,mangaItem);
+  handleClickRead(){
+    this.navCtrl.push(MangaDetailsPage,this.item);
   }
-  handleClickFavorie(mangaItem:MangaItemModel){
-    mangaItem.isFavorite=!mangaItem.isFavorite;
-    this._databaseProvider.addOrRemoveMangaFromFavorie(mangaItem);
+  handleClickFavorie(mangaItem:MangaDetailsViewModel){
+    this.item.isFavorite=!this.item.isFavorite;
+    //this._databaseProvider.addOrRemoveMangaFromFavorie(mangaItem);
   }
 }

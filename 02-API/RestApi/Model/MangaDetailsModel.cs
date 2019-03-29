@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Api.Model
 {
@@ -14,6 +11,6 @@ namespace Api.Model
         public string Cover { get; set; }
         public string State { get; set; }
         public string Tags { get; set; }
-        public string CountChapters { get; set; }
+        public int CountChapters { get; set; }
     }
 }

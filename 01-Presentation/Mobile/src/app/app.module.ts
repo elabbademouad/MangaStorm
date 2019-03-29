@@ -8,16 +8,17 @@ import { MangaDetailsPage } from '../pages/manga-details/manga-details'
 import { HttpClientModule } from '@angular/common/http'; 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
-import {ComponentsModule} from '../components/components.module'
-import { MangaProvider } from '../providers/manga/manga';
 import { RessourcesProvider } from '../providers/ressources/ressources';
 import { MangaPagePage} from '../pages/manga-page/manga-page';
 import { MangaFavorisPage} from '../pages/manga-favoris/manga-favoris';
 import { SQLite} from '@ionic-native/sqlite'
-import { File} from '@ionic-native/file'
 import { DataBaseProvider } from '../providers/data-base/data-base';
 import { MangaDownloadsPage} from '../pages/manga-downloads/manga-downloads'
-import { FileProvider } from '../providers/file/file';
+import { MangaItemComponent } from '../components/manga-item/manga-item';
+import { MangaController } from '../providers/controllers/manga-Controller';
+import { ChapterController } from '../providers/controllers/chapter-Controller';
+import { PageController } from '../providers/controllers/page-controller';
+import { TagController } from '../providers/controllers/tag-controller';
 @NgModule({
   declarations: [
     MyApp,
@@ -26,12 +27,12 @@ import { FileProvider } from '../providers/file/file';
     MangaDetailsPage,
     MangaPagePage,
     MangaDownloadsPage,
-    MangaFavorisPage
+    MangaFavorisPage,
+    MangaItemComponent
   ],
   imports: [
     BrowserModule,
     IonicModule.forRoot(MyApp),
-    ComponentsModule,
     HttpClientModule
   ],
   bootstrap: [IonicApp],
@@ -48,12 +49,13 @@ import { FileProvider } from '../providers/file/file';
     StatusBar,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
-    MangaProvider,
     RessourcesProvider,
     SQLite,
     DataBaseProvider,
-    FileProvider,
-    File
+    MangaController,
+    ChapterController,
+    PageController,
+    TagController
   ]
 })
 export class AppModule {}

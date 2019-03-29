@@ -19,6 +19,11 @@
       <ProjectReference Include="..\..\04-Infrastructure\Infrastructure\Infrastructure.csproj" />
   </ItemGroup>
   <ItemGroup>
+    <TypeScriptCompile Include="..\..\01-Presentation\Mobile\src\Model\manga-details-model.ts">
+      <Link>manga-details-model.ts</Link>
+    </TypeScriptCompile>
+  </ItemGroup>
+  <ItemGroup>
     <Compile Update="Model\MangaDetailsModel.cs">
       <Generator>DtsGenerator</Generator>
       <LastGenOutput>MangaDetailsModel.cs.d.ts</LastGenOutput>
