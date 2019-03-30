@@ -1,7 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { MangaDetails } from '../../Model/manga-details-model';
+import { Chapter } from '../../Model/chapter-model';
 @Injectable()
-export class MangaProvider {
+export class ChapterController {
 
   /****************************************************
    * Constructor
@@ -18,26 +20,16 @@ export class MangaProvider {
     this.urlBase = "http://35.211.13.59";
   }
   /****************************************************
-  * Public properties
+  * properties
  *****************************************************/
   urlBase: string;
+  getChaptersByMangaId:string="/api/chapter/GetChaptersByMangaId/";
   /****************************************************
   * Public methodes
  *****************************************************/
-  public GetMangaList() {
-    return this._http.get(this.urlBase + "/api/manga/GetMangaItems");
+  public getByMangaId(mangaId:string) {
+    return this._http.get<Array<Chapter>>(this.urlBase + this.getChaptersByMangaId+mangaId);
   }
 
-  public GetTags() {
-    return this._http.get(this.urlBase + "/api/manga/GetTags");
-  }
-
-  public GetChapters(mangaid) {
-    return this._http.get(this.urlBase + "/api/manga/GetChaptersByMatricule/" + mangaid);
-  }
-
-  public GetPagesByChapter(chapterId) {
-    return this._http.get(this.urlBase + "/api/manga/GetPagesById/" + chapterId);
-  }
 
 }

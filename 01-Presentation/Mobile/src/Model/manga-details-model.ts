@@ -7,5 +7,5 @@ export class MangaDetails   {
 	public cover: string;
 	public state: string;
 	public tags: string;
-	public countChapters: string;
+	public countChapters: number;
 }

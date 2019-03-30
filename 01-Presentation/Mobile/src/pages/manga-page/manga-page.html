@@ -1,12 +1,12 @@
 <ion-header>
     <ion-navbar color="primary">
-      <ion-title class="amiri" >{{ressources.chapterTitle+chapter.title}}</ion-title>
+      <ion-title class="amiri" >{{ressources.chapterTitle+chapterVm.chapter.title}}</ion-title>
     </ion-navbar>
   </ion-header>
 <ion-content class="amiri" no-padding>
     <ion-list>
         <ion-card *ngFor="let page of pages">
-            <img src="{{page.internalUrl}}">
+            <img src="{{page.url}}">
         </ion-card>
     </ion-list>
 </ion-content>
