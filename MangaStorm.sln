@@ -25,7 +25,7 @@ Project("{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}") = "Mobile", "01-Presentation\M
 EndProject
 Project("{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}") = "Web", "01-Presentation\Web\Web.njsproj", "{DC9B25B1-EAAF-4A78-994A-50ABFD32764E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebStarter", "01-Presentation\WebStarter\WebStarter.csproj", "{9ACD8F42-F125-4110-A94C-B23570EC68FB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebStarter", "01-Presentation\WebStarter\WebStarter.csproj", "{9ACD8F42-F125-4110-A94C-B23570EC68FB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

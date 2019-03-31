@@ -35,8 +35,8 @@ export class MangaItemComponent {
   handleClickRead(){
     this.navCtrl.push(MangaDetailsPage,this.item);
   }
-  handleClickFavorie(mangaItem:MangaDetailsViewModel){
+  handleClickFavorie(){
     this.item.isFavorite=!this.item.isFavorite;
-    //this._databaseProvider.addOrRemoveMangaFromFavorie(mangaItem);
+    this._databaseProvider.addOrRemoveMangaFromFavorie(this.item);
   }
 }

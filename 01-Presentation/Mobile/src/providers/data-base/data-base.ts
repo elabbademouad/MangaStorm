@@ -83,7 +83,7 @@ export class DataBaseProvider {
       manga.isFavorite,
       manga.isDownloaded
     ];
-    return this.dbContext.executeSql(this.sqlScripts.createManga, params);
+    return this.dbContext.executeSql(this._ressources.sqlScript.createManga, params);
   }
 
   public updateAllManga(mangaList: Array < MangaDetailsViewModel > ) {
@@ -125,7 +125,7 @@ export class DataBaseProvider {
               name: manga.item.name,
               resume: manga.item.resume,
               state: manga.item.state,
-              tags: manga.item.state
+              tags: manga.item.tags
             },
             isDownloaded: manga.isDownloaded,
             isFavorite: manga.isFavorite
@@ -154,9 +154,9 @@ export class DataBaseProvider {
     this.dbContext.executeSql(this._ressources.sqlScript.selectAllManga, [])
       .then((r) => {
         for (let i = 0; i < r.rows.length; i++) {
-          let element = r.rows.item(i);
+          let element = r.rows.item(i);          
           let manga = mangaList.find((m) => {
-            return m.item.id == element.id
+            return m.item.id == element.Id
           });
           manga.isFavorite = eval(element.IsFavorite);
           manga.isDownloaded = eval(element.IsDownloaded);

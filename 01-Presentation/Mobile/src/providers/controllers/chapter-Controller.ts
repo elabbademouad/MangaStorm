@@ -1,6 +1,5 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { MangaDetails } from '../../Model/manga-details-model';
 import { Chapter } from '../../Model/chapter-model';
 @Injectable()
 export class ChapterController {

@@ -19,6 +19,7 @@ import { MangaController } from '../providers/controllers/manga-Controller';
 import { ChapterController } from '../providers/controllers/chapter-Controller';
 import { PageController } from '../providers/controllers/page-controller';
 import { TagController } from '../providers/controllers/tag-controller';
+import { PageItemComponent } from '../components/page-item/page-item'
 @NgModule({
   declarations: [
     MyApp,
@@ -28,7 +29,8 @@ import { TagController } from '../providers/controllers/tag-controller';
     MangaPagePage,
     MangaDownloadsPage,
     MangaFavorisPage,
-    MangaItemComponent
+    MangaItemComponent,
+    PageItemComponent
   ],
   imports: [
     BrowserModule,
@@ -43,7 +45,9 @@ import { TagController } from '../providers/controllers/tag-controller';
     MangaDetailsPage,
     MangaPagePage,
     MangaDownloadsPage,
-    MangaFavorisPage
+    MangaFavorisPage,
+    MangaItemComponent,
+    PageItemComponent
   ],
   providers: [
     StatusBar,
