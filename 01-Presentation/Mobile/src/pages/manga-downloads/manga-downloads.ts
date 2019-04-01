@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import { RessourcesProvider} from '../../providers/ressources/ressources'
-import { MangaProvider } from '../../providers/manga/manga';
 import {LoadingController} from 'ionic-angular'
 @Component({
   selector: 'manga-downloads',
@@ -14,7 +13,6 @@ export class MangaDownloadsPage {
    ****************************************************/
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
-              public _mangaProvider :MangaProvider,
               public _ressources:RessourcesProvider,
               public _loading:LoadingController) {
     this.int();
