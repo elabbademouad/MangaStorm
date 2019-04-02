@@ -1,8 +1,8 @@
 ﻿{
-  "DataBaseSettings:ConnectionsString": "mongodb://35.211.13.59/MangaStorm",
-  "MediaPath": "../../../MangaStormMedia/",
+  "DataBaseSettings:ConnectionsString": "mongodb://35.211.13.59:8080/MangaStorm",
+  "MediaPath": "D:",
   "BaseUrl": "http://35.211.13.59:80/",
-  "MangaUrl": "https://www.manga.ae/love-advice-from-great-buke-of-hell/",
+  "MangaUrl": "https://www.manga.ae/tokyo-ghoul/",
   "BrowserPath": "C:/Program Files (x86)/Google/Chrome/Application/chrome.exe",
   "Environment": "Production",
   "UploadPageApi": "http://35.211.13.59:80/api/page/uploadpage"

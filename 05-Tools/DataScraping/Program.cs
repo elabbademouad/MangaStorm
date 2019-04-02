@@ -37,6 +37,12 @@ namespace DataScraping
             chapterRepository = new ChapterRepository(config);
             pageRepository = new PageRepository(config);
             tagRepository = new TagRepository(config);
+            var pagestodelete = pageRepository.Query((p) => p.InternalUrl.Contains("Tokyo"));
+            foreach (var item in pagestodelete)
+            {
+                pageRepository.Delete(item.Id);
+            }
+
         }
         static void CreateOrUpdateDataBase(MangaScrapModel manga)
         {
@@ -168,7 +174,7 @@ namespace DataScraping
                 mangaDoc.State = manga.State;
                 mangaDoc.Date = manga.DateEdition;
                 mangaDoc.CoverExteranlUrl = manga.CoverUrl;
-                mangaDoc.CoverInternalUrl = ImageHelper.SavaPage(manga.CoverUrl, mediaPath, "Manga/" + mangaDoc.Name.Replace(" ", "_"), "cover." + manga.CoverUrl.Split(".").Last(), config);
+                mangaDoc.CoverInternalUrl = ImageHelper.GetPagelocalPath(manga.CoverUrl, mediaPath, "Manga/" + mangaDoc.Name.Replace(" ", "_"), "cover." + manga.CoverUrl.Split(".").Last());
                 mangaDoc.Tags = string.Join(",", manga.Tags.ToArray());
                 mangaRepository.Create(mangaDoc);
                 foreach (var tag in manga.Tags)
@@ -194,7 +200,19 @@ namespace DataScraping
                     var process = Process.Start(config["BrowserPath"], chapter.Url);
                     foreach (var page in chapter.Pages)
                     {
-                        string internalUrl = ImageHelper.SavaPage(page.Url, mediaPath, "Manga/" + mangaDoc.Name.Replace(" ", "_") + "/chapter" + chapter.Number, page.Number.ToString() + "." + page.Url.Split(".").Last(), config);
+                        string internalUrl = ImageHelper.GetPagelocalPath(page.Url, mediaPath, "Manga/" + mangaDoc.Name.Replace(" ", "_") + "/chapter" + chapter.Number, page.Number.ToString() + "." + page.Url.Split(".").Last());
+                        for (int i = 0; i < 5; i++)
+                        {
+                            if (string.IsNullOrEmpty(internalUrl))
+                            {
+                                internalUrl = ImageHelper.GetPagelocalPath(page.Url, mediaPath, "Manga/" + mangaDoc.Name.Replace(" ", "_") + "/chapter" + chapter.Number, page.Number.ToString() + "." + page.Url.Split(".").Last());
+                            }
+                            else
+                            {
+                                i = 5;
+                            }
+
+                        }
                         var pageGuid = Guid.NewGuid();
                         var pageDoc = new Page()
                         {
@@ -208,6 +226,7 @@ namespace DataScraping
                         pageRepository.Create(pageDoc);
 
                     }
+                    process.CloseMainWindow();
                     process.Close();
                 }
 

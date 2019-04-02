@@ -1,10 +1,12 @@
-﻿using Api.Helpers;
-using Application.Services;
+﻿using Application.Services;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using RestAPI.Model;
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Net;
+
 namespace RestAPI.Controllers
 {
     [Route("api/[controller]")]
@@ -24,20 +26,23 @@ namespace RestAPI.Controllers
         }
 
         [HttpGet("UploadPage")]
-        public string UploadPage([FromHeader] string url, [FromHeader]  string mediaPath, [FromHeader]  string path, [FromHeader]  string fileName)
+        public string UploadPage([FromHeader]  string url, [FromHeader]  string mediaPath, [FromHeader]  string path, [FromHeader]  string fileName)
         {
-            string result = ImageHelper.SavaFile(url, mediaPath, path, fileName);
-            if (string.IsNullOrEmpty(result))
+
+            try
             {
-                for (int i = 0; i < 10; i++)
+                using (WebClient webclient = new WebClient())
                 {
-                    if (string.IsNullOrEmpty(result))
-                    {
-                        result = ImageHelper.SavaFile(url, mediaPath, path, fileName);
-                    }
+                    Directory.CreateDirectory(mediaPath + path);
+                    webclient.DownloadFile(url, mediaPath + path + "/" + fileName);
+                    webclient.Dispose();
+                    return path + "/" + fileName;
                 }
             }
-            return result;
+            catch (Exception ex)
+            {
+                return "";
+            }
         }
     }
 }
