@@ -32,6 +32,7 @@ namespace DataScraping.Helpers
         {
             try
             {
+                path = path.Replace(':', '_');
                 using (WebClient webclient = new WebClient())
                 {
                     Directory.CreateDirectory(mediaPath + path);
