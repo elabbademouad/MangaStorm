@@ -19,20 +19,23 @@ namespace DataScraping
         private static TagRepository tagRepository;
         static void Main(string[] args)
         {
-
+            Console.WriteLine("Welcome To Manga Scraping :");
+            Console.WriteLine("Initialize");
             config = new Configuration(args[0]);
             Initialize();
+            Console.WriteLine("Manga Targeted : " + config["MangaUrl"]);
+            Console.WriteLine("Press any key to start scraping !");
+            Console.ReadKey();
             var manga = ScrapingManga(config["MangaUrl"]);
+            Console.WriteLine("Chapters extracted");
+            Console.WriteLine("Manga extracted with success!");
             CreateOrUpdateDataBase(manga);
+            Console.WriteLine("Scraping done!");
             Console.ReadKey();
         }
 
         static void Initialize()
         {
-            Console.WriteLine("Welcome To Manga Scraping :");
-            Console.WriteLine(config["MangaUrl"]);
-            Console.WriteLine("Press any key to start scraping !");
-            Console.ReadKey();
             mangaRepository = new MangaRepository(config);
             chapterRepository = new ChapterRepository(config);
             pageRepository = new PageRepository(config);
@@ -57,6 +60,7 @@ namespace DataScraping
             HtmlWeb htmlWeb = new HtmlWeb();
             HtmlDocument htmlDocument = htmlWeb.Load(url);
             // Manga Details
+            Console.WriteLine("Load html document");
             var htmlExtract1 = htmlDocument.DocumentNode.SelectSingleNode("//img[@class='manga-cover']").Attributes;
             foreach (var item in htmlExtract1)
             {
@@ -67,7 +71,6 @@ namespace DataScraping
                     manga.CoverUrl = item.Value;
                 }
             }
-            Console.WriteLine("get cover (picture and title) done");
             var htmlNode = htmlDocument.DocumentNode.SelectSingleNode("//div[@class='manga-details-extended']");
             var detailNode = htmlNode.SelectNodes("//h4");
             manga.DateEdition = detailNode[0].InnerHtml;
@@ -80,14 +83,18 @@ namespace DataScraping
                 if (!string.IsNullOrEmpty(item) && !manga.Tags.Contains(item.Trim()))
                     manga.Tags.Add(item.Trim());
             }
-            Console.WriteLine("get (date edition, state, resume, tags) done");
+            Console.WriteLine("Manga details extracted with success");
             manga.Chapters = new List<ChapterScrapModel>();
             var htmlExtract = htmlDocument.DocumentNode.SelectNodes("//a[@class='chapter']");
             int chNb = htmlExtract.Count;
             foreach (var item in htmlExtract)
             {
-                ChapterScrapModel chapter = new ChapterScrapModel();
-                chapter.Number = chNb;
+                var message = "chapter" + (htmlExtract.Count - chNb + 1) + " extracting...";
+                Console.Write(message);
+                ChapterScrapModel chapter = new ChapterScrapModel
+                {
+                    Number = chNb
+                };
                 string urlch = "";
                 var urlPart = item.Attributes["href"].Value.Split('/');
                 for (int i = 0; i < urlPart.Length - 2; i++)
@@ -98,9 +105,11 @@ namespace DataScraping
                 chapter.Url = urlch;
                 chapter.Pages = GetPages(urlch);
                 chapter.Title = item.InnerHtml;
-                manga.Chapters.Add(chapter);
-                Console.WriteLine("chapter number " + chNb + " done");
                 chNb--;
+                for (int j = 0; j < message.Length; j++)
+                {
+                    Console.Write("\b \b"); // backspace - space - backspace
+                }
             }
             manga.Chapters.Reverse();
             return manga;
@@ -120,7 +129,6 @@ namespace DataScraping
                     page.Number = pageNb;
                     page.Url = item.Attributes["src"].Value;
                     pages.Add(page);
-                    Console.WriteLine("get page number " + pageNb + " done");
                     pageNb++;
                 }
             }
