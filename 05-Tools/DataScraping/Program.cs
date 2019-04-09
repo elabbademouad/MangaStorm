@@ -40,6 +40,13 @@ namespace DataScraping
             chapterRepository = new ChapterRepository(config);
             pageRepository = new PageRepository(config);
             tagRepository = new TagRepository(config);
+            //DeleteMangaCascade("Deadman Wonderland");
+            Console.WriteLine("");
+            var chapterToDelete = chapterRepository.Query(c => c.Url.Contains("dorohedoro"));
+            foreach (var item in chapterToDelete)
+            {
+                chapterRepository.Delete(item);
+            }
         }
         static void CreateOrUpdateDataBase(MangaScrapModel manga)
         {
@@ -105,10 +112,11 @@ namespace DataScraping
                 chapter.Url = urlch;
                 chapter.Pages = GetPages(urlch);
                 chapter.Title = item.InnerHtml;
+                manga.Chapters.Add(chapter);
                 chNb--;
                 for (int j = 0; j < message.Length; j++)
                 {
-                    Console.Write("\b \b"); // backspace - space - backspace
+                    Console.Write("\b \b");
                 }
             }
             manga.Chapters.Reverse();
@@ -168,6 +176,7 @@ namespace DataScraping
         {
             if (manga != null)
             {
+                Console.WriteLine("Start downloading and saving manga ");
                 var mangaGuid = Guid.NewGuid();
                 Manga mangaDoc = new Manga();
                 mangaDoc.Id = mangaGuid;
@@ -179,6 +188,7 @@ namespace DataScraping
                 mangaDoc.CoverInternalUrl = ImageHelper.GetPagelocalPath(manga.CoverUrl, mediaPath, "Manga/" + mangaDoc.Name.Replace(" ", "_"), "cover." + manga.CoverUrl.Split(".").Last());
                 mangaDoc.Tags = string.Join(",", manga.Tags.ToArray());
                 mangaRepository.Create(mangaDoc);
+                Console.WriteLine("manga details downloaded and saved succefully ");
                 foreach (var tag in manga.Tags)
                 {
                     if (tagRepository.Query(t => t.Label == tag.Trim()).Count == 0)
@@ -189,6 +199,7 @@ namespace DataScraping
                 }
                 foreach (var chapter in manga.Chapters)
                 {
+                    var message = string.Format("Chapter {0} downloaded and saved succefully", chapter.Number);
                     var chapterGuid = Guid.NewGuid();
                     var chapterDoc = new Chapter()
                     {
@@ -230,7 +241,16 @@ namespace DataScraping
                     }
                     process.CloseMainWindow();
                     process.Close();
+                    if (chapter != manga.Chapters.First())
+                    {
+                        for (int j = 0; j < message.Length; j++)
+                        {
+                            Console.Write("\b \b");
+                        }
+                    }
+                    Console.Write(message);
                 }
+                Console.WriteLine("End downloading and saving manga ");
 
             }
         }
@@ -289,7 +309,21 @@ namespace DataScraping
             }
         }
 
-
+        static void DeleteMangaCascade(string mangaTitle)
+        {
+            var mangaToDelet = mangaRepository.Query(m => m.Name == mangaTitle).First();
+            mangaRepository.Delete(mangaToDelet);
+            var chaptersTodelete = chapterRepository.Query(c => c.MangaId == mangaToDelet.Id);
+            foreach (var chapterToDelete in chaptersTodelete)
+            {
+                chapterRepository.Delete(chapterToDelete.Id);
+                var pagesToDelete = pageRepository.Query(p => p.ChapterId == chapterToDelete.Id);
+                foreach (var pageTodelete in pagesToDelete)
+                {
+                    pageRepository.Delete(pageTodelete.Id);
+                }
+            }
+        }
 
     }
 }

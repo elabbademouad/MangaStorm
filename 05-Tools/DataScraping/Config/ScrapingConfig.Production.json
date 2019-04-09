@@ -2,7 +2,7 @@
   "DataBaseSettings:ConnectionsString": "mongodb://35.211.13.59:8080/MangaStorm",
   "MediaPath": "D:",
   "BaseUrl": "http://35.211.13.59:80/",
-  "MangaUrl": "https://www.manga.ae/plastic-surgery-beauty-app/",
+  "MangaUrl": "https://www.manga.ae/deadman-wonderland/",
   "BrowserPath": "C:\\Program Files\\Mozilla Firefox/firefox.exe",
   "Environment": "Production",
   "UploadPageApi": "http://35.211.13.59:80/api/page/uploadpage"
