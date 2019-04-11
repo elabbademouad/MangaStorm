@@ -10,8 +10,13 @@
     </ion-card>
   </ion-list>
   <ion-fab right bottom>
-    <button ion-fab>
+    <button ion-fab [disabled]="!nextChapterVm">
       <ion-icon name="arrow-round-forward"></ion-icon>
+    </button>
+  </ion-fab>
+  <ion-fab left bottom>
+    <button ion-fab [disabled]="!nextChapterVm">
+      <ion-icon name="arrow-round-back"></ion-icon>
     </button>
   </ion-fab>
 </ion-content>

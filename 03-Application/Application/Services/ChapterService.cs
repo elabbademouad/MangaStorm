@@ -19,5 +19,15 @@ namespace Application.Services
             var result = _chapterRepository.Query(c => c.MangaId == id);
             return result.OrderBy(c => c.Number).ToList();
         }
+        public Chapter GetNextChapter(Guid mangaId, int currentChapterNumber)
+        {
+            var result = _chapterRepository.Query(c => c.MangaId == mangaId && c.Number == currentChapterNumber + 1).FirstOrDefault();
+            return result;
+        }
+        public Chapter GetPreviousChapter(Guid mangaId, int currentChapterNumber)
+        {
+            var result = _chapterRepository.Query(c => c.MangaId == mangaId && c.Number == currentChapterNumber - 1).FirstOrDefault();
+            return result;
+        }
     }
 }

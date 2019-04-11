@@ -23,11 +23,19 @@ export class ChapterController {
  *****************************************************/
   urlBase: string;
   getChaptersByMangaId:string="/api/chapter/GetChaptersByMangaId/";
+  getNextChapterApi:string="/api/chapter/GetNextChapter/";
+  getPreviousChapterApi:string="/api/chapter/GetPreviousChapter/";
   /****************************************************
   * Public methodes
  *****************************************************/
   public getByMangaId(mangaId:string) {
     return this._http.get<Array<Chapter>>(this.urlBase + this.getChaptersByMangaId+mangaId);
+  }
+  public getNextChapter(mangaId:string,currentChapterNumber:number) {
+    return this._http.get<Chapter>(this.urlBase + this.getNextChapter+"/"+mangaId+"/"+currentChapterNumber);
+  }
+  public getPreviousChapter(mangaId:string,currentChapterNumber:number) {
+    return this._http.get<Chapter>(this.urlBase + this.getPreviousChapterApi+"/"+mangaId+"/"+currentChapterNumber);
   }
 
 
