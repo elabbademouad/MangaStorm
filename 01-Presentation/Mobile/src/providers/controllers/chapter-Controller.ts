@@ -32,10 +32,10 @@ export class ChapterController {
     return this._http.get<Array<Chapter>>(this.urlBase + this.getChaptersByMangaId+mangaId);
   }
   public getNextChapter(mangaId:string,currentChapterNumber:number) {
-    return this._http.get<Chapter>(this.urlBase + this.getNextChapter+"/"+mangaId+"/"+currentChapterNumber);
+    return this._http.get<Chapter>(this.urlBase + this.getNextChapterApi+mangaId+"/"+currentChapterNumber);
   }
   public getPreviousChapter(mangaId:string,currentChapterNumber:number) {
-    return this._http.get<Chapter>(this.urlBase + this.getPreviousChapterApi+"/"+mangaId+"/"+currentChapterNumber);
+    return this._http.get<Chapter>(this.urlBase + this.getPreviousChapterApi+mangaId+"/"+currentChapterNumber);
   }
 
 
