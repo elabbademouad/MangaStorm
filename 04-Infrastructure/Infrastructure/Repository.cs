@@ -1,10 +1,9 @@
-﻿using MongoDB.Bson;
+﻿using Application.Interfaces;
+using Microsoft.Extensions.Configuration;
 using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
-using Application.Interfaces;
-using Microsoft.Extensions.Configuration;
 
 namespace Infrastructure
 {
@@ -66,6 +65,11 @@ namespace Infrastructure
         public long Count(Expression<Func<T, bool>> filter)
         {
             return _collection.CountDocuments(filter);
+        }
+
+        public void Create(IEnumerable<T> entities)
+        {
+            _collection.InsertMany(entities);
         }
     }
 }

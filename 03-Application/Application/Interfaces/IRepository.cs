@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
-using System.Text;
 
 namespace Application.Interfaces
 {
@@ -10,6 +9,7 @@ namespace Application.Interfaces
         List<T> GetAll();
         T GetById(K id);
         void Create(T entity);
+        void Create(IEnumerable<T> entities);
         void Update(T entity);
         bool Delete(T entity);
         bool Delete(K id);
