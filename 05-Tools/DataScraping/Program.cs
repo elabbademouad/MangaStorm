@@ -40,13 +40,6 @@ namespace DataScraping
             chapterRepository = new ChapterRepository(config);
             pageRepository = new PageRepository(config);
             tagRepository = new TagRepository(config);
-            //DeleteMangaCascade("Deadman Wonderland");
-            Console.WriteLine("");
-            var chapterToDelete = chapterRepository.Query(c => c.Url.Contains("dorohedoro"));
-            foreach (var item in chapterToDelete)
-            {
-                chapterRepository.Delete(item);
-            }
         }
         static void CreateOrUpdateDataBase(MangaScrapModel manga)
         {
@@ -58,7 +51,7 @@ namespace DataScraping
             }
             else
             {
-                UpdateMangaDb(manga, config["BaseUrl"]);
+                UpdateMangaDb(manga, config["MediaPath"]);
             }
         }
         static MangaScrapModel ScrapingManga(string url)
@@ -214,7 +207,7 @@ namespace DataScraping
                     foreach (var page in chapter.Pages)
                     {
                         string internalUrl = ImageHelper.GetPagelocalPath(page.Url, mediaPath, "Manga/" + mangaDoc.Name.Replace(" ", "_") + "/chapter" + chapter.Number, page.Number.ToString() + "." + page.Url.Split(".").Last());
-                        for (int i = 0; i < 5; i++)
+                        for (int i = 0; i < 50; i++)
                         {
                             if (string.IsNullOrEmpty(internalUrl))
                             {
@@ -222,7 +215,7 @@ namespace DataScraping
                             }
                             else
                             {
-                                i = 5;
+                                i = 51;
                             }
 
                         }
@@ -250,7 +243,7 @@ namespace DataScraping
                     }
                     Console.Write(message);
                 }
-                Console.WriteLine("End downloading and saving manga ");
+                Console.WriteLine("\nEnd downloading and saving manga ");
 
             }
         }
@@ -258,6 +251,7 @@ namespace DataScraping
         {
             if (manga != null)
             {
+                Console.WriteLine("Start updating and saving manga ");
                 var mangaDoc = mangaRepository.Query(m => m.Name == manga.Title).First();
                 int diff = manga.Chapters.Count - (int)chapterRepository.Count(c => c.MangaId == mangaDoc.Id);
                 if (diff > 0)
@@ -265,6 +259,7 @@ namespace DataScraping
                     var newChapters = manga.Chapters.OrderBy(c => c.Number).TakeLast(diff);
                     foreach (var chapter in newChapters)
                     {
+                        var message = string.Format("Chapter {0} downloaded and saved succefully", chapter.Number);
                         var chapterGUID = Guid.NewGuid();
                         var chapterDoc = new Chapter()
                         {
@@ -272,13 +267,14 @@ namespace DataScraping
                             Title = chapter.Title,
                             Url = chapter.Url,
                             Number = chapter.Number,
+                            MangaId = mangaDoc.Id
                         };
                         chapterRepository.Create(chapterDoc);
                         var process = Process.Start(config["BrowserPath"], chapter.Url);
                         foreach (var page in chapter.Pages)
                         {
                             string internalUrl = ImageHelper.GetPagelocalPath(page.Url, rootPath, "Manga/" + mangaDoc.Name.Replace(" ", "_") + "/chapter" + chapter.Number, page.Number.ToString() + "." + page.Url.Split(".").Last());
-                            for (int i = 0; i < 5; i++)
+                            for (int i = 0; i < 50; i++)
                             {
                                 if (string.IsNullOrEmpty(internalUrl))
                                 {
@@ -286,7 +282,7 @@ namespace DataScraping
                                 }
                                 else
                                 {
-                                    i = 5;
+                                    i = 51;
                                 }
 
                             }
@@ -303,7 +299,18 @@ namespace DataScraping
                             pageRepository.Create(pageDoc);
 
                         }
+                        process.CloseMainWindow();
+                        process.Close();
+                        if (chapter != manga.Chapters.First())
+                        {
+                            for (int j = 0; j < message.Length; j++)
+                            {
+                                Console.Write("\b \b");
+                            }
+                        }
+                        Console.Write(message);
                     }
+                    Console.WriteLine("\nEnd Updating and saving manga ");
                 }
 
             }
@@ -323,6 +330,17 @@ namespace DataScraping
                     pageRepository.Delete(pageTodelete.Id);
                 }
             }
+        }
+        static void CleanDataBase()
+        {
+            var chaptersIds = chapterRepository.GetAll().Select(c => c.Id).Distinct();
+            var pageTodelete = pageRepository.GetAll().Where(p => !chaptersIds.Contains(p.ChapterId));
+            foreach (var item in pageTodelete)
+            {
+                pageRepository.Delete(item);
+            }
+
+
         }
 
     }
