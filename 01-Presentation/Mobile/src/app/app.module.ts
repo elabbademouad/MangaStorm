@@ -19,7 +19,7 @@ import { MangaController } from '../providers/controllers/manga-Controller';
 import { ChapterController } from '../providers/controllers/chapter-Controller';
 import { PageController } from '../providers/controllers/page-controller';
 import { TagController } from '../providers/controllers/tag-controller';
-import { PageItemComponent } from '../components/page-item/page-item'
+import { IonicImageViewerModule } from 'ionic-img-viewer';
 @NgModule({
   declarations: [
     MyApp,
@@ -29,13 +29,13 @@ import { PageItemComponent } from '../components/page-item/page-item'
     MangaPagePage,
     MangaDownloadsPage,
     MangaFavorisPage,
-    MangaItemComponent,
-    PageItemComponent
+    MangaItemComponent
   ],
   imports: [
     BrowserModule,
     IonicModule.forRoot(MyApp),
-    HttpClientModule
+    HttpClientModule,
+    IonicImageViewerModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -46,8 +46,7 @@ import { PageItemComponent } from '../components/page-item/page-item'
     MangaPagePage,
     MangaDownloadsPage,
     MangaFavorisPage,
-    MangaItemComponent,
-    PageItemComponent
+    MangaItemComponent
   ],
   providers: [
     StatusBar,

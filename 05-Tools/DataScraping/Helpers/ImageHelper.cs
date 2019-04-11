@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 using System;
+using System.IO;
 using System.Net;
 namespace DataScraping.Helpers
 {
@@ -23,7 +24,25 @@ namespace DataScraping.Helpers
             }
             catch (Exception)
             {
-                Console.WriteLine("Error : the restApi project not started pleeze set RestApi project as second startUp project");
+                Console.WriteLine("Error : the restApi project not started pleese set RestApi project as second startUp project");
+                return "";
+            }
+        }
+        public static string GetPagelocalPath(string url, string mediaPath, string path, string fileName)
+        {
+            try
+            {
+                path = path.Replace(':', '_');
+                using (WebClient webclient = new WebClient())
+                {
+                    Directory.CreateDirectory(mediaPath + path);
+                    webclient.DownloadFile(url, mediaPath + path + "/" + fileName);
+                    webclient.Dispose();
+                    return path + "/" + fileName;
+                }
+            }
+            catch (Exception ex)
+            {
                 return "";
             }
         }

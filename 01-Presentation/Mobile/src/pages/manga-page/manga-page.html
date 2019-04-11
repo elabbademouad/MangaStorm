@@ -4,8 +4,20 @@
     </ion-navbar>
   </ion-header>
 <ion-content class="amiri" no-padding>
-    <ion-list>
-        <page-item [url]="page.url" *ngFor="let page of pages"></page-item>
-    </ion-list>
+  <ion-list>
+    <ion-card *ngFor="let page of pages" >
+        <img src="{{page.url}}" alt="{{page.number}}" imageViewer >
+    </ion-card>
+  </ion-list>
+  <ion-fab right bottom>
+    <button ion-fab [disabled]="!nextChapterVm">
+      <ion-icon name="arrow-round-forward"></ion-icon>
+    </button>
+  </ion-fab>
+  <ion-fab left bottom>
+    <button ion-fab [disabled]="!nextChapterVm">
+      <ion-icon name="arrow-round-back"></ion-icon>
+    </button>
+  </ion-fab>
 </ion-content>
   

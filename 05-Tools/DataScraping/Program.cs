@@ -19,20 +19,23 @@ namespace DataScraping
         private static TagRepository tagRepository;
         static void Main(string[] args)
         {
-
+            Console.WriteLine("Welcome To Manga Scraping :");
+            Console.WriteLine("Initialize");
             config = new Configuration(args[0]);
             Initialize();
+            Console.WriteLine("Manga Targeted : " + config["MangaUrl"]);
+            Console.WriteLine("Press any key to start scraping !");
+            Console.ReadKey();
             var manga = ScrapingManga(config["MangaUrl"]);
+            Console.WriteLine("Chapters extracted");
+            Console.WriteLine("Manga extracted with success!");
             CreateOrUpdateDataBase(manga);
+            Console.WriteLine("Scraping done!");
             Console.ReadKey();
         }
 
         static void Initialize()
         {
-            Console.WriteLine("Welcome To Manga Scraping :");
-            Console.WriteLine(config["MangaUrl"]);
-            Console.WriteLine("Press any key to start scraping !");
-            Console.ReadKey();
             mangaRepository = new MangaRepository(config);
             chapterRepository = new ChapterRepository(config);
             pageRepository = new PageRepository(config);
@@ -48,7 +51,7 @@ namespace DataScraping
             }
             else
             {
-                //UpdateMangaDb(manga, config["BaseUrl"]);
+                UpdateMangaDb(manga, config["MediaPath"]);
             }
         }
         static MangaScrapModel ScrapingManga(string url)
@@ -57,6 +60,7 @@ namespace DataScraping
             HtmlWeb htmlWeb = new HtmlWeb();
             HtmlDocument htmlDocument = htmlWeb.Load(url);
             // Manga Details
+            Console.WriteLine("Load html document");
             var htmlExtract1 = htmlDocument.DocumentNode.SelectSingleNode("//img[@class='manga-cover']").Attributes;
             foreach (var item in htmlExtract1)
             {
@@ -67,7 +71,6 @@ namespace DataScraping
                     manga.CoverUrl = item.Value;
                 }
             }
-            Console.WriteLine("get cover (picture and title) done");
             var htmlNode = htmlDocument.DocumentNode.SelectSingleNode("//div[@class='manga-details-extended']");
             var detailNode = htmlNode.SelectNodes("//h4");
             manga.DateEdition = detailNode[0].InnerHtml;
@@ -80,14 +83,18 @@ namespace DataScraping
                 if (!string.IsNullOrEmpty(item) && !manga.Tags.Contains(item.Trim()))
                     manga.Tags.Add(item.Trim());
             }
-            Console.WriteLine("get (date edition, state, resume, tags) done");
+            Console.WriteLine("Manga details extracted with success");
             manga.Chapters = new List<ChapterScrapModel>();
             var htmlExtract = htmlDocument.DocumentNode.SelectNodes("//a[@class='chapter']");
             int chNb = htmlExtract.Count;
             foreach (var item in htmlExtract)
             {
-                ChapterScrapModel chapter = new ChapterScrapModel();
-                chapter.Number = chNb;
+                var message = "chapter" + (htmlExtract.Count - chNb + 1) + " extracting...";
+                Console.Write(message);
+                ChapterScrapModel chapter = new ChapterScrapModel
+                {
+                    Number = chNb
+                };
                 string urlch = "";
                 var urlPart = item.Attributes["href"].Value.Split('/');
                 for (int i = 0; i < urlPart.Length - 2; i++)
@@ -99,8 +106,11 @@ namespace DataScraping
                 chapter.Pages = GetPages(urlch);
                 chapter.Title = item.InnerHtml;
                 manga.Chapters.Add(chapter);
-                Console.WriteLine("chapter number " + chNb + " done");
                 chNb--;
+                for (int j = 0; j < message.Length; j++)
+                {
+                    Console.Write("\b \b");
+                }
             }
             manga.Chapters.Reverse();
             return manga;
@@ -120,7 +130,6 @@ namespace DataScraping
                     page.Number = pageNb;
                     page.Url = item.Attributes["src"].Value;
                     pages.Add(page);
-                    Console.WriteLine("get page number " + pageNb + " done");
                     pageNb++;
                 }
             }
@@ -160,6 +169,7 @@ namespace DataScraping
         {
             if (manga != null)
             {
+                Console.WriteLine("Start downloading and saving manga ");
                 var mangaGuid = Guid.NewGuid();
                 Manga mangaDoc = new Manga();
                 mangaDoc.Id = mangaGuid;
@@ -168,9 +178,10 @@ namespace DataScraping
                 mangaDoc.State = manga.State;
                 mangaDoc.Date = manga.DateEdition;
                 mangaDoc.CoverExteranlUrl = manga.CoverUrl;
-                mangaDoc.CoverInternalUrl = ImageHelper.SavaPage(manga.CoverUrl, mediaPath, "Manga/" + mangaDoc.Name.Replace(" ", "_"), "cover." + manga.CoverUrl.Split(".").Last(), config);
+                mangaDoc.CoverInternalUrl = ImageHelper.GetPagelocalPath(manga.CoverUrl, mediaPath, "Manga/" + mangaDoc.Name.Replace(" ", "_"), "cover." + manga.CoverUrl.Split(".").Last());
                 mangaDoc.Tags = string.Join(",", manga.Tags.ToArray());
                 mangaRepository.Create(mangaDoc);
+                Console.WriteLine("manga details downloaded and saved succefully ");
                 foreach (var tag in manga.Tags)
                 {
                     if (tagRepository.Query(t => t.Label == tag.Trim()).Count == 0)
@@ -181,6 +192,7 @@ namespace DataScraping
                 }
                 foreach (var chapter in manga.Chapters)
                 {
+                    var message = string.Format("Chapter {0} downloaded and saved succefully", chapter.Number);
                     var chapterGuid = Guid.NewGuid();
                     var chapterDoc = new Chapter()
                     {
@@ -194,7 +206,19 @@ namespace DataScraping
                     var process = Process.Start(config["BrowserPath"], chapter.Url);
                     foreach (var page in chapter.Pages)
                     {
-                        string internalUrl = ImageHelper.SavaPage(page.Url, mediaPath, "Manga/" + mangaDoc.Name.Replace(" ", "_") + "/chapter" + chapter.Number, page.Number.ToString() + "." + page.Url.Split(".").Last(), config);
+                        string internalUrl = ImageHelper.GetPagelocalPath(page.Url, mediaPath, "Manga/" + mangaDoc.Name.Replace(" ", "_") + "/chapter" + chapter.Number, page.Number.ToString() + "." + page.Url.Split(".").Last());
+                        for (int i = 0; i < 50; i++)
+                        {
+                            if (string.IsNullOrEmpty(internalUrl))
+                            {
+                                internalUrl = ImageHelper.GetPagelocalPath(page.Url, mediaPath, "Manga/" + mangaDoc.Name.Replace(" ", "_") + "/chapter" + chapter.Number, page.Number.ToString() + "." + page.Url.Split(".").Last());
+                            }
+                            else
+                            {
+                                i = 51;
+                            }
+
+                        }
                         var pageGuid = Guid.NewGuid();
                         var pageDoc = new Page()
                         {
@@ -208,53 +232,116 @@ namespace DataScraping
                         pageRepository.Create(pageDoc);
 
                     }
+                    process.CloseMainWindow();
                     process.Close();
+                    if (chapter != manga.Chapters.First())
+                    {
+                        for (int j = 0; j < message.Length; j++)
+                        {
+                            Console.Write("\b \b");
+                        }
+                    }
+                    Console.Write(message);
+                }
+                Console.WriteLine("\nEnd downloading and saving manga ");
+
+            }
+        }
+        static void UpdateMangaDb(MangaScrapModel manga, string rootPath)
+        {
+            if (manga != null)
+            {
+                Console.WriteLine("Start updating and saving manga ");
+                var mangaDoc = mangaRepository.Query(m => m.Name == manga.Title).First();
+                int diff = manga.Chapters.Count - (int)chapterRepository.Count(c => c.MangaId == mangaDoc.Id);
+                if (diff > 0)
+                {
+                    var newChapters = manga.Chapters.OrderBy(c => c.Number).TakeLast(diff);
+                    foreach (var chapter in newChapters)
+                    {
+                        var message = string.Format("Chapter {0} downloaded and saved succefully", chapter.Number);
+                        var chapterGUID = Guid.NewGuid();
+                        var chapterDoc = new Chapter()
+                        {
+                            Id = chapterGUID,
+                            Title = chapter.Title,
+                            Url = chapter.Url,
+                            Number = chapter.Number,
+                            MangaId = mangaDoc.Id
+                        };
+                        chapterRepository.Create(chapterDoc);
+                        var process = Process.Start(config["BrowserPath"], chapter.Url);
+                        foreach (var page in chapter.Pages)
+                        {
+                            string internalUrl = ImageHelper.GetPagelocalPath(page.Url, rootPath, "Manga/" + mangaDoc.Name.Replace(" ", "_") + "/chapter" + chapter.Number, page.Number.ToString() + "." + page.Url.Split(".").Last());
+                            for (int i = 0; i < 50; i++)
+                            {
+                                if (string.IsNullOrEmpty(internalUrl))
+                                {
+                                    internalUrl = ImageHelper.GetPagelocalPath(page.Url, rootPath, "Manga/" + mangaDoc.Name.Replace(" ", "_") + "/chapter" + chapter.Number, page.Number.ToString() + "." + page.Url.Split(".").Last());
+                                }
+                                else
+                                {
+                                    i = 51;
+                                }
+
+                            }
+                            var pageGuid = Guid.NewGuid();
+                            var pageDoc = new Page()
+                            {
+                                Id = pageGuid,
+                                Number = page.Number,
+                                ExternalUrl = page.Url,
+                                InternalUrl = "Manga/" + mangaDoc.Name.Replace(" ", "_") + "/chapter" + chapter.Number + "/" + page.Number.ToString() + "." + page.Url.Split(".").Last(),
+                                Pending = string.IsNullOrEmpty(internalUrl),
+                                ChapterId = chapterGUID
+                            };
+                            pageRepository.Create(pageDoc);
+
+                        }
+                        process.CloseMainWindow();
+                        process.Close();
+                        if (chapter != manga.Chapters.First())
+                        {
+                            for (int j = 0; j < message.Length; j++)
+                            {
+                                Console.Write("\b \b");
+                            }
+                        }
+                        Console.Write(message);
+                    }
+                    Console.WriteLine("\nEnd Updating and saving manga ");
                 }
 
             }
         }
-        //static void UpdateMangaDb(MangaScrapModel manga, string rootPath)
-        //{
-        //    using (var dbContext = new MangaDataContext(Params.ConnectionString))
-        //    {
-        //        if (manga != null)
-        //        {
-        //            var mangaEnt = dbContext.Mangas.Include(m => m.Chapters).First(m => m.Name == manga.Title);
-        //            var diff = manga.Chapters.Count - mangaEnt.Chapters.Count;
-        //            if (diff > 0)
-        //            {
-        //                var newChapters = manga.Chapters.OrderBy(c => c.Number).TakeLast(diff);
-        //                foreach (var chapter in newChapters)
-        //                {
-        //                    var chapterEnt = new Chapter()
-        //                    {
-        //                        Title = chapter.Title,
-        //                        Url = chapter.Url,
-        //                        Number = manga.Chapters.IndexOf(chapter) + 1,
-        //                    };
-        //                    chapterEnt.Pages = new List<Page>();
-        //                    foreach (var page in chapter.Pages)
-        //                    {
-        //                        var internalUrl = ImageHelper.SavaInternal(page.Url, rootPath, "Manga/" + mangaEnt.Name.Replace(" ", "_") + "/chapter" + chapter.Number, page.Number.ToString());
-        //                        chapterEnt.Pages.Add(new Page()
-        //                        {
-        //                            Number = page.Number,
-        //                            ExternalUrl = page.Url,
-        //                            InternalUrl = "Manga/" + mangaEnt.Name.Replace(" ", "_") + "/chapter" + chapter.Number + "/" + page.Number.ToString() + "." + page.Url.Split(".").Last(),
-        //                            Pending = string.IsNullOrEmpty(internalUrl)
-        //                        });
-        //                        Console.WriteLine();
-        //                    }
-        //                    mangaEnt.Chapters.Add(chapterEnt);
-        //                }
-        //                dbContext.SaveChanges();
-        //            }
 
-        //        }
-        //    }
-        //}
+        static void DeleteMangaCascade(string mangaTitle)
+        {
+            var mangaToDelet = mangaRepository.Query(m => m.Name == mangaTitle).First();
+            mangaRepository.Delete(mangaToDelet);
+            var chaptersTodelete = chapterRepository.Query(c => c.MangaId == mangaToDelet.Id);
+            foreach (var chapterToDelete in chaptersTodelete)
+            {
+                chapterRepository.Delete(chapterToDelete.Id);
+                var pagesToDelete = pageRepository.Query(p => p.ChapterId == chapterToDelete.Id);
+                foreach (var pageTodelete in pagesToDelete)
+                {
+                    pageRepository.Delete(pageTodelete.Id);
+                }
+            }
+        }
+        static void CleanDataBase()
+        {
+            var chaptersIds = chapterRepository.GetAll().Select(c => c.Id).Distinct();
+            var pageTodelete = pageRepository.GetAll().Where(p => !chaptersIds.Contains(p.ChapterId));
+            foreach (var item in pageTodelete)
+            {
+                pageRepository.Delete(item);
+            }
 
 
+        }
 
     }
 }
