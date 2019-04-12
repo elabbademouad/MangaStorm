@@ -1,0 +1,22 @@
+<ion-header >
+    <ion-navbar color="primary">
+        <button ion-button menuToggle >
+        <ion-icon name="menu"></ion-icon>
+        </button>
+        <ion-title class="amiri">{{resources.recents}}</ion-title>    
+    </ion-navbar>
+</ion-header>
+<ion-content class="amiri">
+    <ion-list>
+        <ion-item *ngFor="let recent of recents" (click)="handlClickOpenChapter(recent)">
+            <button ion-button item-start large clear no-padding>
+                <ion-icon name="more"></ion-icon>
+            </button>
+            <p>
+                <span class="small-title">{{recent.mangaName}}</span><br>
+                {{resources.chapterTitle+recent.chapterName}}
+            </p>
+            <p item-end class="date">{{recent.date | date : 'short'}}</p>
+        </ion-item>
+    </ion-list>
+</ion-content>

@@ -49,7 +49,7 @@ export class MangaPagePage {
         }
       });
     this._chapterCtr.getPreviousChapter(this.chapterVm.chapter.mangaId, Number(this.chapterVm.chapter.number))
-      .subscribe(data => {console.log(data);
+      .subscribe(data => {
         if (data !== null && data !== undefined) {
           this.disablePreviousChapter=false;
           this.previousChapterVm = new ChapterViewModel();

@@ -6,6 +6,7 @@ import { ListPage } from '../pages/list/list';
 import { RessourcesProvider } from '../providers/ressources/ressources'
 import { DataBaseProvider } from '../providers/data-base/data-base'
 import { MangaFavorisPage } from '../pages/manga-favoris/manga-favoris';
+import { RecentsPage } from '../pages/recents/recent-page';
 
 @Component({
   templateUrl: 'app.html'
@@ -26,7 +27,8 @@ export class MyApp {
     this.initializeApp();
     this.pages = [
       { title: this.ressources.mangaList, component: ListPage ,icon: 'list' },
-      { title: this.ressources.favoris, component: MangaFavorisPage, icon: 'heart' }
+      { title: this.ressources.favoris, component: MangaFavorisPage, icon: 'heart' },
+      { title: this.ressources.recents, component: RecentsPage, icon: 'time' }
     ];
   }
 

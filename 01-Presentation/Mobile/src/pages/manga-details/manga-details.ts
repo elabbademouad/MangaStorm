@@ -51,10 +51,10 @@ export class MangaDetailsPage {
           .then((data) => {
             for (let i = 0; i < data.rows.length; i++) {
               let element = data.rows.item(i);
-              this.readChapters.push(element.ChapterNumber.toString());
+              this.readChapters.push(element.ChapterId);
             }
             this.chapters.forEach(c => {
-              c.read = this.readChapters.findIndex(r => r == c.chapter.number) !== -1;
+              c.read = this.readChapters.findIndex(r => r == c.chapter.id) !== -1;
             })
           })
         loading.dismiss();
