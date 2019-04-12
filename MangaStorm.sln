@@ -29,7 +29,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebStarter", "01-Presentati
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "06-Documents", "06-Documents", "{31B3A23E-3B33-44A1-A616-BC832B81A1C6}"
 	ProjectSection(SolutionItems) = preProject
+		icon.psd = icon.psd
 		runApiBackground.txt = runApiBackground.txt
+		splash.psd = splash.psd
 	EndProjectSection
 EndProject
 Global
