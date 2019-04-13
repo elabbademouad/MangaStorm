@@ -39,7 +39,7 @@ export class MyApp {
         this.rootPage=ListPage;
         this.splashScreen.hide();
       });
-      this.statusBar.overlaysWebView(true);
+      this.statusBar.overlaysWebView(false);
       this.statusBar.backgroundColorByHexString('#26418f');
     });
   }
