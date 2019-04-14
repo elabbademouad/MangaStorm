@@ -7,6 +7,7 @@ import { RessourcesProvider } from '../providers/ressources/ressources'
 import { DataBaseProvider } from '../providers/data-base/data-base'
 import { MangaFavorisPage } from '../pages/manga-favoris/manga-favoris';
 import { RecentsPage } from '../pages/recents/recent-page';
+import { HomePage } from '../pages/home/home';
 
 @Component({
   templateUrl: 'app.html'
@@ -26,6 +27,7 @@ export class MyApp {
               public _dataBase:DataBaseProvider) {
     this.initializeApp();
     this.pages = [
+      { title: this.ressources.home, component: HomePage ,icon: 'home' },
       { title: this.ressources.mangaList, component: ListPage ,icon: 'list' },
       { title: this.ressources.favoris, component: MangaFavorisPage, icon: 'heart' },
       { title: this.ressources.recents, component: RecentsPage, icon: 'time' }
@@ -36,7 +38,7 @@ export class MyApp {
     this.ressources=this._ressources.stringResources;
     this.platform.ready().then(() => {
       this._dataBase.createOrUpdateDatabase(()=>{
-        this.rootPage=ListPage;
+        this.rootPage=HomePage;
         this.splashScreen.hide();
       });
       this.statusBar.overlaysWebView(false);
