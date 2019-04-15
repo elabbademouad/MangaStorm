@@ -22,6 +22,8 @@ export class MangaSectionComponent {
   @Input()
   title:string="Section title";
   @Input()
+  range:number=3;
+  @Input()
   set items(value:any){
     if(value !==null && value!=undefined){
       this.setViewItems(value);
@@ -46,7 +48,7 @@ export class MangaSectionComponent {
       const element = items[index];
       slide.push(element);
       cp++;
-      if( cp==3){
+      if( cp==this.range){
         result.push({items:slide});
         slide=[];
         cp=0;

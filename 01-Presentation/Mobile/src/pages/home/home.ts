@@ -14,22 +14,29 @@ export class HomePage {
               public _mangaCtrl:MangaController) {
     this.init();
   }
-  lastUpdate:Array<MangaDetails>;
-  lastUpdateTitle:string;
+
+  newList:Array<MangaDetails>;
+  forYouList:Array<MangaDetails>;
+  lastChapterList:Array<MangaDetails>;
+  mostViewedList:Array<MangaDetails>;
+  
+  newListTitle:string;
   lastChapterTitle:string;
   mostViewedTitle:string;
   forYouTitle:string;
 
   init(){
     this.ressources=this._ressources.stringResources;
-    this.lastUpdateTitle=this.ressources.lastUpdate;
-    this.lastChapterTitle=this.ressources.lastChapter;
-    this.mostViewedTitle=this.ressources.mostViewed;
-    this.forYouTitle=this.ressources.forYou;
-    this._mangaCtrl.getAll()
+    // Set title from resources
+    this.newListTitle=this.ressources.newListTitle;
+    this.lastChapterTitle=this.ressources.lastChapterTitle;
+    this.mostViewedTitle=this.ressources.mostViewedTitle;
+    this.forYouTitle=this.ressources.forYouTitle;
+    
+    this._mangaCtrl.GetNewList(12)
       .subscribe((data: MangaDetails[])=>{
-        this.lastUpdate=data;
-      });
+        this.newList=data;
+    });
   }
 
 
