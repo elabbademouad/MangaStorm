@@ -33,10 +33,22 @@ export class HomePage {
     this.mostViewedTitle=this.ressources.mostViewedTitle;
     this.forYouTitle=this.ressources.forYouTitle;
     
-    this._mangaCtrl.GetNewList(12)
+    this._mangaCtrl.getNewList(12)
       .subscribe((data: MangaDetails[])=>{
         this.newList=data;
     });
+    this._mangaCtrl.getMangaListHasNewChapter(6)
+      .subscribe((data: MangaDetails[])=>{
+        this.lastChapterList=data;
+    })
+    this._mangaCtrl.getMangaListHasNewChapter(6)
+      .subscribe((data: MangaDetails[])=>{
+        this.lastChapterList=data;
+    })
+    this._mangaCtrl.getMostViewed(6)
+      .subscribe((data: MangaDetails[])=>{
+        this.mostViewedList=data;
+    })
   }
 
 

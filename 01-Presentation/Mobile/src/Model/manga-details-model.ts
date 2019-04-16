@@ -8,4 +8,5 @@ export class MangaDetails   {
 	public state: string;
 	public tags: string;
 	public countChapters: number;
+	public views:number;
 }

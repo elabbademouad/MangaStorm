@@ -12,5 +12,7 @@ namespace Api.Model
         public string State { get; set; }
         public string Tags { get; set; }
         public int CountChapters { get; set; }
+        public int Views { get; set; }
+
     }
 }

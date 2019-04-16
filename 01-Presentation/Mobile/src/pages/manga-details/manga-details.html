@@ -1,10 +1,14 @@
 <ion-header>
   <ion-navbar color="primary">
-    <ion-title >{{mangaItem.item.name}}</ion-title>
+    <ion-title class="amiri">{{mangaItem.item.name}}</ion-title>
   </ion-navbar>
 </ion-header>
-<ion-content class="amiri" no-padding>
-  <ion-list>
+<ion-content no-padding>
+  <manga-item [item]="mangaItem"></manga-item>
+  <ion-list class="amiri"  >
+    <ion-list-header color="light" text-center>
+      {{ressources.chapters}}
+    </ion-list-header>
     <ion-item (click)="handleClickChapter(chapter)" color="{{chapter.read ? 'secondary' : 'default'}}"  *ngFor="let chapter of chapters"><p>{{ressources.chapterTitle+chapter.chapter.title}}</p></ion-item>
   </ion-list>
 </ion-content>

@@ -1,5 +1,4 @@
-using System;
-using System.Collections.Generic;
+﻿using System;
 
 namespace Application.Entities
 {
@@ -12,5 +11,7 @@ namespace Application.Entities
         public string Url { get; set; }
 
         public Guid MangaId { get; set; }
+        public int Views { get; set; }
+
     }
 }

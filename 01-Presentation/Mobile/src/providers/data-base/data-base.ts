@@ -125,10 +125,11 @@ export class DataBaseProvider {
               name: manga.item.name,
               resume: manga.item.resume,
               state: manga.item.state,
-              tags: manga.item.tags
+              tags: manga.item.tags,
+              views:0
             },
             isDownloaded: manga.isDownloaded,
-            isFavorite: manga.isFavorite
+            isFavorite:true,// manga.isFavorite
           }).then(r => {
             let toast = this._toastCtrl.create({
               message: manga.item.name + ' ' + this._ressources.stringResources.addFavoriteSuccess,
