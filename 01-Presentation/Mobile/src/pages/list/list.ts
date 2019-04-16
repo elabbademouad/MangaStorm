@@ -3,9 +3,9 @@ import { NavController } from 'ionic-angular';
 import { RessourcesProvider } from '../../providers/ressources/ressources'
 import { LoadingController } from 'ionic-angular';
 import { DataBaseProvider } from '../../providers/data-base/data-base'
-import { MangaDetailsViewModel } from '../../ViewModel/manga-details-View-model';
 import { MangaController } from '../../providers/controllers/manga-Controller';
 import { TagController } from '../../providers/controllers/tag-controller';
+import { MangaDetails } from '../../Model/manga-details-model';
 @Component({
   selector: 'page-list',
   templateUrl: 'list.html'
@@ -41,12 +41,12 @@ export class ListPage {
   /****************************************************
    * Public properties
   *****************************************************/
-  mangaList: Array<MangaDetailsViewModel>;
+  mangaList: Array<MangaDetails>;
   ressources: any;
   filtreCardIsVisible: boolean
   tags: Array<{ tag: any, selected: any }>
   searchInput: string;
-  mangaListFiltred: Array<MangaDetailsViewModel>;
+  mangaListFiltred: Array<MangaDetails>;
   isLoaded: boolean
   /***************************************************
   * UI event handler 
@@ -80,14 +80,14 @@ export class ListPage {
       let searchResult = false;
       let tagsResult = false;
       for (let index = 0; index < selectedTags.length; index++) {
-        if (m.item.tags.includes(selectedTags[index].tag)) {
+        if (m.tags.includes(selectedTags[index].tag)) {
           tagsResult = true;
         }
       }
       if (selectedTags.length === 0) {
         tagsResult = true;
       }
-      if (search === undefined || m.item.name.toLowerCase().includes(search.toLowerCase())) {
+      if (search === undefined || m.name.toLowerCase().includes(search.toLowerCase())) {
         searchResult = true;
       }
       return searchResult && tagsResult
@@ -103,17 +103,8 @@ export class ListPage {
     loading.present();
     this._mangaCtr.getAll()
       .subscribe((data) => {
-        data.forEach(element => {
-          this.mangaList.push({
-            isDownloaded:false,
-            isFavorite:false,
-            item:element
-          })
-        });
-        this._database.setFavorieOrDownlodedManga(this.mangaList, () => {
-          this.actionFiltreMangas(this.searchInput);
-        });
-
+        this.mangaList=data;
+        this.actionFiltreMangas(this.searchInput);
         loading.dismiss();
       }, (errr) => {
         loading.dismiss();

@@ -4,4 +4,5 @@ export class Chapter   {
 	public number: string;
 	public title: string;
 	public mangaId: string;
+	public views:number;
 }

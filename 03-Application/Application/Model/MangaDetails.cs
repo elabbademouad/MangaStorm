@@ -12,5 +12,7 @@ namespace Application.Model
         public string State { get; set; }
         public string Tags { get; set; }
         public long CountChapters { get; set; }
+        public int Views { get; set; }
+
     }
 }

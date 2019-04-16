@@ -1,4 +1,4 @@
-import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { MangaDetails } from '../../Model/manga-details-model';
 @Injectable()
@@ -24,13 +24,14 @@ export class MangaController {
   private urlBase: string;
   private getAllApi:string="/api/manga/GetAll";
   private getByIdApi:string="/api/manga/GetById/";
-  private GetForYouListApi:string="/api/manga/GetForYouList";
-  private GetNewListApi:string="/api/manga/GetNewList/";
+  private getForYouListApi:string="/api/manga/GetForYouList";
+  private getNewListApi:string="/api/manga/GetNewList/";
+  private getMangaListHasNewChapterApi:string="/api/manga/GetMangaListHasNewChapter/";
+  private getMostViewedApi:string="/api/manga/GetMostViewed/";
   /****************************************************
   * Public methodes
  *****************************************************/
   public getAll() {
-    console.log(this.urlBase + this.getAllApi);
     return this._http.get<Array<MangaDetails>>(this.urlBase + this.getAllApi);
   }
 
@@ -38,16 +39,24 @@ export class MangaController {
     return this._http.get<MangaDetails>(this.urlBase + this.getByIdApi+id);
   }
 
-  public GetForYouList(count:any,tags:Array<string>){
+  public getForYouList(count:any,tags:Array<string>){
     let params=new HttpParams().set("count",count);
     for (let index = 0; index < tags.length; index++) {
       const element = tags[index];
       params=params.set("tags["+index+"]",element);
     }
-    return this._http.get(this.urlBase+this.GetForYouListApi,{params:params});
+    return this._http.get<Array<MangaDetails>>(this.urlBase+this.getForYouListApi,{params:params});
   }
 
-  public GetNewList(count:number){
-    return this._http.get(this.urlBase+this.GetNewListApi+count);
+  public getNewList(count:number){
+    return this._http.get<Array<MangaDetails>>(this.urlBase+this.getNewListApi+count);
   }
+
+  public getMangaListHasNewChapter(count:number){
+    return this._http.get<Array<MangaDetails>>(this.urlBase+this.getMangaListHasNewChapterApi+count);
+  }
+  public getMostViewed(count:number){
+    return this._http.get<Array<MangaDetails>>(this.urlBase+this.getMostViewedApi+count);
+  }
+
 }
