@@ -41,7 +41,9 @@ export class RessourcesProvider {
       newListTitle:'آخر الإصدارت',
       lastChapterTitle:'جديد الفصول',
       mostViewedTitle:'الأكثر مشاهدة',
-      forYouTitle:'من أجلك'
+      forYouTitle:'من أجلك',
+      nextChapter:'الفصل التالي ',
+      previousChapter:' الفصل السابق',
     }
     this.sqlScript = {
       createMangaTable: "CREATE TABLE IF NOT EXISTS `Manga`( `Id` TEXT PRIMARY KEY, `Name` TEXT, `Date` TEXT,`ChapterCount` INTEGER, `Resume` TEXT, `Cover` TEXT, `State` TEXT, `Tags` TEXT, `IsFavorite` INTEGER DEFAULT 0, `IsDownloaded` INTEGER DEFAULT 0);",

@@ -61,9 +61,7 @@ export class MangaSectionComponent {
     if(slide.length!==0){
       result.push({items:slide});
     }
-    this.viewItems=result;
-    console.log(JSON.stringify("In Section"+this.viewItems));
-    
+    this.viewItems=result;    
   }
   handleClickRead(item:MangaDetails){
     let mangaVm:MangaDetailsViewModel=new MangaDetailsViewModel();
