@@ -10,12 +10,14 @@
     </ion-card>
   </ion-list>
   <ion-fab right bottom>
-    <button ion-fab [disabled]="!nextChapterVm">
+    <button ion-button mini [disabled]="disableNextChapter" (click)="handleClickNextChapter()" >
       <ion-icon name="arrow-round-forward"></ion-icon>
+      {{ressources.nextChapter}}
     </button>
   </ion-fab>
-  <ion-fab left bottom>
-    <button ion-fab [disabled]="!nextChapterVm">
+  <ion-fab left bottom >
+    <button ion-button mini [disabled]="disablePreviousChapter" (click)="handleClickPreviousChapter()">
+      {{ressources.previousChapter}}
       <ion-icon name="arrow-round-back"></ion-icon>
     </button>
   </ion-fab>

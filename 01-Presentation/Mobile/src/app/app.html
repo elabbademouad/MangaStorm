@@ -4,25 +4,21 @@
       <ion-title>Manga </ion-title>
     </ion-toolbar>
   </ion-header>
-
   <ion-content>
     <ion-list>
         <ion-item menuClose text-center  *ngFor="let p of pages" (click)="openPage(p)" >
-            <button ion-button item-end class="amiri" color="secondary" clear >
+            <button ion-button item-end class="amiri" color="text" clear >
                 <h3>{{p.title}}</h3>
             </button>
             <ion-icon color="secondary"  item-end  name="{{p.icon}}" small ></ion-icon>
         </ion-item>
         <ion-item menuClose text-center   (click)="deleteData()" >
-          <button ion-button item-end class="amiri" color="secondary" clear >
+          <button ion-button item-end class="amiri" color="text" clear >
               <h3>حذف البيانات</h3>
           </button>
           <ion-icon color="secondary"  item-end  name="trash" small ></ion-icon>
       </ion-item>
     </ion-list>
   </ion-content>
-
 </ion-menu>
-
-<!-- Disable swipe-to-go-back because it's poor UX to combine STGB with side menus -->
 <ion-nav [root]="rootPage" side="right" type="overlay" #content swipeBackEnabled="false"></ion-nav>

@@ -125,10 +125,11 @@ export class DataBaseProvider {
               name: manga.item.name,
               resume: manga.item.resume,
               state: manga.item.state,
-              tags: manga.item.tags
+              tags: manga.item.tags,
+              views:0
             },
             isDownloaded: manga.isDownloaded,
-            isFavorite: manga.isFavorite
+            isFavorite:true,// manga.isFavorite
           }).then(r => {
             let toast = this._toastCtrl.create({
               message: manga.item.name + ' ' + this._ressources.stringResources.addFavoriteSuccess,
@@ -168,12 +169,15 @@ export class DataBaseProvider {
   }
 
   public setChapterAsRead(chapter:Chapter,mangaName:string) {
-    this.dbContext.executeSql(this._ressources.sqlScript.insertChapterAsRead, [mangaName, chapter.number, chapter.title, new Date()])
+    this.dbContext.executeSql(this._ressources.sqlScript.insertChapterAsRead, [mangaName, chapter.id, chapter.title,chapter.number,chapter.mangaId, new Date()])
       .then((r) => {}).catch((error) => {
         console.log("setChapterAsRead error :" + JSON.stringify(error, Object.getOwnPropertyNames(error)))
       });
   }
   public getReadMangaChapters(mangaName: string) {
     return this.dbContext.executeSql(this._ressources.sqlScript.getReadChapters, [mangaName]);
+  }
+  public getRecentsRead() {
+    return this.dbContext.executeSql(this._ressources.sqlScript.getRecent, []);
   }
 }

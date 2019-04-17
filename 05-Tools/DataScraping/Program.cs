@@ -40,6 +40,18 @@ namespace DataScraping
             chapterRepository = new ChapterRepository(config);
             pageRepository = new PageRepository(config);
             tagRepository = new TagRepository(config);
+            var allManga = mangaRepository.GetAll();
+            foreach (var item in allManga)
+            {
+                item.Views = 1;
+                mangaRepository.Update(item);
+            }
+            var allChapters = chapterRepository.GetAll();
+            foreach (var item in allChapters)
+            {
+                item.Views = 1;
+                chapterRepository.Update(item);
+            }
         }
         static void CreateOrUpdateDataBase(MangaScrapModel manga)
         {
@@ -135,36 +147,7 @@ namespace DataScraping
             }
             return pages;
         }
-        //static void RetryGetPendingPages(string rootPath)
-        //{
-        //    string connectionString = "Data Source=" + rootPath + "/Manga/ManagDb.db";
-        //    using (var db = new MangaDataContext(connectionString))
-        //    {
-        //        var pendingPages = db.Pages.Where(p => p.Pending).ToList();
-        //        foreach (var page in pendingPages)
-        //        {
-        //            page.Pending = string.IsNullOrEmpty(ImageHelper.SavaInternal(page.ExternalUrl, rootPath, page.InternalUrl, ""));
-        //            if (!page.Pending)
-        //            {
-        //                Console.WriteLine("Done :" + page.Number);
-        //            }
-        //            else
-        //            {
-        //                Console.WriteLine("retry!");
-        //                var process = Process.Start(db.Chapters.First(c => c.Id == page.ChapterId).Url);
-        //                Thread.Sleep(5000);
-        //                page.Pending = string.IsNullOrEmpty(ImageHelper.SavaInternal(page.ExternalUrl, rootPath, page.InternalUrl, ""));
-        //                if (!page.Pending)
-        //                {
-        //                    Console.WriteLine("Done after retry :" + page.Number);
-        //                    process.Close();
-        //                }
-        //                process.Close();
-        //            }
-        //        }
-        //        db.SaveChanges();
-        //    }
-        //}
+
         static void CreateMangaDb(MangaScrapModel manga, string mediaPath)
         {
             if (manga != null)
@@ -333,14 +316,12 @@ namespace DataScraping
         }
         static void CleanDataBase()
         {
-            var chaptersIds = chapterRepository.GetAll().Select(c => c.Id).Distinct();
+            var chaptersIds = chapterRepository.GetAll().Select(c => c.Id);
             var pageTodelete = pageRepository.GetAll().Where(p => !chaptersIds.Contains(p.ChapterId));
             foreach (var item in pageTodelete)
             {
                 pageRepository.Delete(item);
             }
-
-
         }
 
     }

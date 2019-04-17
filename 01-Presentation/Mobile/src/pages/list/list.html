@@ -16,9 +16,9 @@
         </ion-buttons>
     </ion-navbar>
     <div style="padding: 7px; " text-center  *ngIf="filtreCardIsVisible">
-        <ion-badge class="amiri" color="{{t.selected ? 'secondary':'light'}}" (click)="handleSelectTagClick(t)" style="margin: 4px;" *ngFor="let t of tags">{{t.tag}}</ion-badge>    
+        <ion-badge class="amiri" color="{{t.selected ? 'light':'secondary'}}" (click)="handleSelectTagClick(t)" style="margin: 4px;" *ngFor="let t of tags">{{t.tag}}</ion-badge>    
     </div>
     <ion-list >
-        <manga-item  *ngFor="let mangaItem of mangaListFiltred" [item]="mangaItem"></manga-item>
+        <manga-section   [items]="mangaListFiltred" [hasTitle]="false" [range]="9"></manga-section>
     </ion-list>
 </ion-content>

@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace RestAPI.Model
 {
@@ -11,5 +8,7 @@ namespace RestAPI.Model
         public int Number { get; set; }
         public string Title { get; set; }
         public Guid MangaId { get; set; }
+        public int Views { get; set; }
+
     }
 }

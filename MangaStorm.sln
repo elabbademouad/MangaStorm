@@ -27,6 +27,13 @@ Project("{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}") = "Web", "01-Presentation\Web\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebStarter", "01-Presentation\WebStarter\WebStarter.csproj", "{9ACD8F42-F125-4110-A94C-B23570EC68FB}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "06-Documents", "06-Documents", "{31B3A23E-3B33-44A1-A616-BC832B81A1C6}"
+	ProjectSection(SolutionItems) = preProject
+		icon.psd = icon.psd
+		runApiBackground.txt = runApiBackground.txt
+		splash.psd = splash.psd
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

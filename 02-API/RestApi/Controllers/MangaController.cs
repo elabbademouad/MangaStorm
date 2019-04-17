@@ -31,5 +31,34 @@ namespace Api.Controllers
             var result = Mapper.Map<MangaDetailsModel>(_mangaService.GetMangaDetailsById(mangGuid));
             return Ok(result);
         }
+
+        [HttpGet("GetNewList/{count}")]
+        public ActionResult<IEnumerable<MangaDetailsModel>> GetNewList(int count)
+        {
+            var result = Mapper.Map<List<MangaDetailsModel>>(_mangaService.GetNewList(count));
+            return Ok(result);
+        }
+
+        [HttpGet("GetForYouList")]
+        public ActionResult<IEnumerable<MangaDetailsModel>> GetForYouList(int count, List<string> tags)
+        {
+            var result = Mapper.Map<List<MangaDetailsModel>>(_mangaService.GetMangaForYou(count, tags));
+            return Ok(result);
+        }
+
+        [HttpGet("GetMangaListHasNewChapter/{count}")]
+        public ActionResult<IEnumerable<MangaDetailsModel>> GetMangaListHasNewChapter(int count)
+        {
+            var result = Mapper.Map<List<MangaDetailsModel>>(_mangaService.GetMangaListHasNewChapter(count));
+            return Ok(result);
+        }
+
+        [HttpGet("GetMostViewed/{count}")]
+        public ActionResult<IEnumerable<MangaDetailsModel>> GeMostViewedList(int count)
+        {
+            var result = Mapper.Map<List<MangaDetailsModel>>(_mangaService.GetMostViewed(count));
+            return Ok(result);
+        }
+
     }
 }

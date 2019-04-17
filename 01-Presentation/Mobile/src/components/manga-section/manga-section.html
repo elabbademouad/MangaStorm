@@ -1,0 +1,21 @@
+<ion-card no-padding>
+  <ion-card-header *ngIf="hasTitle" class="amiri" no-padding >
+    <ion-item  color="light" no-padding>
+      <span>{{title}}</span>
+    </ion-item>
+  </ion-card-header>    
+  <ion-card-content no-padding>
+    <ion-slides pager no-padding >
+      <ion-slide *ngFor="let slide of viewItems">
+        <ion-row style="margin-bottom: 30px;">
+          <ion-col col-4 *ngFor="let item of slide.items">
+              <div class="manga-item" (click)="handleClickRead(item)" >
+                  <p class="item-title">{{item.name.slice(0,10)+'...'}}</p>
+                  <img src="{{item.cover}}"/>
+              </div>
+          </ion-col>  
+        </ion-row>
+      </ion-slide>                 
+    </ion-slides>
+  </ion-card-content> 
+</ion-card>

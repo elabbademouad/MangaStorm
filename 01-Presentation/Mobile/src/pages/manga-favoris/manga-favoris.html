@@ -7,9 +7,5 @@
     </ion-navbar>
 </ion-header>
 <ion-content  no-padding >
-    <ion-list >
-        <div  *ngFor="let mangaItem of favoriteManga">
-            <manga-item  *ngIf="mangaItem.isFavorite" [item]="mangaItem"></manga-item>
-        </div>
-    </ion-list>
+    <manga-section [items]="favoriteManga" [hasTitle]="false" [range]="9"></manga-section>
 </ion-content>

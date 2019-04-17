@@ -1,11 +1,12 @@
-import { Component} from '@angular/core';
-import { NavController,  NavParams} from 'ionic-angular';
-import { RessourcesProvider} from '../../providers/ressources/ressources'
-import { LoadingController} from 'ionic-angular'
-import { ChapterViewModel} from '../../ViewModel/chapter-view-model';
-import { PageController} from '../../providers/controllers/page-controller';
-import { Page} from '../../Model/page-model';
-import { ChapterController } from '../../providers/controllers/chapter-Controller';
+import {  Component} from '@angular/core';
+import {  NavController,  NavParams} from 'ionic-angular';
+import {  RessourcesProvider} from '../../providers/ressources/ressources'
+import {  LoadingController} from 'ionic-angular'
+import {  ChapterViewModel} from '../../ViewModel/chapter-view-model';
+import {  PageController} from '../../providers/controllers/page-controller';
+import {  Page} from '../../Model/page-model';
+import {  ChapterController} from '../../providers/controllers/chapter-Controller';
+import { ListPage } from '../list/list';
 @Component({
   selector: 'manga-page',
   templateUrl: 'manga-page.html'
@@ -37,28 +38,34 @@ export class MangaPagePage {
       .subscribe((data) => {
         this.pages = data;
         loading.dismiss();
-        this._chapterCtr.getNextChapter(this.chapterVm.chapter.mangaId,Number(this.chapterVm.chapter.number))
-          .subscribe(data=>{
-            if(data !==null && data !== undefined){
-              this.nextChapterVm=new ChapterViewModel();
-              this.nextChapterVm.chapter=data;
-            }
-        });
-        this._chapterCtr.getPreviousChapter(this.chapterVm.chapter.mangaId,Number(this.chapterVm.chapter.number))
-          .subscribe(data=>{
-            if(data !==null && data !== undefined){
-              this.previousChapterVm=new ChapterViewModel();
-              this.previousChapterVm.chapter=data;
-            }
-        })
+
+      })
+    this._chapterCtr.getNextChapter(this.chapterVm.chapter.mangaId, Number(this.chapterVm.chapter.number))
+      .subscribe(data => {
+        if (data !== null && data !== undefined) {
+          this.disableNextChapter=false;
+          this.nextChapterVm = new ChapterViewModel();
+          this.nextChapterVm.chapter = data;
+        }
+      });
+    this._chapterCtr.getPreviousChapter(this.chapterVm.chapter.mangaId, Number(this.chapterVm.chapter.number))
+      .subscribe(data => {
+        if (data !== null && data !== undefined) {
+          this.disablePreviousChapter=false;
+          this.previousChapterVm = new ChapterViewModel();
+          this.previousChapterVm.chapter = data;
+        }
       })
   }
 
-  handleClickNextChapter(){
+  handleClickNextChapter() {
     this.navCtrl.push(MangaPagePage, this.nextChapterVm);
   }
-  handleClickPreviousChapter(){
+  handleClickPreviousChapter() {
     this.navCtrl.push(MangaPagePage, this.previousChapterVm);
+  }
+  handleClickHome(){
+    this.navCtrl.setRoot(ListPage);
   }
   /****************************************************
    * Public properties
@@ -68,4 +75,6 @@ export class MangaPagePage {
   nextChapterVm: ChapterViewModel;
   previousChapterVm: ChapterViewModel;
   pages: Array < Page >
+  disableNextChapter:boolean=true;
+  disablePreviousChapter:boolean=true;
 }

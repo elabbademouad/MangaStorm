@@ -16,7 +16,7 @@ export class ChapterController {
   * Initialize component
   ****************************************************/
   init() {
-    this.urlBase = "http://35.211.13.59";
+    this.urlBase = "http://10.42.6.129:5000";
   }
   /****************************************************
   * properties
@@ -32,10 +32,10 @@ export class ChapterController {
     return this._http.get<Array<Chapter>>(this.urlBase + this.getChaptersByMangaId+mangaId);
   }
   public getNextChapter(mangaId:string,currentChapterNumber:number) {
-    return this._http.get<Chapter>(this.urlBase + this.getNextChapter+"/"+mangaId+"/"+currentChapterNumber);
+    return this._http.get<Chapter>(this.urlBase + this.getNextChapterApi+mangaId+"/"+currentChapterNumber);
   }
   public getPreviousChapter(mangaId:string,currentChapterNumber:number) {
-    return this._http.get<Chapter>(this.urlBase + this.getPreviousChapterApi+"/"+mangaId+"/"+currentChapterNumber);
+    return this._http.get<Chapter>(this.urlBase + this.getPreviousChapterApi+mangaId+"/"+currentChapterNumber);
   }
 
 
