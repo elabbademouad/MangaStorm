@@ -129,7 +129,7 @@ export class DataBaseProvider {
               views:0
             },
             isDownloaded: manga.isDownloaded,
-            isFavorite:true,// manga.isFavorite
+            isFavorite:manga.isFavorite
           }).then(r => {
             let toast = this._toastCtrl.create({
               message: manga.item.name + ' ' + this._ressources.stringResources.addFavoriteSuccess,
@@ -151,18 +151,16 @@ export class DataBaseProvider {
         }
       }).catch(err => console.log(JSON.stringify(err)));
   }
-  public setFavorieOrDownlodedManga(mangaList: Array < MangaDetailsViewModel > , callBack: Function) {
+  public setFavorieOrDownlodedManga(manga: MangaDetailsViewModel) {
     this.dbContext.executeSql(this._ressources.sqlScript.selectAllManga, [])
       .then((r) => {
         for (let i = 0; i < r.rows.length; i++) {
           let element = r.rows.item(i);          
-          let manga = mangaList.find((m) => {
-            return m.item.id == element.Id
-          });
-          manga.isFavorite = eval(element.IsFavorite);
-          manga.isDownloaded = eval(element.IsDownloaded);
+          if(manga.item.id===element.Id){
+            manga.isFavorite = eval(element.IsFavorite);
+            manga.isDownloaded = eval(element.IsDownloaded);
+          }         
         }
-        callBack();
       }).catch((error) => {
         console.log("set favori or downloaded error :" + JSON.stringify(error, Object.getOwnPropertyNames(error)))
       });;

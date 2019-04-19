@@ -7,6 +7,7 @@ import {  PageController} from '../../providers/controllers/page-controller';
 import {  Page} from '../../Model/page-model';
 import {  ChapterController} from '../../providers/controllers/chapter-Controller';
 import { ListPage } from '../list/list';
+import { DataBaseProvider } from '../../providers/data-base/data-base';
 @Component({
   selector: 'manga-page',
   templateUrl: 'manga-page.html'
@@ -21,14 +22,16 @@ export class MangaPagePage {
     public _pageCtr: PageController,
     public _ressources: RessourcesProvider,
     public _loading: LoadingController,
-    public _chapterCtr: ChapterController) {
+    public _chapterCtr: ChapterController,
+    public _database:DataBaseProvider) {
     this.int();
   }
   /***************************************************
    * Initialize component
    ****************************************************/
   int() {
-    this.chapterVm = this.navParams.data;
+    this.chapterVm = this.navParams.data.chapter;
+    this.managName = this.navParams.data.managName;
     this.ressources = this._ressources.stringResources;
     let loading = this._loading.create({
       content: this.ressources.loading
@@ -59,9 +62,13 @@ export class MangaPagePage {
   }
 
   handleClickNextChapter() {
+    this._database.setChapterAsRead(this.nextChapterVm.chapter,this.managName);
+    this.nextChapterVm.read = true;
     this.navCtrl.push(MangaPagePage, this.nextChapterVm);
   }
   handleClickPreviousChapter() {
+    this._database.setChapterAsRead(this.previousChapterVm.chapter,this.managName);
+    this.previousChapterVm.read = true;
     this.navCtrl.push(MangaPagePage, this.previousChapterVm);
   }
   handleClickHome(){
@@ -71,6 +78,7 @@ export class MangaPagePage {
    * Public properties
    *****************************************************/
   ressources: any;
+  managName:string;
   chapterVm: ChapterViewModel;
   nextChapterVm: ChapterViewModel;
   previousChapterVm: ChapterViewModel;

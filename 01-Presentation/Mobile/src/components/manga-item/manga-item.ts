@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { RessourcesProvider } from '../../providers/ressources/ressources'
 import { DataBaseProvider} from '../../providers/data-base/data-base';
 import { MangaDetailsPage } from '../../pages/manga-details/manga-details';
@@ -9,7 +9,7 @@ import { MangaDetailsViewModel } from '../../ViewModel/manga-details-View-model'
   templateUrl: 'manga-item.html'
 })
 
-export class MangaItemComponent {
+export class MangaItemComponent implements OnInit{
   /****************************************************
    * Constructor
    ****************************************************/
@@ -28,6 +28,9 @@ export class MangaItemComponent {
   ****************************************************/ 
   init(){
     this.ressources=this._ressources.stringResources;
+  }
+  ngOnInit(){
+    this._databaseProvider.setFavorieOrDownlodedManga(this.item);
   }
  /***************************************************
   * UI event handler 

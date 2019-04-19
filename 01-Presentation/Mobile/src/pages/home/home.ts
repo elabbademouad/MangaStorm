@@ -33,7 +33,7 @@ export class HomePage {
     this.mostViewedTitle=this.ressources.mostViewedTitle;
     this.forYouTitle=this.ressources.forYouTitle;
     
-    this._mangaCtrl.getNewList(12)
+    this._mangaCtrl.getNewList(6)
       .subscribe((data: MangaDetails[])=>{
         this.newList=data;
     });

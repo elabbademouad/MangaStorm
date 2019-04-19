@@ -40,18 +40,6 @@ namespace DataScraping
             chapterRepository = new ChapterRepository(config);
             pageRepository = new PageRepository(config);
             tagRepository = new TagRepository(config);
-            var allManga = mangaRepository.GetAll();
-            foreach (var item in allManga)
-            {
-                item.Views = 1;
-                mangaRepository.Update(item);
-            }
-            var allChapters = chapterRepository.GetAll();
-            foreach (var item in allChapters)
-            {
-                item.Views = 1;
-                chapterRepository.Update(item);
-            }
         }
         static void CreateOrUpdateDataBase(MangaScrapModel manga)
         {

@@ -15,43 +15,42 @@ import { HomePage } from '../pages/home/home';
 export class MyApp {
   @ViewChild(Nav) nav: Nav;
 
-  rootPage: any ;
+  rootPage: any;
 
-  pages: Array<{title: string, component: any,icon:any}>;
+  pages: Array<{ title: string, component: any, icon: any }>;
   ressources: any;
 
   constructor(public platform: Platform,
-              public statusBar: StatusBar, 
-              public splashScreen: SplashScreen,
-              public _ressources:RessourcesProvider,
-              public _dataBase:DataBaseProvider) {
+    public statusBar: StatusBar,
+    public splashScreen: SplashScreen,
+    public _ressources: RessourcesProvider,
+    public _dataBase: DataBaseProvider) {
     this.initializeApp();
     this.pages = [
-      { title: this.ressources.home, component: HomePage ,icon: 'home' },
-      { title: this.ressources.mangaList, component: ListPage ,icon: 'list' },
+      { title: this.ressources.home, component: HomePage, icon: 'home' },
+      { title: this.ressources.mangaList, component: ListPage, icon: 'list' },
       { title: this.ressources.favoris, component: MangaFavorisPage, icon: 'heart' },
       { title: this.ressources.recents, component: RecentsPage, icon: 'time' }
     ];
   }
 
   initializeApp() {
-    this.ressources=this._ressources.stringResources;
+    this.ressources = this._ressources.stringResources;
     this.platform.ready().then(() => {
-      this._dataBase.createOrUpdateDatabase(()=>{
-        this.rootPage=HomePage;
-        this.splashScreen.hide();
+      this._dataBase.createOrUpdateDatabase(() => {
+        this.rootPage = HomePage;
       });
       this.statusBar.overlaysWebView(false);
-      this.statusBar.backgroundColorByHexString('#26418f');
+      this.statusBar.backgroundColorByHexString('#ab000d');
     });
   }
   openPage(page) {
     this.nav.setRoot(page.component);
   }
-  deleteData(){
+  deleteData() {
     this._dataBase.deleteDatabase();
-    this._dataBase.createOrUpdateDatabase(()=>{
-      this.nav.setRoot(ListPage);
+    this._dataBase.createOrUpdateDatabase(() => {
+      this.nav.setRoot(HomePage);
     });
   }
 }
