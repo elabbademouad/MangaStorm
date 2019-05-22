@@ -3,6 +3,8 @@ An open source project that features an hybrid app for arabic Manga reading, and
 
 # Screenshots
 
+<img src="https://drive.google.com/uc?export=view&id=1euQoFL--RWjDNFa9zV04oZZwlsf73p6s" width="200px" style="display: inline;"/> <img src="https://drive.google.com/uc?export=view&id=1AxQVYh7ym60q6rSMsmM9elU8tFT6Oi--" width="200px" style="display: inline;"/> <img src="https://drive.google.com/uc?export=view&id=1_49rJYXDt-TsFT1THTufwaAHDHLNFKee" width="200px" style="display: inline;"/> <img src="https://drive.google.com/uc?export=view&id=1XeFO4doF7B4texWJMFogs8j2-3qdOzLn" width="200px" style="display: inline;"/> <img src="https://drive.google.com/uc?export=view&id=1qFVU0bhq-IN6E8PpLUxYdKTcM9uAkHtp" width="200px" style="display: inline;"/> <img src="https://drive.google.com/uc?export=view&id=1jeSswFlPeLpYXjk-x3rsts5SQqjFrnm5" width="200px" style="display: inline;"/> 
+
 # Software Design:
 <img src="https://drive.google.com/uc?export=view&id=1JYrUA7BuMRsHunGbevNZQXuWwE_zQpaL" width="600px"/> 
 
