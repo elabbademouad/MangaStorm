@@ -15,7 +15,7 @@ export class PageController{
   * Initialize component
   ****************************************************/
   init() {
-    this.urlBase = "http://192.168.43.200:5000";
+    this.urlBase = "http://35.211.13.59";
     this.getByChapterIdApi="/api/page/GetPagesByChapterId/";
   }
   /****************************************************

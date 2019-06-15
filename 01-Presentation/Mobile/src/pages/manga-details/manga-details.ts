@@ -75,6 +75,6 @@ export class MangaDetailsPage {
   handleClickChapter(chapterVm: ChapterViewModel) {
     this._database.setChapterAsRead(chapterVm.chapter,this.mangaItem.item.name);
     chapterVm.read = true;
-    this.navCtrl.push(MangaPagePage, chapterVm);
+    this.navCtrl.push(MangaPagePage, {chapter:chapterVm,mangaName:this.mangaItem.item.name});
   }
 }

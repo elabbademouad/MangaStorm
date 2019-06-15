@@ -5,10 +5,12 @@
 </ion-header>
 <ion-content no-padding>
   <manga-item [item]="mangaItem"></manga-item>
-  <ion-list class="amiri"  >
-    <ion-list-header color="light" text-center>
-      {{ressources.chapters}}
-    </ion-list-header>
-    <ion-item (click)="handleClickChapter(chapter)" color="{{chapter.read ? 'secondary' : 'default'}}"  *ngFor="let chapter of chapters"><p>{{ressources.chapterTitle+chapter.chapter.title}}</p></ion-item>
-  </ion-list>
+  <div style="margin: 15px;">
+    <ion-list class="amiri"  >
+      <ion-list-header color="light" text-center>
+        {{ressources.chapters}}
+      </ion-list-header>
+      <ion-item (click)="handleClickChapter(chapter)" color="{{chapter.read ? 'secondary' : 'default'}}"  *ngFor="let chapter of chapters"><p>{{ressources.chapterTitle+chapter.chapter.title}}</p></ion-item>
+    </ion-list>
+  </div>
 </ion-content>

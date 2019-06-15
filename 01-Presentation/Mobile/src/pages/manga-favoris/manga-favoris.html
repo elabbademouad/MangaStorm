@@ -7,6 +7,5 @@
     </ion-navbar>
 </ion-header>
 <ion-content  no-padding >
-    <manga-section [items]="favoriteManga"  [range]="9"></manga-section>
-    <div *ngFor="let i of favoriteManga" >{{i.name}}</div>
+    <manga-section [items]="favoriteManga" [hasTitle]="false" [range]="9"></manga-section>
 </ion-content>

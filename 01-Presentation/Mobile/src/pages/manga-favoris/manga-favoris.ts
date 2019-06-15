@@ -41,6 +41,7 @@ export class MangaFavorisPage implements OnInit {
   private getFavoriteManga() {
     this._dataBase.getFavoriteManga()
       .then((data) => {
+        let result=new Array<MangaDetails>();
         for (let i = 0; i < data.rows.length; i++) {
           const element = data.rows.item(i);
           let manga=new MangaDetails();
@@ -53,11 +54,11 @@ export class MangaFavorisPage implements OnInit {
               manga.state= element.State;
               manga.tags= element.Tags;
               manga.views=0;
-          this.favoriteManga.push(manga);
+          result.push(manga);
             // isFavorite: eval(element.IsFavorite),
             // isDownloaded: eval(element.IsDownloaded),         
         }
-        console.log(JSON.stringify("In favoris"+this.favoriteManga));             
+        this.favoriteManga=result;             
 
       });
   }

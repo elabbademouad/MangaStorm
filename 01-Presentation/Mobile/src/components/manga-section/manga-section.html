@@ -10,7 +10,7 @@
         <ion-row style="margin-bottom: 30px;">
           <ion-col col-4 *ngFor="let item of slide.items">
               <div class="manga-item" (click)="handleClickRead(item)" >
-                  <p class="item-title">{{item.name.slice(0,10)+'...'}}</p>
+                  <p class="item-title">{{item.name.length >=18?item.name.slice(0,18)+'...':item.name}}</p>
                   <img src="{{item.cover}}"/>
               </div>
           </ion-col>  
