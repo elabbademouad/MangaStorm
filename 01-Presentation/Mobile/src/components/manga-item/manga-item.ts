@@ -1,9 +1,9 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { RessourcesProvider } from '../../providers/ressources/ressources'
-import { DataBaseProvider} from '../../providers/data-base/data-base';
 import { MangaDetailsPage } from '../../pages/manga-details/manga-details';
-import { NavController } from 'ionic-angular';
+import { NavController, ToastController } from 'ionic-angular';
 import { MangaDetailsViewModel } from '../../ViewModel/manga-details-View-model';
+import { AppStorageProvider } from '../../providers/app-storage/app-storage';
 @Component({
   selector: 'manga-item',
   templateUrl: 'manga-item.html'
@@ -14,8 +14,9 @@ export class MangaItemComponent implements OnInit{
    * Constructor
    ****************************************************/
   constructor(public _ressources:RessourcesProvider,
-              public _databaseProvider:DataBaseProvider,
-              public navCtrl:NavController) {
+              public navCtrl:NavController,
+              public _toastCtrl: ToastController,
+              public _appStorage:AppStorageProvider) {
    this.init();
   }
   /****************************************************
@@ -30,7 +31,7 @@ export class MangaItemComponent implements OnInit{
     this.ressources=this._ressources.stringResources;
   }
   ngOnInit(){
-    this._databaseProvider.setFavorieOrDownlodedManga(this.item);
+    this._appStorage.setFavorieOrDownlodedManga(this.item);
   }
  /***************************************************
   * UI event handler 
@@ -40,6 +41,16 @@ export class MangaItemComponent implements OnInit{
   }
   handleClickFavorie(){
     this.item.isFavorite=!this.item.isFavorite;
-    this._databaseProvider.addOrRemoveMangaFromFavorie(this.item);
+    this._appStorage.addOrRemoveMangaFromFavorie(this.item).then((data:any)=>{
+      this.showMessage();
+    });
+  }
+  showMessage(){
+    let toast = this._toastCtrl.create({
+      message: (this.item.isFavorite) ? this.item.item.name + ' ' + this._ressources.stringResources.addFavoriteSuccess : this.item.item.name + ' ' + this._ressources.stringResources.removeFavorite,
+      duration: 3000,
+      cssClass: "toast"
+    });
+    toast.present();
   }
 }

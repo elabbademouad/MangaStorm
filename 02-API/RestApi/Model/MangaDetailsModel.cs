@@ -4,7 +4,7 @@ namespace Api.Model
 {
     public class MangaDetailsModel
     {
-        public Guid Id { get; set; }
+        public object Id { get; set; }
         public string Name { get; set; }
         public string Date { get; set; }
         public string Resume { get; set; }
@@ -13,6 +13,7 @@ namespace Api.Model
         public string Tags { get; set; }
         public int CountChapters { get; set; }
         public int Views { get; set; }
+        public string Rating { get; set; }
 
     }
 }

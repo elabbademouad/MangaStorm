@@ -16,27 +16,26 @@ export class ChapterController {
   * Initialize component
   ****************************************************/
   init() {
-    this.urlBase = "http://35.211.13.59";
+    this.urlBase = "http://192.168.43.200:5000";
   }
   /****************************************************
   * properties
  *****************************************************/
   urlBase: string;
-  getChaptersByMangaId:string="/api/chapter/GetChaptersByMangaId/";
-  getNextChapterApi:string="/api/chapter/GetNextChapter/";
-  getPreviousChapterApi:string="/api/chapter/GetPreviousChapter/";
+  getChaptersByMangaIdApiUrl:any=(mangaId: any)=>{return this.urlBase + `/api/chapter/GetChaptersByMangaId?mangaId=${mangaId}`;};
+  getNextChapterApiUrl:any=(currentChapter:any,mangaId: any)=>{ return this.urlBase + `/api/chapter/GetNextChapter?currentChapter=${currentChapter}?mangaId=${mangaId}`};
+  getPreviousChapterApiUrl:any=(currentChapter:any,mangaId: any)=>{ return this.urlBase + `/api/chapter/GetPreviousChapter?currentChapter=${currentChapter}?mangaId=${mangaId}`};
   /****************************************************
   * Public methodes
  *****************************************************/
   public getByMangaId(mangaId:string) {
-    return this._http.get<Array<Chapter>>(this.urlBase + this.getChaptersByMangaId+mangaId);
+    return this._http.get<Array<Chapter>>(this.getChaptersByMangaIdApiUrl(mangaId));
   }
-  public getNextChapter(mangaId:string,currentChapterNumber:number) {
-    return this._http.get<Chapter>(this.urlBase + this.getNextChapterApi+mangaId+"/"+currentChapterNumber);
+  public getNextChapter(mangaId:string,currentChapter:any) {
+    return this._http.get<Chapter>(this.getNextChapterApiUrl(currentChapter,mangaId));
   }
-  public getPreviousChapter(mangaId:string,currentChapterNumber:number) {
-    return this._http.get<Chapter>(this.urlBase + this.getPreviousChapterApi+mangaId+"/"+currentChapterNumber);
+  public getPreviousChapter(mangaId:string,currentChapter:any) {
+    return this._http.get<Chapter>(this.getPreviousChapterApiUrl(currentChapter,mangaId));
   }
-
 
 }

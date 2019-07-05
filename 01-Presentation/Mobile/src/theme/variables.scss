@@ -33,16 +33,16 @@ $app-direction: ltr;
 // The "primary" color is the only required color in the map.
 
 $colors: (
-  primary:    #e53935,
-  secondary:  #fbc02d,
+  primary:    #f5f5f5,
+  secondary:  #64b5f6,
   danger:     #f53d3d,
-  light:      #ff6f60,
-  dark:       #ab000d,
+  light:      #64b5f6,
+  dark:       #c2c2c2,
   warning:    #ffcc00,
   text:       #121214,
 );
 
-
+$loading-md-spinner-color: colors(secondary);
 // App iOS Variables
 // --------------------------------------------------
 // iOS only Sass variables can go here

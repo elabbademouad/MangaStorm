@@ -1,5 +1,4 @@
 import { Component, Input } from '@angular/core';
-import { DataBaseProvider} from '../../providers/data-base/data-base';
 import { NavController } from 'ionic-angular';
 import { SectionViewModel } from '../../ViewModel/section-view-model';
 import { MangaDetails } from '../../Model/manga-details-model';
@@ -14,8 +13,7 @@ export class MangaSectionComponent {
   /****************************************************
    * Constructor
    ****************************************************/
-  constructor(public _databaseProvider:DataBaseProvider,
-              public navCtrl:NavController) {
+  constructor(public navCtrl:NavController) {
    this.init();
   }
   /****************************************************
@@ -25,6 +23,8 @@ export class MangaSectionComponent {
   title:string="Section title";
   @Input()
   range:number=3;
+  @Input()
+  icon:string="";
   @Input()
   set items(value:Array<MangaDetails>){
     if(value !==null && value!=undefined && value.length !==0){

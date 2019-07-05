@@ -1,6 +1,9 @@
 ﻿using Application.Services;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Memory;
+using RestAPI.Constants;
+using RestAPI.Enums;
 using RestAPI.Model;
 using System;
 using System.Collections.Generic;
@@ -13,36 +16,22 @@ namespace RestAPI.Controllers
     [ApiController]
     public class PageController : ControllerBase
     {
-        private readonly PageService _pageService;
-        public PageController(PageService pageService)
+        private readonly Func<PluginEnum, IPageService> _pageServiceDelegate;
+        private readonly IMemoryCache _cache;
+        public PageController(Func<PluginEnum, IPageService> pageServiceDelegate, IMemoryCache cache)
         {
-            _pageService = pageService;
+            _pageServiceDelegate = pageServiceDelegate;
+            _cache = cache;
         }
-        [HttpGet("GetPagesByChapterId/{chapterId}")]
-        public ActionResult<IEnumerable<PageModel>> GetPagesByChapterId(Guid chapterId)
+        [HttpGet("GetPagesByChapterId")]
+        public ActionResult<IEnumerable<PageModel>> GetPagesByChapterId(string chapterId, [FromHeader]PluginEnum source = PluginEnum.OnManga)
         {
-            var result = Mapper.Map<List<PageModel>>(_pageService.GetPagesByChapterId(chapterId));
+            var result = _cache.GetOrCreate<List<PageModel>>(string.Format(CacheKeys.PAGES, chapterId), (cachEntry) =>
+             {
+                 var pageService = _pageServiceDelegate(source);
+                 return Mapper.Map<List<PageModel>>(pageService.GetPagesByChapterId(chapterId));
+             });
             return Ok(result);
-        }
-
-        [HttpGet("UploadPage")]
-        public string UploadPage([FromHeader]  string url, [FromHeader]  string mediaPath, [FromHeader]  string path, [FromHeader]  string fileName)
-        {
-
-            try
-            {
-                using (WebClient webclient = new WebClient())
-                {
-                    Directory.CreateDirectory(mediaPath + path);
-                    webclient.DownloadFile(url, mediaPath + path + "/" + fileName);
-                    webclient.Dispose();
-                    return path + "/" + fileName;
-                }
-            }
-            catch (Exception ex)
-            {
-                return "";
-            }
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Application.Services;
 using Microsoft.AspNetCore.Mvc;
+using RestAPI.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,16 +12,17 @@ namespace RestAPI.Controllers
     [ApiController]
     public class TagController : ControllerBase
     {
-        private readonly TagService _tagService;
-        public TagController(TagService tagService)
+        private readonly Func<PluginEnum, ITagService> _tageServiceDelegate;
+        public TagController(Func<PluginEnum, ITagService> tagServiceDelegate)
         {
-            _tagService = tagService;
+            _tageServiceDelegate = tagServiceDelegate;
         }
 
         [HttpGet("GetAll")]
-        public ActionResult<IEnumerable<string>> GetAll()
+        public ActionResult<IEnumerable<string>> GetAll([FromHeader]PluginEnum source = PluginEnum.OnManga)
         {
-            var result = _tagService.GetAllTagsLabel();
+            var tagService = _tageServiceDelegate(source);
+            var result = tagService.GetAllTagsLabel();
             return Ok(result);
         }
     }

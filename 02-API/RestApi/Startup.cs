@@ -1,12 +1,15 @@
-﻿using Application.Interfaces;
-using Application.Services;
+﻿using Application.Services;
+using DefaultPlugin.Interfaces;
+using DefaultPlugin.Services;
 using Infrastructure.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
+using RestAPI.Enums;
 using RestAPI.MapperConfig;
+using System;
 using System.IO;
 
 namespace Api
@@ -29,6 +32,7 @@ namespace Api
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
+            services.AddMemoryCache();
             services.AddCors();
             services.AddDirectoryBrowser();
             ApplicationMapperConfig mapperConfig = new ApplicationMapperConfig(Configuration);
@@ -40,10 +44,62 @@ namespace Api
             services.AddScoped<IPageRepository, PageRepository>();
             services.AddScoped<ITagRepository, TagRepository>();
             //Service DI (Application layer)
-            services.AddScoped<MangaService>();
-            services.AddScoped<ChapterService>();
-            services.AddScoped<PageService>();
-            services.AddScoped<TagService>();
+            services.AddScoped<DefaultMangaService>();
+            services.AddScoped<DefaultChapterService>();
+            services.AddScoped<DefaultPageService>();
+            services.AddScoped<DefaultTagService>();
+            services.AddScoped<OnMangaMangaService>();
+            services.AddScoped<OnMangaChapterService>();
+            services.AddScoped<OnMangaPageService>();
+            services.AddScoped<OnMangaTagService>();
+            services.AddTransient<Func<PluginEnum, IMangaService>>(serviceProvider => key =>
+            {
+                switch (key)
+                {
+                    case PluginEnum.Default:
+                        return serviceProvider.GetService<DefaultMangaService>();
+                    case PluginEnum.OnManga:
+                        return serviceProvider.GetService<OnMangaMangaService>();
+                    default:
+                        return serviceProvider.GetService<DefaultMangaService>();
+                }
+            });
+            services.AddTransient<Func<PluginEnum, IChapterService>>(serviceProvider => key =>
+            {
+                switch (key)
+                {
+                    case PluginEnum.Default:
+                        return serviceProvider.GetService<DefaultChapterService>();
+                    case PluginEnum.OnManga:
+                        return serviceProvider.GetService<OnMangaChapterService>();
+                    default:
+                        return serviceProvider.GetService<DefaultChapterService>();
+                }
+            });
+            services.AddTransient<Func<PluginEnum, IPageService>>(serviceProvider => key =>
+            {
+                switch (key)
+                {
+                    case PluginEnum.Default:
+                        return serviceProvider.GetService<DefaultPageService>();
+                    case PluginEnum.OnManga:
+                        return serviceProvider.GetService<OnMangaPageService>();
+                    default:
+                        return serviceProvider.GetService<DefaultPageService>();
+                }
+            });
+            services.AddTransient<Func<PluginEnum, ITagService>>(serviceProvider => key =>
+            {
+                switch (key)
+                {
+                    case PluginEnum.Default:
+                        return serviceProvider.GetService<DefaultTagService>();
+                    case PluginEnum.OnManga:
+                        return serviceProvider.GetService<OnMangaTagService>();
+                    default:
+                        return serviceProvider.GetService<DefaultTagService>();
+                }
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

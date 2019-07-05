@@ -2,6 +2,9 @@
 using Application.Services;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Memory;
+using RestAPI.Constants;
+using RestAPI.Enums;
 using System;
 using System.Collections.Generic;
 
@@ -11,53 +14,76 @@ namespace Api.Controllers
     [ApiController]
     public class MangaController : ControllerBase
     {
-        private readonly MangaService _mangaService;
-        public MangaController(MangaService mangaService)
+        private readonly Func<PluginEnum, IMangaService> _mangaServiceDelegate;
+        private readonly IMemoryCache _cache;
+        public MangaController(Func<PluginEnum, IMangaService> mangaServiceDelegate, IMemoryCache cache)
         {
-            _mangaService = mangaService;
+            _mangaServiceDelegate = mangaServiceDelegate;
+            _cache = cache;
         }
 
         [HttpGet("GetAll")]
-        public ActionResult<IEnumerable<MangaDetailsModel>> GetAll()
+        public ActionResult<IEnumerable<MangaDetailsModel>> GetAll([FromHeader]PluginEnum source = PluginEnum.OnManga, int page = 1)
         {
-            var result = Mapper.Map<List<MangaDetailsModel>>(_mangaService.GetMangaDetailsList());
+            List<MangaDetailsModel> result = _cache.GetOrCreate(string.Format(CacheKeys.GETALLMANGA, source, page), (cacheEntry) =>
+               {
+                   var mangaService = _mangaServiceDelegate(source);
+                   return Mapper.Map<List<MangaDetailsModel>>(mangaService.GetMangaDetailsList(page));
+               });
             return Ok(result);
         }
 
-        [HttpGet("GetById/{mangaId}")]
-        public ActionResult<MangaDetailsModel> GetById(string mangaId)
+        [HttpGet("GetById")]
+        public ActionResult<MangaDetailsModel> GetById(string mangaId, [FromHeader]PluginEnum source = PluginEnum.OnManga)
         {
-            var mangGuid = Guid.Parse(mangaId);
-            var result = Mapper.Map<MangaDetailsModel>(_mangaService.GetMangaDetailsById(mangGuid));
+            var result = _cache.GetOrCreate(string.Format(CacheKeys.MANGA, mangaId), (c) =>
+             {
+                 var mangaService = _mangaServiceDelegate(source);
+                 return Mapper.Map<MangaDetailsModel>(mangaService.GetMangaDetailsById(mangaId));
+             });
             return Ok(result);
         }
 
-        [HttpGet("GetNewList/{count}")]
-        public ActionResult<IEnumerable<MangaDetailsModel>> GetNewList(int count)
+        [HttpGet("GetNewList")]
+        public ActionResult<IEnumerable<MangaDetailsModel>> GetNewList(int count, [FromHeader]PluginEnum source = PluginEnum.OnManga)
         {
-            var result = Mapper.Map<List<MangaDetailsModel>>(_mangaService.GetNewList(count));
+            var mangaService = _mangaServiceDelegate(source);
+            var result = Mapper.Map<List<MangaDetailsModel>>(mangaService.GetNewList(count));
             return Ok(result);
         }
 
         [HttpGet("GetForYouList")]
-        public ActionResult<IEnumerable<MangaDetailsModel>> GetForYouList(int count, List<string> tags)
+        public ActionResult<IEnumerable<MangaDetailsModel>> GetForYouList(int count, List<string> tags, [FromHeader]PluginEnum source = PluginEnum.OnManga)
         {
-            var result = Mapper.Map<List<MangaDetailsModel>>(_mangaService.GetMangaForYou(count, tags));
+            List<MangaDetailsModel> result = _cache.GetOrCreate(string.Format(CacheKeys.FORYOU, source), (c) =>
+            {
+                var mangaService = _mangaServiceDelegate(source);
+                return Mapper.Map<List<MangaDetailsModel>>(mangaService.GetMangaForYou(count, tags));
+            });
             return Ok(result);
         }
 
-        [HttpGet("GetMangaListHasNewChapter/{count}")]
-        public ActionResult<IEnumerable<MangaDetailsModel>> GetMangaListHasNewChapter(int count)
+        [HttpGet("GetMangaListHasNewChapter")]
+        public ActionResult<IEnumerable<MangaDetailsModel>> GetMangaListHasNewChapter(int count, [FromHeader]PluginEnum source = PluginEnum.OnManga)
         {
-            var result = Mapper.Map<List<MangaDetailsModel>>(_mangaService.GetMangaListHasNewChapter(count));
+            List<MangaDetailsModel> result = _cache.GetOrCreate(string.Format(CacheKeys.NEWCHAPTERS, source), (c) =>
+            {
+                var mangaService = _mangaServiceDelegate(source);
+                return Mapper.Map<List<MangaDetailsModel>>(mangaService.GetMangaListHasNewChapter(count));
+            });
             return Ok(result);
         }
 
-        [HttpGet("GetMostViewed/{count}")]
-        public ActionResult<IEnumerable<MangaDetailsModel>> GeMostViewedList(int count)
+        [HttpGet("GetMostViewed")]
+        public ActionResult<IEnumerable<MangaDetailsModel>> GeMostViewedList(int count, [FromHeader]PluginEnum source = PluginEnum.OnManga)
         {
-            var result = Mapper.Map<List<MangaDetailsModel>>(_mangaService.GetMostViewed(count));
+            List<MangaDetailsModel> result = _cache.GetOrCreate(string.Format(CacheKeys.MOSTVIEWS, source), (c) =>
+            {
+                var mangaService = _mangaServiceDelegate(source);
+                return Mapper.Map<List<MangaDetailsModel>>(mangaService.GetMostViewed(count));
+            });
             return Ok(result);
+
         }
 
     }

@@ -2,10 +2,11 @@ import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
 import { RessourcesProvider } from '../../providers/ressources/ressources'
 import { LoadingController } from 'ionic-angular';
-import { DataBaseProvider } from '../../providers/data-base/data-base'
 import { MangaController } from '../../providers/controllers/manga-Controller';
 import { TagController } from '../../providers/controllers/tag-controller';
 import { MangaDetails } from '../../Model/manga-details-model';
+import { MangaDetailsPage } from '../manga-details/manga-details';
+import { MangaDetailsViewModel } from '../../ViewModel/manga-details-View-model';
 @Component({
   selector: 'page-list',
   templateUrl: 'list.html'
@@ -19,8 +20,7 @@ export class ListPage {
     public _mangaCtr: MangaController,
     public _tagCtr: TagController,
     public _ressources: RessourcesProvider,
-    public _loadingCtrl: LoadingController,
-    public _database: DataBaseProvider) {
+    public _loadingCtrl: LoadingController) {
     this.ressources = this._ressources.stringResources;
   }
   /***************************************************
@@ -28,7 +28,6 @@ export class ListPage {
   ****************************************************/
   init() {
     this.mangaList = [];
-    this.mangaListFiltred = [];
     this.tags = [];
     this.searchInput = "";
     this.ressources = this._ressources.stringResources;
@@ -46,8 +45,7 @@ export class ListPage {
   filtreCardIsVisible: boolean
   tags: Array<{ tag: any, selected: any }>
   searchInput: string;
-  mangaListFiltred: Array<MangaDetails>;
-  isLoaded: boolean
+  page:number=1;
   /***************************************************
   * UI event handler 
   ****************************************************/
@@ -73,25 +71,6 @@ export class ListPage {
    * action and private methode
   ****************************************************/
   actionFiltreMangas(search: string) {
-    let selectedTags = this.tags.filter((t) => {
-      return t.selected
-    });
-    this.mangaListFiltred = this.mangaList.filter((m) => {
-      let searchResult = false;
-      let tagsResult = false;
-      for (let index = 0; index < selectedTags.length; index++) {
-        if (m.tags.includes(selectedTags[index].tag)) {
-          tagsResult = true;
-        }
-      }
-      if (selectedTags.length === 0) {
-        tagsResult = true;
-      }
-      if (search === undefined || m.name.toLowerCase().includes(search.toLowerCase())) {
-        searchResult = true;
-      }
-      return searchResult && tagsResult
-    })
   }
   /**************************************************
    * Services Handler
@@ -101,10 +80,9 @@ export class ListPage {
       content: this.ressources.loading
     });
     loading.present();
-    this._mangaCtr.getAll()
+    this._mangaCtr.getAll(this.page)
       .subscribe((data) => {
         this.mangaList=data;
-        this.actionFiltreMangas(this.searchInput);
         loading.dismiss();
       }, (errr) => {
         loading.dismiss();
@@ -117,7 +95,31 @@ export class ListPage {
         for (let index = 0; index < data.length; index++) {
           this.tags.push({ 'tag': data[index], 'selected': false });
         }
+        this.page++;
       });
+  }
+
+  handleClickRead(item:MangaDetails){
+    let mangaVm:MangaDetailsViewModel=new MangaDetailsViewModel();
+    mangaVm.item=item;
+    mangaVm.isDownloaded=false;
+    mangaVm.isFavorite=false;
+    this.navCtrl.push(MangaDetailsPage,mangaVm);
+  }
+  logScrollEnd(infiniteScroll:any){
+    this._mangaCtr.getAll(this.page)
+      .subscribe((data) => {
+        data.forEach((m)=>{
+          this.mangaList.push(m);
+        });
+        this.page++;
+        infiniteScroll.complete();
+      }, (errr) => {
+        infiniteScroll.complete();
+      });
+  }
+  logScrollEnd1(infiniteScroll:any){
+    infiniteScroll.complete();
   }
 }
 

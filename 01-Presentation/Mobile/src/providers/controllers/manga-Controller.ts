@@ -16,27 +16,26 @@ export class MangaController {
   * Initialize component
   ****************************************************/
   init() {
-    this.urlBase = "http://35.211.13.59";
+    this.urlBase = "http://192.168.43.200:5000";
   }
   /****************************************************
   * properties
  *****************************************************/
   private urlBase: string;
-  private getAllApi:string="/api/manga/GetAll";
-  private getByIdApi:string="/api/manga/GetById/";
-  private getForYouListApi:string="/api/manga/GetForYouList";
-  private getNewListApi:string="/api/manga/GetNewList/";
-  private getMangaListHasNewChapterApi:string="/api/manga/GetMangaListHasNewChapter/";
-  private getMostViewedApi:string="/api/manga/GetMostViewed/";
+  private getAllApiUrl:any=(page:number)=>{return this.urlBase + `/api/manga/GetAll?page=${page}`;};
+  private getByIdApiUrl:any=(mangaId:any)=>{return this.urlBase + `/api/manga/GetById?mangaId=${mangaId}`;};
+  private getMangaListHasNewChapterApiUrl:any=(count:any)=>{return this.urlBase + `/api/manga/GetMangaListHasNewChapter?count=${count}`;};//string="/api/manga/GetMangaListHasNewChapter/";
+  private getMostViewedApiUrl:any=(count:any)=>{return this.urlBase + `/api/manga/GetMostViewed?count=${count}`;};
+  private getForYouListApiUrl:any=(count:any)=>{return this.urlBase + `/api/manga/GetForYouList?count=${count}`;};
   /****************************************************
   * Public methodes
  *****************************************************/
-  public getAll() {
-    return this._http.get<Array<MangaDetails>>(this.urlBase + this.getAllApi);
+  public getAll(page:number=1) {
+    return this._http.get<Array<MangaDetails>>(this.getAllApiUrl(page));
   }
 
   public getById(id:string) {
-    return this._http.get<MangaDetails>(this.urlBase + this.getByIdApi+id);
+    return this._http.get<MangaDetails>(this.getByIdApiUrl(id));
   }
 
   public getForYouList(count:any,tags:Array<string>){
@@ -45,18 +44,14 @@ export class MangaController {
       const element = tags[index];
       params=params.set("tags["+index+"]",element);
     }
-    return this._http.get<Array<MangaDetails>>(this.urlBase+this.getForYouListApi,{params:params});
-  }
-
-  public getNewList(count:number){
-    return this._http.get<Array<MangaDetails>>(this.urlBase+this.getNewListApi+count);
+    return this._http.get<Array<MangaDetails>>(this.getForYouListApiUrl(count),{params:params});
   }
 
   public getMangaListHasNewChapter(count:number){
-    return this._http.get<Array<MangaDetails>>(this.urlBase+this.getMangaListHasNewChapterApi+count);
+    return this._http.get<Array<MangaDetails>>(this.getMangaListHasNewChapterApiUrl(count));
   }
   public getMostViewed(count:number){
-    return this._http.get<Array<MangaDetails>>(this.urlBase+this.getMostViewedApi+count);
+    return this._http.get<Array<MangaDetails>>(this.getMostViewedApiUrl(count));
   }
 
 }

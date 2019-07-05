@@ -5,5 +5,6 @@ export class Recent{
     chapterNumber:string;
     mangaId:string;
     date:Date;
+    source:number;
 
 }

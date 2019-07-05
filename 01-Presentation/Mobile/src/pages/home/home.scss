@@ -1,3 +1,11 @@
-page-home {
-
+.mangaHeader{
+    //font-family: 'Aref Ruqaa', serif;
+    //font-family: 'Jomhuria', cursive;
+    font-family: 'Tajawal', sans-serif;
+    direction: rtl ;
+    font-size: 15px;
+    background-color: map-get($colors, light);
+    font-weight: bold;
+    padding: 10px;
+    color: white;
 }

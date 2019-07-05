@@ -4,10 +4,10 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { ListPage } from '../pages/list/list';
 import { RessourcesProvider } from '../providers/ressources/ressources'
-import { DataBaseProvider } from '../providers/data-base/data-base'
 import { MangaFavorisPage } from '../pages/manga-favoris/manga-favoris';
 import { RecentsPage } from '../pages/recents/recent-page';
 import { HomePage } from '../pages/home/home';
+import { AppStorageProvider } from '../providers/app-storage/app-storage';
 
 @Component({
   templateUrl: 'app.html'
@@ -24,7 +24,7 @@ export class MyApp {
     public statusBar: StatusBar,
     public splashScreen: SplashScreen,
     public _ressources: RessourcesProvider,
-    public _dataBase: DataBaseProvider) {
+    public _storage:AppStorageProvider) {
     this.initializeApp();
     this.pages = [
       { title: this.ressources.home, component: HomePage, icon: 'home' },
@@ -37,20 +37,12 @@ export class MyApp {
   initializeApp() {
     this.ressources = this._ressources.stringResources;
     this.platform.ready().then(() => {
-      this._dataBase.createOrUpdateDatabase(() => {
-        this.rootPage = HomePage;
-      });
+      this.rootPage = HomePage;
       this.statusBar.overlaysWebView(false);
       this.statusBar.backgroundColorByHexString('#ab000d');
     });
   }
   openPage(page) {
     this.nav.setRoot(page.component);
-  }
-  deleteData() {
-    this._dataBase.deleteDatabase();
-    this._dataBase.createOrUpdateDatabase(() => {
-      this.nav.setRoot(HomePage);
-    });
   }
 }

@@ -9,4 +9,6 @@ export class MangaDetails   {
 	public tags: string;
 	public countChapters: number;
 	public views:number;
+	public rating:string;
+	public source:number;
 }
