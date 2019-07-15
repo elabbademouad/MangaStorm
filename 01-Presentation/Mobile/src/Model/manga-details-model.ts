@@ -1,4 +1,5 @@
-﻿
+﻿import { Source } from "./source-model";
+
 export class MangaDetails   {
 	public id: string;
 	public name: string;
@@ -10,5 +11,5 @@ export class MangaDetails   {
 	public countChapters: number;
 	public views:number;
 	public rating:string;
-	public source:number;
+	public source:Source;
 }

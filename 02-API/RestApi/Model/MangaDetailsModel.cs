@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Application.Entities;
+using System;
 
 namespace Api.Model
 {
@@ -14,6 +15,7 @@ namespace Api.Model
         public int CountChapters { get; set; }
         public int Views { get; set; }
         public string Rating { get; set; }
+        public Source Source { get; set; }
 
     }
 }

@@ -19,5 +19,6 @@
         public int Views { get; set; }
 
         public string Rating { get; set; }
+        public Source Source { get; set; }
     }
 }

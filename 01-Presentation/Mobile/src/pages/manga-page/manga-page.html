@@ -5,25 +5,17 @@
 </ion-header>
 <ion-content style="background-color: black;">
   <div (swipe)="swipeEvent($event)" style="height: 100%;position: relative;">
-    <ion-card style="position: absolute;
-    top: 50%;
-    transform: translateY(-50%);">
-
-      <img [src]="getImgContent(currentPage?.url)" alt="{{currentPage?.number}}" imageViewer>
+    <ion-card >
+      <img [src]="(offline)?getImgContent(currentPage?.base64):getImgContent(currentPage?.url)" alt="{{currentPage?.number}}" imageViewer>
     </ion-card>
   </div>
-  <!-- <ion-list>
-    <ion-card *ngFor="let page of pages">
-        <img [src]="getImgContent(page.url)" alt="{{page.number}}" imageViewer >
-    </ion-card>
-  </ion-list> -->
 
 </ion-content>
 <ion-footer>
   <ion-toolbar>
     <ion-row>
       <ion-col no-padding align-self-center text-center>
-        <button ion-button block clear color="text" (click)="swipeEvent({direction:2})">
+        <button ion-button block clear color="text" (click)="swipeEvent({direction:4})">
           <ion-icon name="skip-backward"></ion-icon>
         </button>
       </ion-col>
@@ -31,7 +23,7 @@
         <ion-title *ngIf="this.pages && this.currentPage">{{this.currentPage.number+'/'+this.pages?.length}}</ion-title>
       </ion-col>
       <ion-col no-padding align-self-center text-center>
-        <button ion-button block clear color="text" (click)="swipeEvent({direction:4})">
+        <button ion-button block clear color="text" (click)="swipeEvent({direction:2})">
           <ion-icon name="skip-forward"></ion-icon>
         </button>
       </ion-col>

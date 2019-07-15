@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Application.Entities;
+using System;
 
 namespace Application.Model
 {
@@ -14,6 +15,7 @@ namespace Application.Model
         public long CountChapters { get; set; }
         public int Views { get; set; }
         public string Rating { get; set; }
+        public Source Source { get; set; }
 
     }
 }

@@ -33,17 +33,13 @@
   <ion-row>
       <p style="font-size: 12px; margin: 4px;width: 100%;" class="amiri">
           <span class="label-description">{{ressources.resume}}</span><br />
-          {{item.item.resume}}
+          {{item.item.resume}}<br>
+          <span class="label-description">{{ressources.source}}</span> {{item.item.source.label}}<br />
         </p>
   </ion-row>
   <ion-row no-padding >
-      <ion-col  no-padding align-self-center text-center>
-          <button style="margin: 0px;padding: 0px;" (click)="handleClickRead(item)"  ion-button full >
-              <ion-icon name="play" color="secondary"></ion-icon>
-      </button> 
-        </ion-col>
         <ion-col no-padding align-self-center text-center>
-            <button style="margin: 0px;padding: 0px;" ion-button  full  ><ion-icon color="secondary" name="download" ></ion-icon ></button>
+            <button style="margin: 0px;padding: 0px;" (click)="handleDownloadClick()" ion-button  full  ><ion-icon color="secondary" name="download" ></ion-icon ></button>
         </ion-col>
         <ion-col no-padding align-self-center text-center >
             <button style="margin: 0px;padding: 0px;" (click)="handleClickFavorie()"  ion-button  full  ><ion-icon name="{{(item.isFavorite)?'heart':'heart-outline'}}" color="secondary"></ion-icon ></button>

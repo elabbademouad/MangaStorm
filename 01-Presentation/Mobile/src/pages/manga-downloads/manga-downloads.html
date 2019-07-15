@@ -1,11 +1,40 @@
-<ion-header >
+<ion-header color="primary">
     <ion-navbar color="primary">
-        <button ion-button menuToggle >
-        <ion-icon name="menu"></ion-icon>
+        <button ion-button menuToggle>
+            <ion-icon name="menu"></ion-icon>
         </button>
-        <ion-title class="amiri">{{ressources.downloads}}</ion-title>    
+        <ion-title class="amiri">{{ressources.downloads}}</ion-title>
     </ion-navbar>
+    <ion-segment class="download-segment" [(ngModel)]="selectedScrenne" color="text">
+        <ion-segment-button value="list">
+            <ion-icon name="grid"></ion-icon>
+        </ion-segment-button>
+        <ion-segment-button value="details">
+            <ion-icon name="list-box"></ion-icon>
+        </ion-segment-button>
+    </ion-segment>
 </ion-header>
-<ion-content  no-padding >
-    <h1 class="amiri">{{ressources.downloads}}</h1>
+
+<ion-content no-padding>
+    <div [ngSwitch]="selectedScrenne">
+        <div *ngSwitchCase="'list'" >
+            <ion-card no-padding>
+                <ion-row>
+                    <ion-col col-4 *ngFor="let item of downloadsState" (click)="handleClickManga(item)">
+                        <div class="manga-item">
+                            <p class="item-title">
+                                {{item.manga.item.name.length >=18?item.manga.item.name.slice(0,18)+'...':item.manga.item.name}}
+                            </p>
+                            <img src="{{item.manga.item.cover}}" />
+                        </div>
+                    </ion-col>
+                </ion-row>
+            </ion-card>
+        </div>
+        <ion-list *ngSwitchCase="'details'">
+            <download-state-item [downloadState]="download" *ngFor="let download of downloadsState">
+            </download-state-item>
+        </ion-list>
+    </div>
+
 </ion-content>

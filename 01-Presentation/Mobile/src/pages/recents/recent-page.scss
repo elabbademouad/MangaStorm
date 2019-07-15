@@ -1,12 +1,14 @@
 .date{
     direction: ltr;
-    color: color($colors,secondary) !important;
+    color: black !important;
     font-style: italic;
     font-size: 12px !important;
     padding-left: 4px;
 }
 .small-title{
-    color: color($colors,secondary) ;
+    color: color($colors,dark)!important ;
     font-style: italic;
     font-size: 12px !important;
+    font-weight: bold;
+    margin-right: 2px;
 }

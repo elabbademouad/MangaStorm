@@ -1,7 +1,6 @@
-import {  Component, OnInit} from '@angular/core';
-import {  NavController,  NavParams} from 'ionic-angular';
-import {  RessourcesProvider} from '../../providers/ressources/ressources';
-import {  LoadingController} from 'ionic-angular'
+import { Component, OnInit } from '@angular/core';
+import { NavController, NavParams } from 'ionic-angular';
+import { RessourcesProvider } from '../../providers/ressources/ressources';
 import { MangaDetails } from '../../Model/manga-details-model';
 import { AppStorageProvider } from '../../providers/app-storage/app-storage';
 @Component({
@@ -16,8 +15,7 @@ export class MangaFavorisPage implements OnInit {
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
     public _ressources: RessourcesProvider,
-    public _loading: LoadingController,
-    public _storage:AppStorageProvider) {
+    public _storage: AppStorageProvider) {
     this.int();
   }
   /***************************************************
@@ -28,19 +26,19 @@ export class MangaFavorisPage implements OnInit {
     this.favoriteManga = [];
     this.getFavoriteManga();
   }
-  ngOnInit(){
+  ngOnInit() {
   }
   /****************************************************
    * Public properties
    *****************************************************/
   ressources: any;
-  favoriteManga: Array <MangaDetails> ;
+  favoriteManga: Array<MangaDetails>;
   /***************************************************
    * action and private methode
    ****************************************************/
   private getFavoriteManga() {
-    this._storage.getFavoriteManga((data:Array<MangaDetails>)=>{
-      this.favoriteManga=data;
+    this._storage.getFavoriteManga((data: Array<MangaDetails>) => {
+      this.favoriteManga = data;
     });
   }
 

@@ -1,4 +1,5 @@
-﻿using Application.Services;
+﻿using Api.Helpers;
+using Application.Services;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
@@ -24,14 +25,71 @@ namespace RestAPI.Controllers
             _cache = cache;
         }
         [HttpGet("GetPagesByChapterId")]
-        public ActionResult<IEnumerable<PageModel>> GetPagesByChapterId(string chapterId, [FromHeader]PluginEnum source = PluginEnum.OnManga)
+        public ActionResult<IEnumerable<PageModel>> GetPagesByChapterId(string chapterId, PluginEnum source = PluginEnum.OnManga)
         {
-            var result = _cache.GetOrCreate<List<PageModel>>(string.Format(CacheKeys.PAGES, chapterId), (cachEntry) =>
-             {
-                 var pageService = _pageServiceDelegate(source);
-                 return Mapper.Map<List<PageModel>>(pageService.GetPagesByChapterId(chapterId));
-             });
-            return Ok(result);
+            try
+            {
+                var result = _cache.GetOrCreate<List<PageModel>>(string.Format(CacheKeys.PAGES, chapterId), (cachEntry) =>
+                {
+                    var pageService = _pageServiceDelegate(source);
+                    return Mapper.Map<List<PageModel>>(pageService.GetPagesByChapterId(chapterId));
+                });
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+        [HttpGet("DownloadImage")]
+        public ActionResult<string> DownloadImage(string url)
+        {
+
+            try
+            {
+                return Ok(this.ToBase64(url));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+        [HttpGet("DownloadChapter")]
+        public ActionResult<List<PageModel>> DownloadChapter(string chapterId, PluginEnum source = PluginEnum.OnManga)
+        {
+            try
+            {
+                var result = _cache.GetOrCreate(string.Format(CacheKeys.DOWNLOADCHAPTER, chapterId), (c) =>
+                {
+                    var pageService = _pageServiceDelegate(source);
+                    var pages = Mapper.Map<List<PageModel>>(pageService.GetPagesByChapterId(chapterId));
+                    foreach (var item in pages)
+                    {
+                        item.Base64 = this.ToBase64(item.Url);
+                    }
+                    return pages;
+                });
+                return result;
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+        private string ToBase64(string url)
+        {
+            try
+            {
+                string output = "data:image/{0};base64,{1}";
+                string base64 = ImageHelper.ConvertImageURLToBase64(url);
+                var temp = url.Split('.');
+                string format = temp[temp.Length - 1];
+                return string.Format(output, format, base64);
+            }
+            catch (Exception ex)
+            {
+                return "";
+            }
         }
     }
 }

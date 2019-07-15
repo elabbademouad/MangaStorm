@@ -1,3 +1,5 @@
+import { Source } from "../Model/source-model";
+
 export class Recent{
     mangaName:string;
     chapterName:string;
@@ -5,6 +7,6 @@ export class Recent{
     chapterNumber:string;
     mangaId:string;
     date:Date;
-    source:number;
+    source:Source;
 
 }

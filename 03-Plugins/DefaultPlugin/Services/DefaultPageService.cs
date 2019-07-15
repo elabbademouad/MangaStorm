@@ -17,6 +17,11 @@ namespace DefaultPlugin.Services
             _pageRepository = pageRepository;
         }
 
+        public List<Page> DownloadChapter(object chapterId)
+        {
+            throw new NotImplementedException();
+        }
+
         public List<Page> GetPagesByChapterId(object id)
         {
             var result = _pageRepository.Query(p => (Guid)p.ChapterId == Guid.Parse(id.ToString()));

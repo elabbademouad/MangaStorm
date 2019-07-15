@@ -24,6 +24,13 @@ import { MangaSectionComponent } from '../components/manga-section/manga-section
 import { RatingStatusComponent } from '../components/rating-status/rating-status';
 import { AppStorageProvider } from '../providers/app-storage/app-storage';
 import { IonicStorageModule} from '@ionic/storage'
+import { SourceList } from '../pages/sources-list/sources-list';
+import { DownloadProvider } from '../providers/download/download';
+import { DownloadPercentPipe } from '../pipes/download-percent/download-percent';
+import { DownloadStateItemComponent } from '../components/download-state-item/download-state-item';
+import { ChooseChaptersPage } from '../pages/choose-chapters-page/choose-chapters-page';
+import { FileProvider } from '../providers/file/file';
+import { File} from '@ionic-native/file'
 @NgModule({
   declarations: [
     MyApp,
@@ -36,7 +43,11 @@ import { IonicStorageModule} from '@ionic/storage'
     MangaItemComponent,
     RecentsPage,
     MangaSectionComponent,
-    RatingStatusComponent
+    RatingStatusComponent,
+    SourceList,
+    DownloadPercentPipe,
+    DownloadStateItemComponent,
+    ChooseChaptersPage
   ],
   imports: [
     BrowserModule,
@@ -57,7 +68,10 @@ import { IonicStorageModule} from '@ionic/storage'
     MangaItemComponent,
     RecentsPage,
     MangaSectionComponent,
-    RatingStatusComponent
+    RatingStatusComponent,
+    SourceList,
+    DownloadStateItemComponent,
+    ChooseChaptersPage
   ],
   providers: [
     StatusBar,
@@ -69,7 +83,10 @@ import { IonicStorageModule} from '@ionic/storage'
     ChapterController,
     PageController,
     TagController,
-    AppStorageProvider
+    AppStorageProvider,
+    DownloadProvider,
+    FileProvider,
+    File
   ]
 })
 export class AppModule {}

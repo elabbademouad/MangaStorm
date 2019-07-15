@@ -7,17 +7,30 @@
   <manga-item [item]="mangaItem"></manga-item>
   <div style="margin: 6px;">
     <div class="mangaHeader">
-        {{ressources.chapters}}<span style="float: left;" class="amiri" item-end>
-          <ion-icon name="book"></ion-icon> 
-        </span>
+      {{ressources.chapters}}<span style="float: left;" class="amiri" item-end>
+        <ion-icon name="book"></ion-icon>
+      </span>
     </div>
-    <ion-list class="amiri">
-        <div  (click)="handleClickChapter(chapter)" class="{{chapter.read ? 'manga-chapter-read' : 'manga-chapter'}}"
-        *ngFor="let chapter of chapters">
-            {{ressources.chapterTitle+chapter.chapter.title}}<span style="float: left;" class="amiri" item-end>
-              <ion-icon name="{{chapter.read ? 'eye' : ''}}"></ion-icon> 
-            </span>
-        </div>
+    <ion-list no-padding>
+      <ion-item-sliding *ngFor="let chapter of chapters">
+        <ion-item no-padding (click)="handleClickChapter(chapter)" color="{{chapter.read ? 'primary' : 'default'}}"
+          class="amiri">
+          <ion-row no-padding>
+            <ion-col no-padding>
+              <span style="font-size: 11px;"> {{ressources.chapterTitle+chapter.chapter.title}}</span>
+            </ion-col>
+            <ion-col col-1 no-padding>
+              <ion-icon color="dark" name="{{chapter.read ? 'eye' : ''}}"></ion-icon>
+            </ion-col>
+          </ion-row>
+        </ion-item>
+        <ion-item-options side="left">
+          <button ion-button color="secondary" (click)="handleClickDownloadChapter(chapter)" >
+            <ion-icon name="download"></ion-icon>
+          </button>
+        </ion-item-options>
+      </ion-item-sliding>
+
     </ion-list>
   </div>
 </ion-content>

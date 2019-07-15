@@ -36,6 +36,6 @@ export class RecentsPage {
         this._storage.setChapterAsRead(chapter,recent.mangaName)
         let chapterVm:ChapterViewModel=new ChapterViewModel();  
         chapterVm.chapter=chapter;
-        this.navCtrl.push(MangaPagePage, {chapter:chapterVm,mangaName:recent.mangaName});
+        this.navCtrl.push(MangaPagePage, {chapter:chapterVm,mangaName:recent.mangaName,source:recent.source.id,offline:false});
     }
 }

@@ -11,5 +11,6 @@ namespace RestAPI.Model
         public int Number { get; set; }
         public string Url { get; set; }
         public object ChapterId { get; set; }
+        public string Base64 { get; set; }
     }
 }

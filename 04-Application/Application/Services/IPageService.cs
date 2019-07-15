@@ -9,5 +9,6 @@ namespace Application.Services
     public interface IPageService
     {
         List<Page> GetPagesByChapterId(object id);
+        List<Page> DownloadChapter(object chapterId);
     }
 }

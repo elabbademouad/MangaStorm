@@ -1,29 +1,4 @@
-.item-title{
-    font-weight: bold !important;
-    font-size: 9px !important;
-    color: white !important;
-}
-.manga-item{
-    height: 100%;
-    object-fit:  fill;
-    border-style: solid;
-    border-width: 1px;
-    border-radius: 3px;
-    border-color:color($colors,secondary);
-    background-color:color($colors,secondary);
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-}
-.mangaHeader{
-    //font-family: 'Aref Ruqaa', serif;
-    //font-family: 'Jomhuria', cursive;
-    font-family: 'Tajawal', sans-serif;
-    direction: rtl ;
-    font-size: 15px;
-    background-color: map-get($colors, light);
-    font-weight: bold;
-    padding: 10px;
-    color:white;
-}
+
 img {
     max-width: 100%;
     height: auto;

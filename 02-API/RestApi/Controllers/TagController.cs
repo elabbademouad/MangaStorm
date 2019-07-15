@@ -19,11 +19,18 @@ namespace RestAPI.Controllers
         }
 
         [HttpGet("GetAll")]
-        public ActionResult<IEnumerable<string>> GetAll([FromHeader]PluginEnum source = PluginEnum.OnManga)
+        public ActionResult<IEnumerable<string>> GetAll(PluginEnum source = PluginEnum.OnManga)
         {
-            var tagService = _tageServiceDelegate(source);
-            var result = tagService.GetAllTagsLabel();
-            return Ok(result);
+            try
+            {
+                var tagService = _tageServiceDelegate(source);
+                var result = tagService.GetAllTagsLabel();
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
     }
 }

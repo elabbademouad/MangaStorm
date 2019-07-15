@@ -70,32 +70,48 @@ namespace DefaultPlugin.Services
                 Tags = tags,
                 Date = dateEdition,
                 Rating = rating,
-                Views = views
+                Views = views,
+                Source = new Source()
+                {
+                    Id = 1,
+                    Label = "On-Manga"
+                }
             };
         }
+
+
         public List<MangaDetails> GetMangaDetailsList(object page = null, object filtre = null, object tag = null)
         {
             if (page == null)
             {
                 page = 1;
             }
+            tag = this.GetTagIdByName(tag);
             var list = new List<MangaDetails>();
             HtmlWeb htmlWeb = new HtmlWeb();
-            HtmlDocument htmlDocument = htmlWeb.Load($"https://www.on-manga.me/filterList?page={page}&cat=&alpha=&sortBy=name&asc&author&artist=&tag=");
+            HtmlDocument htmlDocument = htmlWeb.Load($"https://www.on-manga.me/filterList?page={page}&cat={tag}&alpha=&sortBy=name&asc&author&artist=&tag=");
             var htmlExtract = htmlDocument.DocumentNode.SelectNodes("//div[@class='chapter-container']");
-            foreach (var item in htmlExtract)
+            if (htmlExtract != null)
             {
-                var mangaId = item.SelectSingleNode(".//div[@class='chapter-image']").SelectSingleNode(".//a").Attributes["href"].Value;
-                var mangaCover = item.SelectSingleNode(".//div[@class='chapter-image']").SelectSingleNode(".//a").SelectSingleNode(".//img").Attributes["src"].Value;
-                var mangaName = item.SelectSingleNode(".//div[@class='chapter-image']").SelectSingleNode(".//a").SelectSingleNode(".//img").Attributes["alt"].Value.Replace("&quot;", "");
-                var manga = new MangaDetails()
+                foreach (var item in htmlExtract)
                 {
-                    Id = mangaId,
-                    Cover = mangaCover,
-                    Name = mangaName,
-                    Tags = ""
-                };
-                list.Add(manga);
+                    var mangaId = item.SelectSingleNode(".//div[@class='chapter-image']").SelectSingleNode(".//a").Attributes["href"].Value;
+                    var mangaCover = item.SelectSingleNode(".//div[@class='chapter-image']").SelectSingleNode(".//a").SelectSingleNode(".//img").Attributes["src"].Value;
+                    var mangaName = item.SelectSingleNode(".//div[@class='chapter-image']").SelectSingleNode(".//a").SelectSingleNode(".//img").Attributes["alt"].Value.Replace("&quot;", "");
+                    var manga = new MangaDetails()
+                    {
+                        Id = mangaId,
+                        Cover = mangaCover,
+                        Name = mangaName,
+                        Tags = "",
+                        Source = new Source()
+                        {
+                            Id = 1,
+                            Label = "On-Manga"
+                        }
+                    };
+                    list.Add(manga);
+                }
             }
             return list;
         }
@@ -143,6 +159,29 @@ namespace DefaultPlugin.Services
         public List<MangaDetails> GetNewList(int count)
         {
             throw new NotImplementedException();
+        }
+        private object GetTagIdByName(object tagName)
+        {
+            if (tagName == null)
+            {
+                return "";
+            }
+            if (string.IsNullOrEmpty(tagName.ToString()))
+            {
+                return "";
+            };
+            HtmlWeb htmlWeb = new HtmlWeb();
+            HtmlDocument htmlDocument = htmlWeb.Load("https://www.on-manga.me/manga-list");
+            var htmlExtract = htmlDocument?.DocumentNode?.SelectSingleNode(".//ul[@class='list-category']")?.SelectNodes(".//a[@class='category']");
+            foreach (var item in htmlExtract)
+            {
+                if (item.InnerText.Contains(tagName.ToString()))
+                {
+                    return item.Attributes["href"].Value.Split('=')[1];
+                }
+            }
+            return "";
+
         }
     }
 }

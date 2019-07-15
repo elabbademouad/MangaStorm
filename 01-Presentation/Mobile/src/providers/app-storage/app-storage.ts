@@ -7,7 +7,7 @@ import { Chapter } from '../../Model/chapter-model';
 export class AppStorageProvider {
 
   mangasKey: string = "MANGAS";
-  chaptersKey: string = "";
+  chaptersKey: string = "CHAPTERS";
   recentsKey: string = "RECENTS";
   constructor(public _storage: Storage) {
 
@@ -37,7 +37,7 @@ export class AppStorageProvider {
     });
   }
 
-  addOrRemoveMangaFromFavorie(manga: MangaDetailsViewModel): Promise<any> {
+  updateManga(manga: MangaDetailsViewModel): Promise<any> {
     return this._storage.get(this.mangasKey).then((items: Array<MangaDetailsViewModel>) => {
       if (items != null && items != undefined) {       
         let exists: boolean = false;
@@ -121,7 +121,22 @@ export class AppStorageProvider {
     });
   }
   clear(){
-    this._storage.clear().then((data)=>{console.log(data)});
+    this._storage.clear();
   }
-
+  getLastReadChapterByMangaId(mangaId:any,_callBack: any){
+    this._storage.get(this.recentsKey).then((items: Array<Recent>) => {
+      if (items != null && items != undefined) {
+        let item=items.filter((r)=>{
+          return r.mangaId==mangaId;
+        })
+        if(item!=null && item.length!=0){
+          _callBack(item[0]);
+        }
+        _callBack(null);
+      } else {
+        _callBack(null)
+      }
+    });
+  }
+  
 }

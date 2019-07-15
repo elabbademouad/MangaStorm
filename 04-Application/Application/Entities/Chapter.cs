@@ -12,6 +12,7 @@ namespace Application.Entities
 
         public object MangaId { get; set; }
         public int Views { get; set; }
+        public Source Source { get; set; }
 
     }
 }

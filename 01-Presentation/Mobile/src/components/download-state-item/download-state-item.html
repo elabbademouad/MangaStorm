@@ -1,0 +1,75 @@
+<ion-item-sliding #item>
+  <ion-item>
+    <ion-row>
+      <ion-col col-1 *ngIf="downloadState.state==2" style="margin-top: 11px;">
+          <ion-icon color="dark" name="pause"></ion-icon>
+      </ion-col>
+      <ion-col col-1 *ngIf="downloadState.state==0">
+        <div class="app-spinner"></div>
+      </ion-col>
+      <ion-col col-1 *ngIf="getErrors()!=0" style="margin-top: 11px;" >
+          <ion-icon color="danger" name="alert"></ion-icon>
+      </ion-col>
+      <ion-col>
+        <div class="manga-title amiri" text-wrap>
+          <span>{{downloadState.manga.item.name}}</span>
+        </div>
+        <div class="download-progress-container">
+          <div class="download-progress"
+            [ngStyle]="{'width.%':getPercentValue(downloadState.manga.item.countChapters,downloadState.downloadChaptersCount)}">
+            <p class="progress-value amiri">
+              {{getPercentValue(downloadState.manga.item.countChapters,downloadState.downloadChaptersCount)+'%'}}</p>
+          </div>
+          <span (click)="selected=!selected;" class="amiri"
+            style="font-size: 12px; color :gray; direction: rtl; font-weight: bold;">
+            {{ressources.chapters}}{{downloadState.downloadChaptersCount}}/{{downloadState.manga.item.countChapters}}({{getPercentValue(downloadState.manga.item.countChapters,downloadState.downloadChaptersCount)}}%)
+            <ion-icon name="{{(selected) ? 'arrow-dropup' : 'arrow-dropdown'}}"></ion-icon>
+          </span>
+        </div>
+
+      </ion-col>
+      <ion-col col-2 no-padding>
+        <img class="manga-badge" src="{{downloadState.manga.item.cover}}" />
+      </ion-col>
+    </ion-row>
+  </ion-item>
+  <ion-item-options side="left">
+    <button ion-button color="danger" class="amiri">
+      <ion-icon name="trash"></ion-icon>
+    </button>
+    <button ion-button class="amiri" color="secondary" *ngIf="downloadState.state==2" (click)="handleClickResume()">
+      <ion-icon name="play"></ion-icon>
+    </button>
+    <button ion-button class="amiri" color="warning" *ngIf="getErrors()!=0" (click)="handleClickRetry()">
+        <ion-icon name="hammer"></ion-icon>
+      </button>
+  </ion-item-options>
+</ion-item-sliding>
+
+<div *ngIf="selected">
+  <ion-item-sliding *ngFor="let chapter of downloadState.chapters">
+    <ion-item>
+      <ion-row>
+        <ion-col col-1 *ngIf="chapter.state==0">
+          <div class="app-spinner"></div>
+        </ion-col>
+        <ion-col col-1 *ngIf="chapter.state==2">
+            <ion-icon color="dark" name="pause"></ion-icon>
+        </ion-col>
+        <ion-col col-1 *ngIf="chapter.state==3">
+          <ion-icon color="danger" name="alert"></ion-icon>
+        </ion-col>
+        <ion-col>
+          <div class="chapter-title amiri" text-wrap>
+            {{ressources.chapterTitle+chapter.chapter.chapter.title}}
+          </div>
+        </ion-col>
+      </ion-row>
+    </ion-item>
+    <ion-item-options side="left">
+      <button ion-button color="danger" class="amiri">
+        <ion-icon name="trash"></ion-icon>
+      </button>
+    </ion-item-options>
+  </ion-item-sliding>
+</div>

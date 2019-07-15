@@ -118,6 +118,11 @@ namespace Api
                 FileProvider = new PhysicalFileProvider(
                     Path.Combine(Directory.GetCurrentDirectory(), Configuration["ApiSettings:MediaPath"])),
             })
+            //.UseDirectoryBrowser(new DirectoryBrowserOptions
+            //{
+            //    FileProvider = new PhysicalFileProvider(
+            //        Path.Combine(Directory.GetCurrentDirectory(), Configuration["ApiSettings:MediaPath"])),
+            //})
             .UseCors(builder =>
                     builder.AllowAnyOrigin()
                     .AllowAnyHeader()

@@ -15,7 +15,7 @@ export class TagController{
   ****************************************************/
   init() {
     this.urlBase = "http://192.168.43.200:5000";
-    this.getAllApi="/api/tag/GetAll";
+    this.getAllApi="/api/tag/GetAll?source=";
   }
   /****************************************************
   * properties
@@ -25,7 +25,7 @@ export class TagController{
   /****************************************************
   * Public methodes
  *****************************************************/
-  public getAll() {
-    return this._http.get<Array<string>>(this.urlBase + this.getAllApi);
+  public getAll(source:any) {
+    return this._http.get<Array<string>>(this.urlBase + this.getAllApi+source);
   }
 }

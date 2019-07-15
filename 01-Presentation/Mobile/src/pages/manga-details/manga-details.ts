@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
+import { Component} from '@angular/core';
+import { NavController, NavParams, ToastController } from 'ionic-angular';
 import { RessourcesProvider } from '../../providers/ressources/ressources'
 import { MangaPagePage } from '../../pages/manga-page/manga-page';
 import { LoadingController } from 'ionic-angular'
@@ -9,6 +9,9 @@ import { MangaController } from '../../providers/controllers/manga-Controller';
 import { ChapterController } from '../../providers/controllers/chapter-Controller';
 import { AppStorageProvider } from '../../providers/app-storage/app-storage';
 import { Recent } from '../../ViewModel/recent';
+import { DownloadProvider } from '../../providers/download/download';
+import { DownloadState } from '../../Model/donwload-state-model';
+import { DownloadStateEnum } from '../../enums/download-state-enum';
 @Component({
   selector: 'manga-details',
   templateUrl: 'manga-details.html'
@@ -24,40 +27,51 @@ export class MangaDetailsPage {
     public _chapterCtr: ChapterController,
     public _ressources: RessourcesProvider,
     public _loading: LoadingController,
-    public _storage: AppStorageProvider) {
-    this.int();
+    public _storage: AppStorageProvider,
+    public _downloadService: DownloadProvider,
+    public _toastCtrl: ToastController) {
+    this.downloadManga =this.navParams.data;
+    if (this.navParams.data.manga !=undefined) {
+      this.downloadManga =this.navParams.data;
+      this.offline=true;
+      this.initOffline();
+    } else {
+      this.initOnline();
+    }
+
   }
   /***************************************************
    * Initialize component
    ****************************************************/
-  int() {
+  initOnline() {
     this.mangaItem = this.navParams.data;
     this.chapters = [];
-    this.readChapters = [];
     this.ressources = this._ressources.stringResources;
 
     let loading = this._loading.create({
       content: this.ressources.loading
     });
     loading.present();
-    this._mangaCtr.getById(this.mangaItem.item.id)
+    this._mangaCtr.getById(this.mangaItem.item.id, this.mangaItem.item.source.id)
       .subscribe((data) => {
         this.mangaItem.item = data;
       })
-    this._chapterCtr.getByMangaId(this.mangaItem.item.id)
+    this._chapterCtr.getByMangaId(this.mangaItem.item.id, this.mangaItem.item.source.id)
       .subscribe((data) => {
         data.forEach((c) => {
           this.chapters.push({
             chapter: c,
-            read: false
+            read: false,
+            selected: false
           })
         });
         this._storage.getReadMangaChapters(this.mangaItem.item.id, (data: Array<Recent>) => {
+          let readChapters = [];
           for (let i = 0; i < data.length; i++) {
-            this.readChapters.push(data[i].chapterId);
+            readChapters.push(data[i].chapterId);
           }
           this.chapters.forEach(c => {
-            c.read = this.readChapters.findIndex(r => r == c.chapter.id) !== -1;
+            c.read = readChapters.findIndex(r => r == c.chapter.id) !== -1;
           })
         });
         loading.dismiss();
@@ -65,19 +79,62 @@ export class MangaDetailsPage {
         loading.dismiss();
       })
   }
+  initOffline() {
+    this.downloadManga = this.navParams.data;
+    this.mangaItem = this.downloadManga.manga;
+    this.chapters = [];
+    this.ressources = this._ressources.stringResources;
+
+    let loading = this._loading.create({
+      content: this.ressources.loading
+    });
+    loading.present();
+    this.downloadManga.chapters.forEach((c) => {
+      if(c.state==DownloadStateEnum.done){
+        this.chapters.push(c.chapter);
+      }
+    });
+    this._storage.getReadMangaChapters(this.mangaItem.item.id, (data: Array<Recent>) => {
+      let readChapters = [];
+      for (let i = 0; i < data.length; i++) {
+        readChapters.push(data[i].chapterId);
+      }
+      this.chapters.forEach(c => {
+        c.read = readChapters.findIndex(r => r == c.chapter.id) !== -1;
+      })
+      loading.dismiss();
+    });
+  }
   /****************************************************
    * Public properties
   *****************************************************/
-  mangaItem: MangaDetailsViewModel=new MangaDetailsViewModel() ;
+  downloadManga: DownloadState;
+  mangaItem: MangaDetailsViewModel = new MangaDetailsViewModel();
   ressources: any;
   chapters: Array<ChapterViewModel>;
-  readChapters: Array<string>;
+  offline: boolean = false;
   /****************************************************
    * UI event handler 
   *****************************************************/
   handleClickChapter(chapterVm: ChapterViewModel) {
     this._storage.setChapterAsRead(chapterVm.chapter, this.mangaItem.item.name);
     chapterVm.read = true;
-    this.navCtrl.push(MangaPagePage, { chapter: chapterVm, mangaName: this.mangaItem.item.name });
+
+    this.navCtrl.push(MangaPagePage, { chapter: chapterVm, mangaName: this.mangaItem.item.name, source: this.mangaItem.item.source.id,offline:this.offline });
   }
+  handleClickDownloadChapter(chapter: ChapterViewModel) {
+    this._downloadService.getDownloadChaptersId(this.mangaItem.item.id, (items: Array<string>) => {
+      if (items.indexOf(chapter.chapter.id) == -1) {
+        this._downloadService.download(this.mangaItem, [chapter]);
+      } else {
+        let toast = this._toastCtrl.create({
+          message: 'الفصل محمل سابقا',
+          duration: 4000,
+          cssClass: "toast"
+        });
+        toast.present();
+      }
+    });
+  }
+
 }

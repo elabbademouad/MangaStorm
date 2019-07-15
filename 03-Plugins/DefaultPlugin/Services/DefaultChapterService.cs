@@ -1,4 +1,5 @@
 ﻿using Application.Entities;
+using Application.Model;
 using Application.Services;
 using DefaultPlugin.Interfaces;
 using System;
@@ -15,10 +16,20 @@ namespace DefaultPlugin.Services
             _chapterRepository = chapterRepository;
         }
 
+
+
         public List<Chapter> GetChaptersByMangaId(object id)
         {
             var result = _chapterRepository.Query(c => (Guid)c.MangaId == Guid.Parse(id.ToString()));
-            return result.OrderBy(c => c.Number).ToList();
+            result.ForEach((item) =>
+            {
+                item.Source = new Source()
+                {
+                    Id = 0,
+                    Label = "mangaStorm"
+                };
+            });
+            return result.OrderByDescending(c => c.Number).ToList();
         }
         public Chapter GetNextChapter(object mangaId, object currentChapterNumber)
         {

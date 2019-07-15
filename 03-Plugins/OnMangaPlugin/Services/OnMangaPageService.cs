@@ -11,6 +11,11 @@ namespace DefaultPlugin.Services
 {
     public class OnMangaPageService : IPageService
     {
+        public List<Page> DownloadChapter(object chapterId)
+        {
+            throw new NotImplementedException();
+        }
+
         public List<Page> GetPagesByChapterId(object id)
         {
             HtmlWeb htmlWebPageCount = new HtmlWeb();

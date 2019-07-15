@@ -10,5 +10,8 @@ declare module server {
 		countChapters: number;
 		views: number;
 		rating: string;
+		source: {
+			label: string;
+		};
 	}
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Application.Entities;
+using System;
 
 namespace RestAPI.Model
 {
@@ -9,6 +10,7 @@ namespace RestAPI.Model
         public string Title { get; set; }
         public object MangaId { get; set; }
         public int Views { get; set; }
+        public Source Source { get; set; }
 
     }
 }

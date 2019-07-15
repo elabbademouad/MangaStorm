@@ -1,4 +1,5 @@
 ﻿using Application.Entities;
+using Application.Model;
 using Application.Services;
 using HtmlAgilityPack;
 using System;
@@ -9,6 +10,7 @@ namespace DefaultPlugin.Services
 {
     public class OnMangaChapterService : IChapterService
     {
+
         public List<Chapter> GetChaptersByMangaId(object id)
         {
             HtmlWeb htmlWeb = new HtmlWeb();
@@ -24,6 +26,11 @@ namespace DefaultPlugin.Services
                     MangaId = id,
                     Title = item.SelectSingleNode(".//h5[@class='chapter-title-rtl']").SelectSingleNode(".//a").InnerText,
                     Url = "",
+                    Source = new Source()
+                    {
+                        Id = 1,
+                        Label = "On-Manga"
+                    }
                 });
             }
             return list;
