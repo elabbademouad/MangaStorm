@@ -69,7 +69,7 @@ namespace Api.Helpers
                 stream.Close();
                 response.Close();
             }
-            catch (Exception exp)
+            catch (Exception)
             {
                 buf = null;
             }

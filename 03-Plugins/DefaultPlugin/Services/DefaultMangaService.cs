@@ -34,8 +34,17 @@ namespace DefaultPlugin.Services
             {
                 tag = "";
             }
+            if (filtre == null)
+            {
+                filtre = "";
+            }
             List<MangaDetails> mangaDetailsList = new List<MangaDetails>();
-            List<Manga> mangaList = this.GetAllManga().Where(m => m.Tags.Contains(tag.ToString())).ToList();
+            Func<Manga, bool> filterPredicate = (m) => { return m.Name.ToLower().Contains(filtre.ToString().ToLower()); };
+            Func<Manga, bool> tagPredicate = (m) => { return m.Tags.ToLower().Contains(tag.ToString().ToLower()); };
+
+            List<Manga> mangaList = this.GetAllManga()
+                                        .Where(m => filterPredicate(m) && tagPredicate(m))
+                                        .ToList();
             int[] interval = new int[2];
             interval[0] = (int.Parse(page.ToString()) - 1) * 12;
             interval[1] = ((int.Parse(page.ToString())) * 12) - 1;

@@ -4,7 +4,8 @@
   </ion-navbar>
 </ion-header>
 <ion-content no-padding>
-  <div style="margin: 6px;">
+  <loading *ngIf="!loaded"></loading>
+  <div *ngIf="loaded" style="margin: 6px;">
     <div class="mangaHeader">
       {{ressources.chapters}}<span style="float: left;" class="amiri" item-end>
         <ion-icon name="book"></ion-icon>
@@ -27,14 +28,12 @@
         </button>
       </ion-col>
       <ion-col>
-        <button ion-button block (click)="handleClickDownload()" [disabled]="selectedChaprersCount == 0 || selectedChaprersCount>=11" color="secondary">
+        <button ion-button block (click)="handleClickDownload()"
+          [disabled]="selectedChaprersCount == 0 || selectedChaprersCount>=11" color="secondary">
           <span>{{selectedChaprersCount}}/{{mangaItem.item.countChapters}}</span>
           <ion-icon style="margin-left: 4px;" name="download"></ion-icon>
         </button>
       </ion-col>
     </ion-row>
-
-
-
   </ion-item>
 </ion-footer>

@@ -24,9 +24,7 @@ export class ChapterController {
   * properties
  *****************************************************/
   urlBase: string;
-  getChaptersByMangaIdApiUrl:any=(mangaId: any,source:any)=>{return this.urlBase + `/api/chapter/GetChaptersByMangaId?mangaId=${mangaId}&source=${source}`;};
-  getNextChapterApiUrl:any=(currentChapter:any,mangaId: any,source:any)=>{ return this.urlBase + `/api/chapter/GetNextChapter?currentChapter=${currentChapter}?mangaId=${mangaId}&source=${source}`};
-  getPreviousChapterApiUrl:any=(currentChapter:any,mangaId: any,source:any)=>{ return this.urlBase + `/api/chapter/GetPreviousChapter?currentChapter=${currentChapter}?mangaId=${mangaId}&source=${source}`};
+  getChaptersByMangaIdApiUrl:any=(mangaId: any,source:any)=>{return this.urlBase + `/api/chapter/GetChaptersByMangaId?source=${source}&mangaId=${mangaId}`;};
   
   /****************************************************
   * Public methodes
@@ -34,12 +32,5 @@ export class ChapterController {
   public getByMangaId(mangaId:string,source:any) {
     return this._http.get<Array<Chapter>>(this.getChaptersByMangaIdApiUrl(mangaId,source));
   }
-  public getNextChapter(mangaId:string,currentChapter:any,source:number) {
-    return this._http.get<Chapter>(this.getNextChapterApiUrl(currentChapter,mangaId,source));
-  }
-  public getPreviousChapter(mangaId:string,currentChapter:any,source:number) {
-    return this._http.get<Chapter>(this.getPreviousChapterApiUrl(currentChapter,mangaId,source));
-  }
-
-
+  
 }

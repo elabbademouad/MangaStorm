@@ -12,6 +12,7 @@ import { SourceList } from '../pages/sources-list/sources-list';
 import { SourceViewModel } from '../ViewModel/source-view-model';
 import { MangaDownloadsPage } from '../pages/manga-downloads/manga-downloads';
 import { DownloadProvider } from '../providers/download/download';
+import { ManageDataPage } from '../pages/manage-data-page/manage-data-page';
 @Component({
   templateUrl: 'app.html'
 })
@@ -37,6 +38,7 @@ export class MyApp {
       { title: this.ressources.downloads, component: MangaDownloadsPage, icon: 'download' },
       { title: this.ressources.recents, component: RecentsPage, icon: 'time' },
       { title: this.ressources.sourceMenu, component: SourceList, icon: 'create' },
+      // { title:this.ressources.manageData,component:ManageDataPage,icon:'pie'}
     ];
   }
 
@@ -46,14 +48,11 @@ export class MyApp {
       this.setDefaultSource();
       this.rootPage = HomePage;
       this.statusBar.overlaysWebView(false);
-      this.statusBar.backgroundColorByHexString('#c2c2c2');
+      this.statusBar.backgroundColorByHexString('#64b5f6');
     });
   }
   openPage(page: any) {
     this.nav.setRoot(page.component);
-  }
-  deleteData() {
-    this._storage.clear();
   }
   setDefaultSource(){
     if(localStorage.getItem("mangaSource")==null){

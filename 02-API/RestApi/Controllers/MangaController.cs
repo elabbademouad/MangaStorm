@@ -28,15 +28,15 @@ namespace Api.Controllers
         }
 
         [HttpGet("GetAll")]
-        public ActionResult<IEnumerable<MangaDetailsModel>> GetAll(PluginEnum source = PluginEnum.OnManga, int page = 1, string tag = "")
+        public ActionResult<IEnumerable<MangaDetailsModel>> GetAll(PluginEnum source = PluginEnum.OnManga, int page = 1, string tag = "", string filter = "")
         {
             try
             {
-                List<MangaDetailsModel> result = _cache.GetOrCreate(string.Format(CacheKeys.GETALLMANGA, source, page, tag), (cacheEntry) =>
-                {
-                    var mangaService = _mangaServiceDelegate(source);
-                    return Mapper.Map<List<MangaDetailsModel>>(mangaService.GetMangaDetailsList(page, tag: tag));
-                });
+                List<MangaDetailsModel> result = _cache.GetOrCreate(string.Format(CacheKeys.GETALLMANGA, source, page, tag, filter), (cacheEntry) =>
+                 {
+                     var mangaService = _mangaServiceDelegate(source);
+                     return Mapper.Map<List<MangaDetailsModel>>(mangaService.GetMangaDetailsList(page, tag: tag, filtre: filter));
+                 });
                 return Ok(result);
             }
             catch (Exception ex)
@@ -46,10 +46,12 @@ namespace Api.Controllers
         }
 
         [HttpGet("GetById")]
-        public ActionResult<MangaDetailsModel> GetById(string mangaId, PluginEnum source = PluginEnum.OnManga)
+        public ActionResult<MangaDetailsModel> GetById(PluginEnum source = PluginEnum.OnManga)
         {
+
             try
             {
+                string mangaId = Request.QueryString.Value.Split("mangaId=")[1];
                 var result = _cache.GetOrCreate(string.Format(CacheKeys.MANGA, mangaId), (c) =>
                 {
                     var mangaService = _mangaServiceDelegate(source);

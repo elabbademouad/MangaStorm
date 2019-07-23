@@ -38,4 +38,9 @@ export class RecentsPage {
         chapterVm.chapter=chapter;
         this.navCtrl.push(MangaPagePage, {chapter:chapterVm,mangaName:recent.mangaName,source:recent.source.id,offline:false});
     }
+    handlClickDeleteChapter(chapterId:string){
+        this._storage.deleteRecentRead(chapterId,(items:Array<Recent>)=>{
+            this.recents=items;
+        })
+    }
 }

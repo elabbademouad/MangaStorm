@@ -1,8 +1,7 @@
-import { Component} from '@angular/core';
+import { Component } from '@angular/core';
 import { NavController, NavParams, ToastController } from 'ionic-angular';
 import { RessourcesProvider } from '../../providers/ressources/ressources'
 import { MangaPagePage } from '../../pages/manga-page/manga-page';
-import { LoadingController } from 'ionic-angular'
 import { MangaDetailsViewModel } from '../../ViewModel/manga-details-View-model';
 import { ChapterViewModel } from '../../ViewModel/chapter-view-model';
 import { MangaController } from '../../providers/controllers/manga-Controller';
@@ -26,14 +25,13 @@ export class MangaDetailsPage {
     public _mangaCtr: MangaController,
     public _chapterCtr: ChapterController,
     public _ressources: RessourcesProvider,
-    public _loading: LoadingController,
     public _storage: AppStorageProvider,
     public _downloadService: DownloadProvider,
     public _toastCtrl: ToastController) {
-    this.downloadManga =this.navParams.data;
-    if (this.navParams.data.manga !=undefined) {
-      this.downloadManga =this.navParams.data;
-      this.offline=true;
+    this.downloadManga = this.navParams.data;
+    if (this.navParams.data.manga != undefined) {
+      this.downloadManga = this.navParams.data;
+      this.offline = true;
       this.initOffline();
     } else {
       this.initOnline();
@@ -48,13 +46,11 @@ export class MangaDetailsPage {
     this.chapters = [];
     this.ressources = this._ressources.stringResources;
 
-    let loading = this._loading.create({
-      content: this.ressources.loading
-    });
-    loading.present();
+    this.loaded = 0;
     this._mangaCtr.getById(this.mangaItem.item.id, this.mangaItem.item.source.id)
       .subscribe((data) => {
         this.mangaItem.item = data;
+        this.loaded++;
       })
     this._chapterCtr.getByMangaId(this.mangaItem.item.id, this.mangaItem.item.source.id)
       .subscribe((data) => {
@@ -74,9 +70,7 @@ export class MangaDetailsPage {
             c.read = readChapters.findIndex(r => r == c.chapter.id) !== -1;
           })
         });
-        loading.dismiss();
-      }, (errr) => {
-        loading.dismiss();
+        this.loaded++
       })
   }
   initOffline() {
@@ -85,15 +79,21 @@ export class MangaDetailsPage {
     this.chapters = [];
     this.ressources = this._ressources.stringResources;
 
-    let loading = this._loading.create({
-      content: this.ressources.loading
-    });
-    loading.present();
+    this.loaded = 0;
     this.downloadManga.chapters.forEach((c) => {
-      if(c.state==DownloadStateEnum.done){
+      if (c.state == DownloadStateEnum.done) {
         this.chapters.push(c.chapter);
       }
     });
+    this.chapters.sort((a, b) => {
+      if (a.chapter.number >= b.chapter.number) {
+        return 1;
+      } else if (a.chapter.number <= b.chapter.number) {
+        return -1;
+      } else {
+        return 0;
+      }
+    })
     this._storage.getReadMangaChapters(this.mangaItem.item.id, (data: Array<Recent>) => {
       let readChapters = [];
       for (let i = 0; i < data.length; i++) {
@@ -102,7 +102,7 @@ export class MangaDetailsPage {
       this.chapters.forEach(c => {
         c.read = readChapters.findIndex(r => r == c.chapter.id) !== -1;
       })
-      loading.dismiss();
+      this.loaded = 2;
     });
   }
   /****************************************************
@@ -113,6 +113,7 @@ export class MangaDetailsPage {
   ressources: any;
   chapters: Array<ChapterViewModel>;
   offline: boolean = false;
+  loaded: number = 0;
   /****************************************************
    * UI event handler 
   *****************************************************/
@@ -120,7 +121,7 @@ export class MangaDetailsPage {
     this._storage.setChapterAsRead(chapterVm.chapter, this.mangaItem.item.name);
     chapterVm.read = true;
 
-    this.navCtrl.push(MangaPagePage, { chapter: chapterVm, mangaName: this.mangaItem.item.name, source: this.mangaItem.item.source.id,offline:this.offline });
+    this.navCtrl.push(MangaPagePage, { chapter: chapterVm, mangaName: this.mangaItem.item.name, source: this.mangaItem.item.source.id, offline: this.offline });
   }
   handleClickDownloadChapter(chapter: ChapterViewModel) {
     this._downloadService.getDownloadChaptersId(this.mangaItem.item.id, (items: Array<string>) => {

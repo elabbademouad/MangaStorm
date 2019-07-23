@@ -34,7 +34,7 @@
     </ion-row>
   </ion-item>
   <ion-item-options side="left">
-    <button ion-button color="danger" class="amiri">
+    <button ion-button color="danger" (click)="handleClickDeleteManga()"  class="amiri">
       <ion-icon name="trash"></ion-icon>
     </button>
     <button ion-button class="amiri" color="secondary" *ngIf="downloadState.state==2" (click)="handleClickResume()">
@@ -67,7 +67,7 @@
       </ion-row>
     </ion-item>
     <ion-item-options side="left">
-      <button ion-button color="danger" class="amiri">
+      <button ion-button  (click)="handlClickDeleteChapter(chapter)" color="danger" class="amiri">
         <ion-icon name="trash"></ion-icon>
       </button>
     </ion-item-options>

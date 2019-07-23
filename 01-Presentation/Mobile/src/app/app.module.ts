@@ -31,6 +31,8 @@ import { DownloadStateItemComponent } from '../components/download-state-item/do
 import { ChooseChaptersPage } from '../pages/choose-chapters-page/choose-chapters-page';
 import { FileProvider } from '../providers/file/file';
 import { File} from '@ionic-native/file'
+import { LoadingComponent } from '../components/loading/loading';
+import { ManageDataPage } from '../pages/manage-data-page/manage-data-page';
 @NgModule({
   declarations: [
     MyApp,
@@ -47,7 +49,9 @@ import { File} from '@ionic-native/file'
     SourceList,
     DownloadPercentPipe,
     DownloadStateItemComponent,
-    ChooseChaptersPage
+    ChooseChaptersPage,
+    LoadingComponent,
+    ManageDataPage
   ],
   imports: [
     BrowserModule,
@@ -71,7 +75,9 @@ import { File} from '@ionic-native/file'
     RatingStatusComponent,
     SourceList,
     DownloadStateItemComponent,
-    ChooseChaptersPage
+    ChooseChaptersPage,
+    LoadingComponent,
+    ManageDataPage
   ],
   providers: [
     StatusBar,

@@ -23,16 +23,16 @@ export class MangaController {
   * properties
  *****************************************************/
   private urlBase: string;
-  private getAllApiUrl: any = (page: number, tag: string, source: any) => { return this.urlBase + `/api/manga/GetAll?page=${page}&tag=${tag}&source=${source}`; };
-  private getByIdApiUrl: any = (mangaId: any, source: any) => { return this.urlBase + `/api/manga/GetById?mangaId=${mangaId}&source=${source}`; };
+  private getAllApiUrl: any = (page: number, tag: string, source: any,search:string) => { return this.urlBase + `/api/manga/GetAll?page=${page}&tag=${tag}&source=${source}&filter=${search}`; };
+  private getByIdApiUrl: any = (mangaId: any, source: any) => { return this.urlBase + `/api/manga/GetById?source=${source}&mangaId=${mangaId}`; };
   private getMangaListHasNewChapterApiUrl: any = (count: any, source: any) => { return this.urlBase + `/api/manga/GetMangaListHasNewChapter?count=${count}&source=${source}`; };//string="/api/manga/GetMangaListHasNewChapter/";
   private getMostViewedApiUrl: any = (count: any, source: any) => { return this.urlBase + `/api/manga/GetMostViewed?count=${count}&source=${source}`; };
   private getForYouListApiUrl: any = (count: any, source: any) => { return this.urlBase + `/api/manga/GetForYouList?count=${count}&source=${source}`; };
   /****************************************************
   * Public methodes
  *****************************************************/
-  public getAll(page: number = 1, tag: string = "", source: any) {
-    return this._http.get<Array<MangaDetails>>(this.getAllApiUrl(page, tag, source));
+  public getAll(page: number = 1, tag: string = "", source: any,search:string) {
+    return this._http.get<Array<MangaDetails>>(this.getAllApiUrl(page, tag, source,search));
   }
 
   public getById(id: string, source: any) {

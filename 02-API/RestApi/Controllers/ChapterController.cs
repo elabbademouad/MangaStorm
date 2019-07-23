@@ -1,5 +1,4 @@
-﻿using Application.Model;
-using Application.Services;
+﻿using Application.Services;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
@@ -26,10 +25,11 @@ namespace RestAPI.Controllers
         }
 
         [HttpGet("GetChaptersByMangaId")]
-        public ActionResult<List<ChapterModel>> GetChaptersByMangaId(string mangaId, PluginEnum source = PluginEnum.OnManga)
+        public ActionResult<List<ChapterModel>> GetChaptersByMangaId(PluginEnum source = PluginEnum.OnManga)
         {
             try
             {
+                string mangaId = Request.QueryString.Value.Split("mangaId=")[1];
                 var result = _cache.GetOrCreate(string.Format(CacheKeys.CHAPTERS, mangaId), (c) =>
                 {
                     var chapterService = _chapterServiceDelegate(source);

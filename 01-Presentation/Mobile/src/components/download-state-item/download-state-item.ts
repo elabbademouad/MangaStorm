@@ -3,6 +3,7 @@ import { DownloadState } from '../../Model/donwload-state-model';
 import { RessourcesProvider } from '../../providers/ressources/ressources';
 import { DownloadProvider } from '../../providers/download/download';
 import { DownloadStateEnum } from '../../enums/download-state-enum';
+import { ChapterDownload } from '../../Model/chapter-download-model';
 
 
 @Component({
@@ -41,6 +42,12 @@ export class DownloadStateItemComponent {
     }else{
       return 0;
     }
+  }
+  handleClickDeleteManga(){
+    this._downloadService.deleteMangaFromDownload(this.downloadState);
+  }
+  handlClickDeleteChapter(chapter:ChapterDownload){
+    this._downloadService.deleteChapterFromDownload(chapter,this.downloadState);
   }
 
 

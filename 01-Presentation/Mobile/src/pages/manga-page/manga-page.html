@@ -4,7 +4,10 @@
   </ion-navbar>
 </ion-header>
 <ion-content style="background-color: black;">
-  <div (swipe)="swipeEvent($event)" style="height: 100%;position: relative;">
+  <loading *ngIf="!loaded">
+
+  </loading>
+  <div *ngIf="loaded" (swipe)="swipeEvent($event)" style="height: 100%;position: relative;">
     <ion-card >
       <img [src]="(offline)?getImgContent(currentPage?.base64):getImgContent(currentPage?.url)" alt="{{currentPage?.number}}" imageViewer>
     </ion-card>

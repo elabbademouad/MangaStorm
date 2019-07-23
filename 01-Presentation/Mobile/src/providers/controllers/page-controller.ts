@@ -17,7 +17,7 @@ export class PageController{
   ****************************************************/
   init() {
     this.urlBase = "http://192.168.43.200:5000";
-    this.getByChapterIdApiUrl=(chapterId:string,source:any)=>{return this.urlBase + `/api/page/GetPagesByChapterId?chapterId=${chapterId}&source=${source}`};
+    this.getByChapterIdApiUrl=(chapterId:string,source:any)=>{return this.urlBase + `/api/page/GetPagesByChapterId?source=${source}&chapterId=${chapterId}`};
     this.downloadApiUrl=(url:string)=>{return this.urlBase + `/api/page/DownloadImage?url=${url}`};
   }
   /****************************************************
@@ -26,7 +26,7 @@ export class PageController{
   urlBase: string;
   getByChapterIdApiUrl:any;
   downloadApiUrl:any;
-  downloadChapterApiUrl:any=(chapterId: any,source:any)=>{ return this.urlBase + `/api/page/DownloadChapter?chapterId=${chapterId}&source=${source}`};
+  downloadChapterApiUrl:any=(chapterId: any,source:any)=>{ return this.urlBase + `/api/page/DownloadChapter?source=${source}&chapterId=${chapterId}`};
   /****************************************************
   * Public methodes
  *****************************************************/

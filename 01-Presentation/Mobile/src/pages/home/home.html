@@ -19,6 +19,8 @@
 
 </ion-header>
 <ion-content no-padding>
+  <loading *ngIf="cp != 3">
+  </loading>
   <div *ngIf="cp===3">
     <manga-section [title]="lastChapterTitle" [items]="lastChapterList" [icon]="'flash'" [range]="6"></manga-section>
     <manga-section [title]="forYouTitle" [items]="forYouList" [icon]="'stats'" [range]="3"></manga-section>

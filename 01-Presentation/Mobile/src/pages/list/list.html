@@ -1,11 +1,10 @@
-<ion-header>
+<ion-header color="primary">
     <ion-navbar color="primary">
         <button ion-button menuToggle>
             <ion-icon name="menu"></ion-icon>
         </button>
         <ion-row no-padding>
             <ion-col (click)="handleClickSourceClick()" col-5 style="margin-top: 3px;">
-                <!-- <img style="width: 25px;height: 25px;border-radius: 50%;" src="http://192.168.43.200:5000/mangaae.PNG"> -->
                 <div style="font-weight: bold;font-size: 13px;">
                     {{source.source.label}}
                     <ion-icon name="arrow-dropdown"></ion-icon>
@@ -17,36 +16,48 @@
             </ion-col>
         </ion-row>
 
-
     </ion-navbar>
-</ion-header>
-<ion-content class="content" no-padding>
-    <ion-navbar color="primary">
-        <ion-searchbar [animated]="true" [autocomplete]="'on'" (ionInput)="handleSearchChange($event)"
-            (ionClear)="handleSaerchClear()" class="amiri" left [showCancelButton]="true"
-            placeholder="{{ressources.search}}"></ion-searchbar>
-        <ion-buttons end>
-            <button right ion-button (click)="handleFiltreClick()" clear>
-                <ion-icon name="funnel"></ion-icon>
-            </button>
-        </ion-buttons>
-    </ion-navbar>
-    <div style="padding: 3px; " text-center *ngIf="filtreCardIsVisible">
-        <ion-badge class="amiri" color="{{selectedTag==t ? 'primary':'secondary'}}" (click)="handleSelectTagClick(t)"
-            style="margin: 2px;" *ngFor="let t of tags">{{t}}</ion-badge>
-    </div>
-    <ion-card no-padding>
-        <ion-row>
-            <ion-col col-4 *ngFor="let item of mangaList">
-                <div class="manga-item" (click)="handleClickRead(item)">
-                    <p class="item-title">{{item.name.length >=18?item.name.slice(0,18)+'...':item.name}}</p>
-                    <img src="{{item.cover}}" />
-                </div>
+    <ion-navbar color="primary" no-padding>
+        <ion-row no-padding>
+            <ion-col col-1>
+                <button ion-button color="secondary" (click)="handleSearchClick()" block clear>
+                    <ion-icon name="search"></ion-icon>
+                </button>
+            </ion-col>
+            <ion-col>
+                <ion-input [(ngModel)]="searchInput" class="amiri" placeholder="{{ressources.search}}">
+                </ion-input>
+            </ion-col>
+            <ion-col col-2>
+                <button ion-button color="secondary" (click)="handleFiltreClick()" block clear>
+                    <ion-icon name="funnel"></ion-icon>
+                </button>
             </ion-col>
         </ion-row>
-    </ion-card>
-    <ion-infinite-scroll (ionInfinite)="logScrollEnd($event)">
-        <ion-infinite-scroll-content></ion-infinite-scroll-content>
-    </ion-infinite-scroll>
+        <div style="padding: 3px; " text-center *ngIf="filtreCardIsVisible">
+            <ion-badge class="amiri" color="{{selectedTag==t ? 'primary':'secondary'}}"
+                (click)="handleSelectTagClick(t)" style="margin: 1px;" *ngFor="let t of tags">{{t}}</ion-badge>
+        </div>
+    </ion-navbar>
+
+</ion-header>
+<ion-content class="content" no-padding>
+
+    <loading *ngIf="!loaded"></loading>
+    <div *ngIf="loaded">
+        <ion-card no-padding>
+            <ion-row>
+                <ion-col col-4 *ngFor="let item of mangaList">
+                    <div class="manga-item" (click)="handleClickRead(item)">
+                        <p class="item-title">{{item.name.length >=18?item.name.slice(0,18)+'...':item.name}}</p>
+                        <img src="{{item.cover}}" />
+                    </div>
+                </ion-col>
+            </ion-row>
+        </ion-card>
+        <ion-infinite-scroll (ionInfinite)="logScrollEnd($event)">
+            <ion-infinite-scroll-content></ion-infinite-scroll-content>
+        </ion-infinite-scroll>
+    </div>
 
 </ion-content>

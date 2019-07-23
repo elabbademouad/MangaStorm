@@ -9,7 +9,7 @@
 <ion-content>
     <ion-list >
         <ion-item-sliding *ngFor="let recent of recents">
-            <ion-item no-padding (click)="handlClickOpenChapter(recent)" class="amiri">
+            <ion-item no-padding (click)="handlClickOpenChapter(recent)"  class="amiri">
                 <ion-row no-padding>
                     <ion-col no-padding>
                         <span class="small-title">{{recent.mangaName}}</span><br>
@@ -21,11 +21,8 @@
                 </ion-row>
             </ion-item>
             <ion-item-options side="left">
-                <button ion-button color="danger">
+                <button ion-button color="danger" (click)="handlClickDeleteChapter(recent.chapterId)">
                     <ion-icon name="trash"></ion-icon>
-                </button>
-                <button ion-button color="secondary">
-                    <ion-icon name="download"></ion-icon>
                 </button>
             </ion-item-options>
         </ion-item-sliding>

@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import { RessourcesProvider } from '../../providers/ressources/ressources'
-import { LoadingController } from 'ionic-angular'
 import { ChapterViewModel } from '../../ViewModel/chapter-view-model';
 import { PageController } from '../../providers/controllers/page-controller';
 import { Page } from '../../Model/page-model';
@@ -22,7 +21,6 @@ export class MangaPagePage {
     public navParams: NavParams,
     public _pageCtr: PageController,
     public _ressources: RessourcesProvider,
-    public _loading: LoadingController,
     public _chapterCtr: ChapterController,
     private sanitizer: DomSanitizer,
     public _downloadService: DownloadProvider,
@@ -43,10 +41,7 @@ export class MangaPagePage {
     this.managName = this.navParams.data.mangaName;
 
     this.ressources = this._ressources.stringResources;
-    let loading = this._loading.create({
-      content: this.ressources.loading
-    });
-    loading.present();
+    this.loaded=false;
     this._downloadService.getPagesByChapterId(this.chapterVm.chapter.id, (data: Array<Page>) => {
       this.pages = new Array<Page>(data.length)
       data.forEach(p => {
@@ -55,7 +50,7 @@ export class MangaPagePage {
       this._downloadService.getImageBase64(this.pages[this.index], (page: Page) => {
         this.currentPage = page;
       });
-      loading.dismiss();
+      this.loaded=true;
     })
   }
 
@@ -63,15 +58,12 @@ export class MangaPagePage {
     this.chapterVm = this.navParams.data.chapter;
     this.managName = this.navParams.data.mangaName;
     this.ressources = this._ressources.stringResources;
-    let loading = this._loading.create({
-      content: this.ressources.loading
-    });
-    loading.present();
+    this.loaded=false;
     this._pageCtr.getByChapterId(this.chapterVm.chapter.id, this.navParams.data.source)
       .subscribe((data) => {
         this.pages = data;
         this.currentPage = this.pages[this.index];
-        loading.dismiss();
+        this.loaded=true;
       })
   }
 
@@ -110,4 +102,5 @@ export class MangaPagePage {
   index: number = 0;
   currentPage: Page;
   offline: boolean = false;
+  loaded:boolean=false;
 }

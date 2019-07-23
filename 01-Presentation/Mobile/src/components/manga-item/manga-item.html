@@ -1,6 +1,6 @@
 <ion-card no-padding >
   <div class="mangaHeader">
-    {{item.item.name}}<span style="float: left;" class="amiri" item-end>
+    {{item.item.name.length >=30?'...'+item.item.name.slice(0,30):item.item.name}}<span style="float: left;" class="amiri" item-end>
       <ion-icon name="stats"></ion-icon> {{item.item.state}} 
     </span>
   </div>

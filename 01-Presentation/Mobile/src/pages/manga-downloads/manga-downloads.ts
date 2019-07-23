@@ -38,6 +38,7 @@ export class MangaDownloadsPage {
   handleClickManga(item:DownloadState){
     this.navCtrl.push(MangaDetailsPage,item);
   }
+  
   /****************************************************
    * Public properties
   *****************************************************/

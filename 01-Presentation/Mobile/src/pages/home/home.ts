@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, LoadingController } from 'ionic-angular';
+import { NavController } from 'ionic-angular';
 import { RessourcesProvider } from '../../providers/ressources/ressources'
 import { MangaDetails } from '../../Model/manga-details-model';
 import { MangaController } from '../../providers/controllers/manga-Controller';
@@ -15,7 +15,6 @@ export class HomePage {
   constructor(public navCtrl: NavController,
               public _ressources:RessourcesProvider,
               public _mangaCtrl:MangaController,
-              public _loadingCtrl: LoadingController,
               public _fileServe:FileProvider) {
     this.init();
   }
@@ -35,31 +34,20 @@ export class HomePage {
     this.lastChapterTitle=this.ressources.lastChapterTitle;
     this.mostViewedTitle=this.ressources.mostViewedTitle;
     this.forYouTitle=this.ressources.forYouTitle;
-    const loading=this._loadingCtrl.create({content: this.ressources.loading});
-    loading.present();
     this._mangaCtrl.getMangaListHasNewChapter(12,this.source.source.id)
       .subscribe((data: MangaDetails[])=>{
         this.lastChapterList=data;
         this.cp++;
-        if(this.cp==3){
-          loading.dismiss();
-        }
     })
     this._mangaCtrl.getForYouList(6,[],this.source.source.id)
       .subscribe((data: MangaDetails[])=>{
         this.forYouList=data;
         this.cp++;
-        if(this.cp==3){
-          loading.dismiss();
-        }
     })
     this._mangaCtrl.getMostViewed(9,this.source.source.id)
       .subscribe((data: MangaDetails[])=>{
         this.mostViewedList=data;
         this.cp++;
-        if(this.cp==3){
-          loading.dismiss();
-        }
     })
   }
 

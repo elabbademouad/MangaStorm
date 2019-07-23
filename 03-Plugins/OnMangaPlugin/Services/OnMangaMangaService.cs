@@ -2,9 +2,15 @@
 using Application.Model;
 using Application.Services;
 using HtmlAgilityPack;
+using Newtonsoft.Json;
+using OnMangaPlugin;
+using OnMangaPlugin.DTO;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Net;
+using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace DefaultPlugin.Services
@@ -19,6 +25,7 @@ namespace DefaultPlugin.Services
 
         public MangaDetails GetMangaDetailsById(object mangaId)
         {
+
             HtmlWeb htmlWeb = new HtmlWeb();
             HtmlDocument htmlDocument = htmlWeb.Load(mangaId.ToString());
             string rating = htmlDocument.DocumentNode.SelectSingleNode("//h2[@class='average']")?.InnerText;
@@ -28,8 +35,8 @@ namespace DefaultPlugin.Services
                 state = htmlDocument.DocumentNode.SelectSingleNode("//span[@class='label label-danger']")?.InnerText;
             }
 
-            string resume = htmlDocument.DocumentNode.SelectSingleNode("//div[@class='managa-summary']")?.SelectSingleNode(".//p")?.InnerText;
-            string name = htmlDocument.DocumentNode.SelectSingleNode("//div[@class='panel-heading']")?.InnerText.Replace("&quot;", "");
+            string resume = htmlDocument.DocumentNode.SelectSingleNode("//div[@class='managa-summary']")?.SelectSingleNode(".//p")?.InnerText.CleanText();
+            string name = htmlDocument.DocumentNode.SelectSingleNode("//div[@class='panel-heading']")?.InnerText.CleanText();
             string cover = htmlDocument.DocumentNode.SelectSingleNode("//div[@class='boxed']")?.SelectSingleNode(".//img")?.Attributes["src"]?.Value;
             int? chapterCount = htmlDocument.DocumentNode.SelectSingleNode("//ul[@class='chapters']")?.SelectNodes(".//li")?.Count;
             string dateEdition = "";
@@ -86,6 +93,13 @@ namespace DefaultPlugin.Services
             {
                 page = 1;
             }
+            if (filtre != null)
+            {
+                if (!string.IsNullOrEmpty(filtre.ToString()))
+                {
+                    return this.SearchByName(filtre.ToString(), page);
+                }
+            }
             tag = this.GetTagIdByName(tag);
             var list = new List<MangaDetails>();
             HtmlWeb htmlWeb = new HtmlWeb();
@@ -97,12 +111,12 @@ namespace DefaultPlugin.Services
                 {
                     var mangaId = item.SelectSingleNode(".//div[@class='chapter-image']").SelectSingleNode(".//a").Attributes["href"].Value;
                     var mangaCover = item.SelectSingleNode(".//div[@class='chapter-image']").SelectSingleNode(".//a").SelectSingleNode(".//img").Attributes["src"].Value;
-                    var mangaName = item.SelectSingleNode(".//div[@class='chapter-image']").SelectSingleNode(".//a").SelectSingleNode(".//img").Attributes["alt"].Value.Replace("&quot;", "");
+                    var mangaName = item.SelectSingleNode(".//div[@class='chapter-image']").SelectSingleNode(".//a").SelectSingleNode(".//img").Attributes["alt"].Value.CleanText();
                     var manga = new MangaDetails()
                     {
                         Id = mangaId,
                         Cover = mangaCover,
-                        Name = mangaName,
+                        Name = mangaName.CleanText(),
                         Tags = "",
                         Source = new Source()
                         {
@@ -182,6 +196,34 @@ namespace DefaultPlugin.Services
             }
             return "";
 
+        }
+
+        private List<MangaDetails> SearchByName(object filter, object page)
+        {
+            var jsonstring = "";
+            using (var file = new StreamReader(@"../../03-Plugins/OnMangaPlugin/suggestions.json"))
+            {
+                jsonstring = file.ReadToEnd();
+
+            }
+
+            var allSuggestions = JsonConvert.DeserializeObject<List<Suggestion>>(jsonstring);
+            int[] interval = new int[2];
+            interval[0] = (int.Parse(page.ToString()) - 1) * 12;
+            interval[1] = ((int.Parse(page.ToString())) * 12) - 1;
+            var suggestions = allSuggestions.Where(o => o.value.ToLower().Contains(filter.ToString().ToLower())).Select(s => s.data).ToList();
+            var mangaDetailsList = new List<MangaDetails>();
+            if (suggestions != null)
+            {
+                for (var i = 0; i <= suggestions.Count() - 1; i++)
+                {
+                    if (interval[0] <= i && interval[1] >= i)
+                    {
+                        mangaDetailsList.Add(this.GetMangaDetailsById("https://www.on-manga.me/manga/" + suggestions[i]));
+                    }
+                }
+            }
+            return mangaDetailsList;
         }
     }
 }

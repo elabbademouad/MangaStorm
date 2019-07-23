@@ -25,10 +25,11 @@ namespace RestAPI.Controllers
             _cache = cache;
         }
         [HttpGet("GetPagesByChapterId")]
-        public ActionResult<IEnumerable<PageModel>> GetPagesByChapterId(string chapterId, PluginEnum source = PluginEnum.OnManga)
+        public ActionResult<IEnumerable<PageModel>> GetPagesByChapterId(PluginEnum source = PluginEnum.OnManga)
         {
             try
             {
+                string chapterId = Request.QueryString.Value.Split("chapterId=")[1];
                 var result = _cache.GetOrCreate<List<PageModel>>(string.Format(CacheKeys.PAGES, chapterId), (cachEntry) =>
                 {
                     var pageService = _pageServiceDelegate(source);
@@ -55,10 +56,11 @@ namespace RestAPI.Controllers
             }
         }
         [HttpGet("DownloadChapter")]
-        public ActionResult<List<PageModel>> DownloadChapter(string chapterId, PluginEnum source = PluginEnum.OnManga)
+        public ActionResult<List<PageModel>> DownloadChapter(PluginEnum source = PluginEnum.OnManga)
         {
             try
             {
+                string chapterId = Request.QueryString.Value.Split("chapterId=")[1];
                 var result = _cache.GetOrCreate(string.Format(CacheKeys.DOWNLOADCHAPTER, chapterId), (c) =>
                 {
                     var pageService = _pageServiceDelegate(source);
@@ -86,7 +88,7 @@ namespace RestAPI.Controllers
                 string format = temp[temp.Length - 1];
                 return string.Format(output, format, base64);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return "";
             }

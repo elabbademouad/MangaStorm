@@ -49,7 +49,8 @@ export class RessourcesProvider {
       source :'المصدر :',
       sourceMenu:'مصادر المانغا',
       apply:'تطبيق',
-      chooseChapter:'إختيار الفصول'
+      chooseChapter:'إختيار الفصول',
+      manageData:'تدبير البيانات',
     }
   }
   /****************************************************

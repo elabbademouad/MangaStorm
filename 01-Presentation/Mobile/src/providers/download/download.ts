@@ -236,6 +236,39 @@ export class DownloadProvider {
   private removeSpecialCaracters(url: string): string {
     return url.replace(/[`~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/]/gi, '');
   }
+
+  deleteMangaFromDownload(state:DownloadState){
+    this.getLastState((items:Array<DownloadState>)=>{
+      state.chapters.forEach(c=>{
+        this.deleteChapterFromDownload(c);
+      })
+      let temp=items.filter(d=>{return d.manga.item.id!=state.manga.item.id});
+      this._storage.set(this.lastdownloadStateKey,temp).then(()=>{
+        this._currentStateSubject.next(temp);
+      })
+    })
+  }
+  deleteChapterFromDownload(chapter:ChapterDownload,state:DownloadState=null){
+      this._storage.get(chapter.chapter.chapter.id).then((pages:Array<Page>)=>{
+        pages.forEach(p=>{
+          this._fileService.removeFile(p.url);
+        })
+        this._storage.remove(chapter.chapter.chapter.id);
+      })
+      if(state!=null){
+        this.getLastState((items:Array<DownloadState>)=>{
+          items.forEach(s=>{
+            if(s.manga.item.id==state.manga.item.id){
+              s.chapters=s.chapters.filter(c=>{return c.chapter.chapter.id!=chapter.chapter.chapter.id});
+              s.downloadChaptersCount=s.chapters.filter(c=>{return c.state==DownloadStateEnum.done;}).length;
+            }
+          })
+          this._storage.set(this.lastdownloadStateKey,items).then(()=>{
+            this._currentStateSubject.next(items);
+          })
+        })
+      }
+  }
 }
 
 

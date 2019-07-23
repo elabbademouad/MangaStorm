@@ -138,5 +138,15 @@ export class AppStorageProvider {
       }
     });
   }
+  deleteRecentRead(chapterId:string,_callBack:any){
+    this._storage.get(this.recentsKey).then((items:Array<Recent>)=>{
+      if(items!=null){
+        let temp=items.filter(r=>{return r.chapterId!=chapterId;});
+        this._storage.set(this.recentsKey,temp).then(()=>{
+          _callBack(temp);
+        })
+      }
+    })
+  }
   
 }

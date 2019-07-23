@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
 import { RessourcesProvider } from '../../providers/ressources/ressources'
-import { LoadingController } from 'ionic-angular';
 import { MangaController } from '../../providers/controllers/manga-Controller';
 import { TagController } from '../../providers/controllers/tag-controller';
 import { MangaDetails } from '../../Model/manga-details-model';
@@ -21,10 +20,9 @@ export class ListPage {
   constructor(public navCtrl: NavController,
     public _mangaCtr: MangaController,
     public _tagCtr: TagController,
-    public _ressources: RessourcesProvider,
-    public _loadingCtrl: LoadingController) {
+    public _ressources: RessourcesProvider,) {
     this.ressources = this._ressources.stringResources;
-    this.source=this._mangaCtr.currentMangaSource();
+    this.source = this._mangaCtr.currentMangaSource();
 
   }
   /***************************************************
@@ -50,9 +48,10 @@ export class ListPage {
   tags: Array<string>
   searchInput: string;
   page: number = 1;
-  selectedTag: string=undefined;
-  endList:boolean=false;
-  source:SourceViewModel;
+  selectedTag: string = undefined;
+  endList: boolean = false;
+  source: SourceViewModel;
+  loaded:boolean=false;
   /***************************************************
   * UI event handler 
   ****************************************************/
@@ -67,41 +66,31 @@ export class ListPage {
       this.selectedTag = tag;
     }
     this.page = 1;
-    this.endList=false;
+    this.endList = false;
     this.GetMangaListService();
   }
 
-  handleSearchChange(ev: any) {
-    this.searchInput = ev.target.value
-    this.actionFiltreMangas(this.searchInput);
-  }
-  handleSaerchClear() {
-    this.searchInput = "";
-    this.actionFiltreMangas(this.searchInput);
+  handleSearchClick() {
+    this.page = 1;
+    this.endList = false;
+    this.GetMangaListService();
   }
 
-  /***************************************************
-   * action and private methode
-  ****************************************************/
-  actionFiltreMangas(search: string) {
-  }
   /**************************************************
    * Services Handler
    * ************************************************/
   GetMangaListService() {
-    let loading = this._loadingCtrl.create({
-      content: this.ressources.loading
-    });
-    loading.present();
-    this._mangaCtr.getAll(this.page, this.selectedTag,this.source.source.id)
+    this.loaded=false;
+    this._mangaCtr.getAll(this.page, this.selectedTag, this.source.source.id, this.searchInput)
       .subscribe((data) => {
         this.mangaList = data;
         this.page++;
-        loading.dismiss();
+        this.loaded=true;
       }, (errr) => {
-        loading.dismiss();
+        this.loaded=true;
       });
   }
+
   GetTagsService() {
     this._tagCtr.getAll(this.source.source.id)
       .subscribe((data) => {
@@ -117,26 +106,25 @@ export class ListPage {
     this.navCtrl.push(MangaDetailsPage, mangaVm);
   }
   logScrollEnd(infiniteScroll: any) {
-    if(!this.endList){
-      this._mangaCtr.getAll(this.page, this.selectedTag,this.source.source.id)
-      .subscribe((data) => {
-        if(data.length==0)
-        {
-          this.endList=true;
-        }
-        data.forEach((m) => {
-          this.mangaList.push(m);
+    if (!this.endList) {
+      this._mangaCtr.getAll(this.page, this.selectedTag, this.source.source.id, this.searchInput)
+        .subscribe((data) => {
+          if (data.length == 0) {
+            this.endList = true;
+          }
+          data.forEach((m) => {
+            this.mangaList.push(m);
+          });
+          this.page++;
+          infiniteScroll.complete();
+        }, (errr) => {
+          infiniteScroll.complete();
         });
-        this.page++;
-        infiniteScroll.complete();
-      }, (errr) => {
-        infiniteScroll.complete();
-      });
-    }else{
+    } else {
       infiniteScroll.complete();
     }
   }
-  handleClickSourceClick(){
+  handleClickSourceClick() {
     this.navCtrl.push(SourceList);
   }
 }

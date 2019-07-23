@@ -2,6 +2,7 @@
 using Application.Model;
 using Application.Services;
 using HtmlAgilityPack;
+using OnMangaPlugin;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,14 +18,16 @@ namespace DefaultPlugin.Services
             HtmlDocument htmlDocument = htmlWeb.Load(id.ToString());
             var list = new List<Chapter>();
             var htmlExtract = htmlDocument.DocumentNode.SelectSingleNode("//ul[@class='chapters']")?.SelectNodes(".//li");
+            int number = 0;
             foreach (var item in htmlExtract)
             {
+                number++;
                 list.Add(new Chapter()
                 {
                     Id = item.SelectSingleNode(".//h5[@class='chapter-title-rtl']").SelectSingleNode(".//a").Attributes["href"].Value,
-                    Number = 0,
+                    Number = number,
                     MangaId = id,
-                    Title = item.SelectSingleNode(".//h5[@class='chapter-title-rtl']").SelectSingleNode(".//a").InnerText,
+                    Title = item.SelectSingleNode(".//h5[@class='chapter-title-rtl']").SelectSingleNode(".//a").InnerText.CleanText(),
                     Url = "",
                     Source = new Source()
                     {
