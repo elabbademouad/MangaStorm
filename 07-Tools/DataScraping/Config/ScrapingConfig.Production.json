@@ -1,8 +1,8 @@
 ﻿{
-  "DataBaseSettings:ConnectionsString": "mongodb://35.211.13.59:8080/MangaStorm",
-  "MediaPath": "D:",
+  "DataBaseSettings:ConnectionsString": "mongodb://35.211.13.59/MangaStorm",
+  "MediaPath": "../../../MangaStormMedia/",
   "BaseUrl": "http://35.211.13.59:80/",
-  "MangaUrl": "https://www.manga.ae/be-heun/",
+  "MangaUrl": "https://www.manga.ae/beelzebub/",
   "BrowserPath": "C:\\Program Files\\Mozilla Firefox/firefox.exe",
   "Environment": "Production",
   "UploadPageApi": "http://35.211.13.59:80/api/page/uploadpage"

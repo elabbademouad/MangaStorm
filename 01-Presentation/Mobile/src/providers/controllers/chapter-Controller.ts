@@ -6,31 +6,31 @@ import { Page } from 'ionic-angular/navigation/nav-util';
 @Injectable()
 export class ChapterController {
 
-  /****************************************************
-   * Constructor
-   ****************************************************/
-  constructor(public _http: HttpClient) {
-    this.init();
-  }
+    /****************************************************
+     * Constructor
+     ****************************************************/
+    constructor(public _http: HttpClient) {
+        this.init();
+    }
 
 
-  /***************************************************
-  * Initialize component
-  ****************************************************/
-  init() {
-    this.urlBase = "http://192.168.43.200:5000";
-  }
-  /****************************************************
-  * properties
- *****************************************************/
-  urlBase: string;
-  getChaptersByMangaIdApiUrl:any=(mangaId: any,source:any)=>{return this.urlBase + `/api/chapter/GetChaptersByMangaId?source=${source}&mangaId=${mangaId}`;};
-  
-  /****************************************************
-  * Public methodes
- *****************************************************/
-  public getByMangaId(mangaId:string,source:any) {
-    return this._http.get<Array<Chapter>>(this.getChaptersByMangaIdApiUrl(mangaId,source));
-  }
-  
+    /***************************************************
+    * Initialize component
+    ****************************************************/
+    init() {
+        this.urlBase = "http://35.211.13.59";
+    }
+    /****************************************************
+    * properties
+   *****************************************************/
+    urlBase: string;
+    getChaptersByMangaIdApiUrl: any = (mangaId: any, source: any) => { return this.urlBase + `/api/chapter/GetChaptersByMangaId?source=${source}&mangaId=${mangaId}`; };
+
+    /****************************************************
+    * Public methodes
+   *****************************************************/
+    public getByMangaId(mangaId: string, source: any) {
+        return this._http.get<Array<Chapter>>(this.getChaptersByMangaIdApiUrl(mangaId, source));
+    }
+
 }

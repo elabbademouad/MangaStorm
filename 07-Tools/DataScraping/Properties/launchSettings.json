@@ -2,7 +2,7 @@
   "profiles": {
     "DataScraping": {
       "commandName": "Project",
-      "commandLineArgs": "Production"
+      "commandLineArgs": "Development"
     }
   }
 }
