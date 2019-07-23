@@ -1,42 +1,36 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Chapter } from '../../Model/chapter-model';
+import { ChapterDownload } from '../../Model/chapter-download-model';
+import { Page } from 'ionic-angular/navigation/nav-util';
 @Injectable()
 export class ChapterController {
 
-  /****************************************************
-   * Constructor
-   ****************************************************/
-  constructor(public _http: HttpClient) {
-    this.init();
-  }
+    /****************************************************
+     * Constructor
+     ****************************************************/
+    constructor(public _http: HttpClient) {
+        this.init();
+    }
 
 
-  /***************************************************
-  * Initialize component
-  ****************************************************/
-  init() {
-    this.urlBase = "http://35.211.13.59";
-  }
-  /****************************************************
-  * properties
- *****************************************************/
-  urlBase: string;
-  getChaptersByMangaId:string="/api/chapter/GetChaptersByMangaId/";
-  getNextChapterApi:string="/api/chapter/GetNextChapter/";
-  getPreviousChapterApi:string="/api/chapter/GetPreviousChapter/";
-  /****************************************************
-  * Public methodes
- *****************************************************/
-  public getByMangaId(mangaId:string) {
-    return this._http.get<Array<Chapter>>(this.urlBase + this.getChaptersByMangaId+mangaId);
-  }
-  public getNextChapter(mangaId:string,currentChapterNumber:number) {
-    return this._http.get<Chapter>(this.urlBase + this.getNextChapterApi+mangaId+"/"+currentChapterNumber);
-  }
-  public getPreviousChapter(mangaId:string,currentChapterNumber:number) {
-    return this._http.get<Chapter>(this.urlBase + this.getPreviousChapterApi+mangaId+"/"+currentChapterNumber);
-  }
+    /***************************************************
+    * Initialize component
+    ****************************************************/
+    init() {
+        this.urlBase = "http://35.211.13.59";
+    }
+    /****************************************************
+    * properties
+   *****************************************************/
+    urlBase: string;
+    getChaptersByMangaIdApiUrl: any = (mangaId: any, source: any) => { return this.urlBase + `/api/chapter/GetChaptersByMangaId?source=${source}&mangaId=${mangaId}`; };
 
+    /****************************************************
+    * Public methodes
+   *****************************************************/
+    public getByMangaId(mangaId: string, source: any) {
+        return this._http.get<Array<Chapter>>(this.getChaptersByMangaIdApiUrl(mangaId, source));
+    }
 
 }

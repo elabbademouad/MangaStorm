@@ -4,4 +4,5 @@ export class Page   {
 	public number: number;
 	public url: string;
 	public chapterId: string;
+	public base64?:string;
 }

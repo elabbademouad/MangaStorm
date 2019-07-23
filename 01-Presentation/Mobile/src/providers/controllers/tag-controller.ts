@@ -25,7 +25,7 @@ export class TagController{
   /****************************************************
   * Public methodes
  *****************************************************/
-  public getAll() {
-    return this._http.get<Array<string>>(this.urlBase + this.getAllApi);
+  public getAll(source:any) {
+    return this._http.get<Array<string>>(this.urlBase + this.getAllApi+source);
   }
 }

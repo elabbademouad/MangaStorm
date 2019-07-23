@@ -1,0 +1,39 @@
+<ion-header>
+  <ion-navbar color="primary">
+    <ion-title class="amiri">{{ressources.chooseChapter}}</ion-title>
+  </ion-navbar>
+</ion-header>
+<ion-content no-padding>
+  <loading *ngIf="!loaded"></loading>
+  <div *ngIf="loaded" style="margin: 6px;">
+    <div class="mangaHeader">
+      {{ressources.chapters}}<span style="float: left;" class="amiri" item-end>
+        <ion-icon name="book"></ion-icon>
+      </span>
+    </div>
+    <ion-list no-padding>
+      <ion-item *ngFor="let chapter of chapters" no-padding class="amiri">
+        <ion-label style="font-size: 11px;">{{ressources.chapterTitle+chapter.chapter.title}}</ion-label>
+        <ion-checkbox color="secondary" [(ngModel)]="chapter.selected"></ion-checkbox>
+      </ion-item>
+    </ion-list>
+  </div>
+</ion-content>
+<ion-footer>
+  <ion-item no-padding>
+    <ion-row no-padding>
+      <ion-col col-2>
+        <button ion-button color="secondary" (click)="handleClickSelectAll()">
+          <ion-icon name="done-all"></ion-icon>
+        </button>
+      </ion-col>
+      <ion-col>
+        <button ion-button block (click)="handleClickDownload()"
+          [disabled]="selectedChaprersCount == 0 || selectedChaprersCount>=11" color="secondary">
+          <span>{{selectedChaprersCount}}/{{mangaItem.item.countChapters}}</span>
+          <ion-icon style="margin-left: 4px;" name="download"></ion-icon>
+        </button>
+      </ion-col>
+    </ion-row>
+  </ion-item>
+</ion-footer>

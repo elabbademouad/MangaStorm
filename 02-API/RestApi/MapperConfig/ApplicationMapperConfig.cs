@@ -21,10 +21,11 @@ namespace RestAPI.MapperConfig
             AM.Mapper.Initialize(cfg =>
             {
                 cfg.CreateMap<MangaDetails, MangaDetailsModel>()
-                .ForMember(d => d.Cover, c => c.MapFrom(s => baseUrl + s.Cover));
+                .ForMember(d => d.Cover, c => c.MapFrom(s => s.Cover.Contains("http") ? s.Cover : baseUrl + s.Cover));
                 cfg.CreateMap<Chapter, ChapterModel>();
                 cfg.CreateMap<Page, PageModel>()
-                .ForMember(d => d.Url, c => c.MapFrom(s => baseUrl + s.InternalUrl));
+                .ForMember(d => d.Url, c => c.MapFrom(s => s.InternalUrl.Contains("http") ? s.InternalUrl : baseUrl + s.InternalUrl))
+                .ForMember(d => d.Base64, c => c.Ignore());
 
             });
         }

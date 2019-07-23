@@ -1,0 +1,24 @@
+<ion-header>
+    <ion-navbar color="primary">
+        <button ion-button menuToggle>
+            <ion-icon name="menu"></ion-icon>
+        </button>
+        <ion-title class="amiri">{{resources.sourceMenu}}</ion-title>
+    </ion-navbar>
+</ion-header>
+<ion-content class="amiri">
+    <ion-list>
+        <ion-item item-start *ngFor="let source of sources">
+            <ion-avatar item-start>
+                <img src="{{source.logo}}">
+            </ion-avatar>
+            <ion-label>
+                <h2 class="amiri">{{source.source.label}}</h2>
+                <p>{{source.language}}</p>
+            </ion-label>
+            <rating-status item-end [rating]="source.rating"></rating-status>
+            <ion-toggle item-end (ionChange)="applyMangSource(source)"
+                [checked]="selectedSource.source.id == source.source.id" color="secondary"></ion-toggle>
+        </ion-item>
+    </ion-list>
+</ion-content>

@@ -1,9 +1,0 @@
-﻿{
-  "DataBaseSettings:ConnectionsString": "mongodb://localhost:27017/MangaStorm",
-  "MediaPath": "D:/MangaStorm/",
-  "BaseUrl": "http://localhost:5000/",
-  "MangaUrl": "https://www.manga.ae/love-advice-from-great-buke-of-hell/",
-  "BrowserPath": "C:/Program Files (x86)/Google/Chrome/Application/chrome.exe",
-  "Environment": "Development",
-  "UploadPageApi": "http://localhost:5000/api/page/uploadpage"
-}

@@ -15,8 +15,12 @@
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.0" />
   </ItemGroup>
+
   <ItemGroup>
-      <ProjectReference Include="..\..\04-Infrastructure\Infrastructure\Infrastructure.csproj" />
+    <ProjectReference Include="..\..\03-Plugins\DefaultPlugin\DefaultPlugin.csproj" />
+    <ProjectReference Include="..\..\03-Plugins\OnMangaPlugin\OnMangaPlugin.csproj" />
+    <ProjectReference Include="..\..\04-Application\Application\Application.csproj" />
+    <ProjectReference Include="..\..\06-Infrastructure\Infrastructure\Infrastructure.csproj" />
   </ItemGroup>
   <ItemGroup>
     <Compile Update="Model\MangaDetailsModel.cs">
@@ -33,6 +37,11 @@
     </None>
     <None Update="MangaDetailsModel - Copy.ts">
       <CustomToolNamespace>Model\MangaDetailsModel.cs</CustomToolNamespace>
+    </None>
+    <None Update="Model\MangaDetailsModel.cs.d.ts">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>MangaDetailsModel.cs</DependentUpon>
     </None>
     <None Update="PageModel.ts">
       <CustomToolNamespace>Model\PageModel.cs</CustomToolNamespace>

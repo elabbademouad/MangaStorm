@@ -1,0 +1,90 @@
+.download-progress-container {
+  background: color($colors, primary);
+  height: 18px;
+  direction: rtl;
+  border: solid;
+  border-width: 1px;
+  border-radius: 2px;
+  border-color: color($colors, primary);
+}
+.download-progress {
+  background-color: color($colors, secondary);
+  direction: rtl;
+  align-content: center;
+  text-align: center;
+  border: solid;
+  border-width: 1px;
+  border-radius: 3px;
+  border-color: color($colors, secondary);
+  height: 100%;
+}
+.progress-value {
+  color: white !important;
+  margin: 0;
+  align-content: center;
+  text-align: center;
+  vertical-align: middle;
+}
+.manga-badge {
+  //margin-top: 6px;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+}
+.manga-title {
+  font-size: 12px;
+}
+
+.download-chapter-progress-container {
+  background: color($colors, primary);
+  height: 14px;
+  direction: rtl;
+  border: solid;
+  border-width: 1px;
+  border-radius: 2px;
+  border-color: color($colors, primary);
+}
+.download-chapter-progress {
+  background-color: color($colors, secondary);
+  direction: rtl;
+  align-content: center;
+  text-align: center;
+  border: solid;
+  border-width: 1px;
+  border-radius: 3px;
+  border-color: color($colors, secondary);
+  height: 100%;
+}
+.progress-chapter-value {
+  color: white !important;
+  margin: 0;
+  font-size: 11px !important;
+  align-content: center;
+  text-align: center;
+  vertical-align: middle;
+}
+.chapter-title {
+  font-size: 11px;
+}
+
+
+@keyframes app-spinner {
+  to {transform: rotate(360deg);}
+}
+ 
+.app-spinner:before {
+  content: '';
+  box-sizing: border-box;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 20px;
+  height: 20px;
+  margin-top: -10px;
+  margin-left: -10px;
+  border-radius: 50%;
+  border: 2px solid #ccc;
+  border-top-color:color($colors,secondary);
+  animation: app-spinner .6s linear infinite;
+}
+

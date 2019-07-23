@@ -7,9 +7,10 @@ namespace RestAPI.Model
 {
     public class PageModel
     {
-        public Guid Id { get; set; }
+        public object Id { get; set; }
         public int Number { get; set; }
         public string Url { get; set; }
-        public Guid ChapterId { get; set; }
+        public object ChapterId { get; set; }
+        public string Base64 { get; set; }
     }
 }

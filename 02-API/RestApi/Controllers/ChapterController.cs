@@ -1,6 +1,9 @@
 ﻿using Application.Services;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Memory;
+using RestAPI.Constants;
+using RestAPI.Enums;
 using RestAPI.Model;
 using System;
 using System.Collections.Generic;
@@ -12,31 +15,64 @@ namespace RestAPI.Controllers
     public class ChapterController : ControllerBase
     {
 
-        private readonly ChapterService _chapterService;
-        public ChapterController(ChapterService chapterService)
+        private readonly Func<PluginEnum, IChapterService> _chapterServiceDelegate;
+        private readonly IMemoryCache _cache;
+
+        public ChapterController(Func<PluginEnum, IChapterService> chapterServiceDelegate, IMemoryCache cache)
         {
-            _chapterService = chapterService;
+            _chapterServiceDelegate = chapterServiceDelegate;
+            _cache = cache;
         }
 
-        [HttpGet("GetChaptersByMangaId/{mangaId}")]
-        public ActionResult<List<ChapterModel>> GetChaptersByMangaId(Guid mangaId)
+        [HttpGet("GetChaptersByMangaId")]
+        public ActionResult<List<ChapterModel>> GetChaptersByMangaId(PluginEnum source = PluginEnum.OnManga)
         {
-            var result = Mapper.Map<List<ChapterModel>>(_chapterService.GetChaptersByMangaId(mangaId));
-            return Ok(result);
+            try
+            {
+                string mangaId = Request.QueryString.Value.Split("mangaId=")[1];
+                var result = _cache.GetOrCreate(string.Format(CacheKeys.CHAPTERS, mangaId), (c) =>
+                {
+                    var chapterService = _chapterServiceDelegate(source);
+                    return Mapper.Map<List<ChapterModel>>(chapterService.GetChaptersByMangaId(mangaId));
+                });
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
-        [HttpGet("GetNextChapter/{mangaId}/{currentChapterNumber}")]
-        public ActionResult<ChapterModel> GetNextChapter(Guid mangaId, int currentChapterNumber)
+
+
+        [HttpGet("GetNextChapter")]
+        public ActionResult<ChapterModel> GetNextChapter(string mangaId, object currentChapter, PluginEnum source = PluginEnum.Default)
         {
-            var result = Mapper.Map<ChapterModel>(_chapterService.GetNextChapter(mangaId, currentChapterNumber));
-            return Ok(result);
+            try
+            {
+                var chapterService = _chapterServiceDelegate(PluginEnum.OnManga);
+                var result = Mapper.Map<ChapterModel>(chapterService.GetNextChapter(mangaId, currentChapter));
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
-        [HttpGet("GetPreviousChapter/{mangaId}/{currentChapterNumber}")]
-        public ActionResult<ChapterModel> GetPreviousChapter(Guid mangaId, int currentChapterNumber)
+        [HttpGet("GetPreviousChapter")]
+        public ActionResult<ChapterModel> GetPreviousChapter(string mangaId, object currentChapter, PluginEnum source = PluginEnum.Default)
         {
-            var result = Mapper.Map<ChapterModel>(_chapterService.GetPreviousChapter(mangaId, currentChapterNumber));
-            return Ok(result);
+            try
+            {
+                var chapterService = _chapterServiceDelegate(PluginEnum.OnManga);
+                var result = Mapper.Map<ChapterModel>(chapterService.GetPreviousChapter(mangaId, currentChapter));
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
     }
 }

@@ -1,22 +1,30 @@
-<ion-header >
+<ion-header>
     <ion-navbar color="primary">
-        <button ion-button menuToggle >
-        <ion-icon name="menu"></ion-icon>
+        <button ion-button menuToggle>
+            <ion-icon name="menu"></ion-icon>
         </button>
-        <ion-title class="amiri">{{resources.recents}}</ion-title>    
+        <ion-title class="amiri">{{resources.recents}}</ion-title>
     </ion-navbar>
 </ion-header>
-<ion-content class="amiri">
-    <ion-list>
-        <ion-item *ngFor="let recent of recents" (click)="handlClickOpenChapter(recent)">
-            <button ion-button item-start large clear no-padding>
-                <ion-icon name="more"></ion-icon>
-            </button>
-            <p>
-                <span class="small-title">{{recent.mangaName}}</span><br>
-                {{resources.chapterTitle+recent.chapterName}}
-            </p>
-            <p item-end class="date">{{recent.date | date : 'short'}}</p>
-        </ion-item>
+<ion-content>
+    <ion-list >
+        <ion-item-sliding *ngFor="let recent of recents">
+            <ion-item no-padding (click)="handlClickOpenChapter(recent)"  class="amiri">
+                <ion-row no-padding>
+                    <ion-col no-padding>
+                        <span class="small-title">{{recent.mangaName}}</span><br>
+                        <span style="font-size: 11px;">{{resources.chapterTitle+recent.chapterName}}</span>
+                    </ion-col>
+                    <ion-col col-1 no-padding>
+                        <p item-end class="date">{{recent.date | date : 'short'}}</p>
+                    </ion-col>
+                </ion-row>
+            </ion-item>
+            <ion-item-options side="left">
+                <button ion-button color="danger" (click)="handlClickDeleteChapter(recent.chapterId)">
+                    <ion-icon name="trash"></ion-icon>
+                </button>
+            </ion-item-options>
+        </ion-item-sliding>
     </ion-list>
 </ion-content>

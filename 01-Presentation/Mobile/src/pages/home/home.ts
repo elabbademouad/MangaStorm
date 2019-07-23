@@ -3,6 +3,9 @@ import { NavController } from 'ionic-angular';
 import { RessourcesProvider } from '../../providers/ressources/ressources'
 import { MangaDetails } from '../../Model/manga-details-model';
 import { MangaController } from '../../providers/controllers/manga-Controller';
+import { SourceList } from '../sources-list/sources-list';
+import { SourceViewModel } from '../../ViewModel/source-view-model';
+import { FileProvider } from '../../providers/file/file';
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html'
@@ -11,46 +14,46 @@ export class HomePage {
   ressources:any;
   constructor(public navCtrl: NavController,
               public _ressources:RessourcesProvider,
-              public _mangaCtrl:MangaController) {
+              public _mangaCtrl:MangaController,
+              public _fileServe:FileProvider) {
     this.init();
   }
 
-  newList:Array<MangaDetails>;
   forYouList:Array<MangaDetails>;
   lastChapterList:Array<MangaDetails>;
   mostViewedList:Array<MangaDetails>;
-  
-  newListTitle:string;
+  source:SourceViewModel;
   lastChapterTitle:string;
   mostViewedTitle:string;
   forYouTitle:string;
+  cp:number=0;
 
   init(){
     this.ressources=this._ressources.stringResources;
-    // Set title from resources
-    this.newListTitle=this.ressources.newListTitle;
+    this.source=this._mangaCtrl.currentMangaSource();
     this.lastChapterTitle=this.ressources.lastChapterTitle;
     this.mostViewedTitle=this.ressources.mostViewedTitle;
     this.forYouTitle=this.ressources.forYouTitle;
-    
-    this._mangaCtrl.getNewList(12)
-      .subscribe((data: MangaDetails[])=>{
-        this.newList=data;
-    });
-    this._mangaCtrl.getMangaListHasNewChapter(6)
+    this._mangaCtrl.getMangaListHasNewChapter(12,this.source.source.id)
       .subscribe((data: MangaDetails[])=>{
         this.lastChapterList=data;
+        this.cp++;
     })
-    this._mangaCtrl.getMangaListHasNewChapter(6)
+    this._mangaCtrl.getForYouList(6,[],this.source.source.id)
       .subscribe((data: MangaDetails[])=>{
-        this.lastChapterList=data;
+        this.forYouList=data;
+        this.cp++;
     })
-    this._mangaCtrl.getMostViewed(6)
+    this._mangaCtrl.getMostViewed(9,this.source.source.id)
       .subscribe((data: MangaDetails[])=>{
         this.mostViewedList=data;
+        this.cp++;
     })
   }
 
+  handleClickSourceClick(){
+    this.navCtrl.push(SourceList);
+  }
 
 
 }

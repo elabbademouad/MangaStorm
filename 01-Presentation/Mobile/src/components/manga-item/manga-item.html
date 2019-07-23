@@ -1,6 +1,6 @@
-<ion-card no-padding>
+<ion-card no-padding >
   <div class="mangaHeader">
-    {{item.item.name}}<span style="float: left;" class="amiri" item-end>
+    {{item.item.name.length >=30?'...'+item.item.name.slice(0,30):item.item.name}}<span style="float: left;" class="amiri" item-end>
       <ion-icon name="stats"></ion-icon> {{item.item.state}} 
     </span>
   </div>
@@ -10,20 +10,19 @@
         <ion-col>
           <p style="font-size: 12px;" class="amiri">
             <span class="label-description">{{ressources.name}}</span> {{item.item.name}}
-            <button style="float: left; height: 19px; font-size: 18px;padding: 1px;" no-padding
-              (click)="handleClickFavorie()" color="primary" ion-button clear>
-              <ion-icon name="{{(item.isFavorite)?'heart':'heart-outline'}}"></ion-icon>
+            <button  style="float: left; height: 19px; font-size: 18px;padding: 1px;" no-padding
+              (click)="handleClickFavorie()" color="secondary" ion-button clear>
+              <ion-icon name="{{(item.isFavorite)?'heart':''}}"></ion-icon>
             </button><br />
             <span class="label-description">{{ressources.state}}</span> {{item.item.state}}<br />
             <span class="label-description">{{ressources.dateEdition}}</span> {{item.item.date}}<br />
             <span class="label-description">{{ressources.chapter}}</span> {{item.item.countChapters}}<br />
+            <span class="label-description">{{ressources.views}}</span> {{item.item.views}}<br />
+            <span class="label-description">{{ressources.rating}}</span>
+            <rating-status [rating]="item.item.rating"></rating-status>
             <span class="label-description">{{ressources.tags}}</span><br />
             <ion-badge style="margin: 1px;" color="secondary" *ngFor="let tag of item.item.tags.split(',')" ><span style="font-size: 9px;" >{{tag}}</span></ion-badge>
           </p>
-          <!-- <button (click)="handleClickRead(item)" color="secondary" ion-button round small>
-            <ion-icon name="book"></ion-icon>
-          </button> -->
-          <!-- <button color="primary" ion-button small  ><ion-icon name="download" ></ion-icon ></button> -->
         </ion-col>
       </ion-row>
     </ion-col>
@@ -32,9 +31,19 @@
     </ion-col>
   </ion-row>
   <ion-row>
-      <p style="font-size: 12px; margin: 4px;" class="amiri">
+      <p style="font-size: 12px; margin: 4px;width: 100%;" class="amiri">
           <span class="label-description">{{ressources.resume}}</span><br />
-          {{item.item.resume}}
+          {{item.item.resume}}<br>
+          <span class="label-description">{{ressources.source}}</span> {{item.item.source.label}}<br />
         </p>
+  </ion-row>
+  <ion-row no-padding >
+        <ion-col no-padding align-self-center text-center>
+            <button style="margin: 0px;padding: 0px;" (click)="handleDownloadClick()" ion-button  full  ><ion-icon color="secondary" name="download" ></ion-icon ></button>
+        </ion-col>
+        <ion-col no-padding align-self-center text-center >
+            <button style="margin: 0px;padding: 0px;" (click)="handleClickFavorie()"  ion-button  full  ><ion-icon name="{{(item.isFavorite)?'heart':'heart-outline'}}" color="secondary"></ion-icon ></button>
+        </ion-col>
+    
   </ion-row>
 </ion-card>

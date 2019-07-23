@@ -1,25 +1,36 @@
 <ion-header>
-    <ion-navbar color="primary">
-      <ion-title class="amiri" >{{ressources.chapterTitle+chapterVm.chapter.title}}</ion-title>
-    </ion-navbar>
-  </ion-header>
-<ion-content class="amiri" no-padding>
-  <ion-list>
-    <ion-card *ngFor="let page of pages" >
-        <img src="{{page.url}}" alt="{{page.number}}" imageViewer >
+  <ion-navbar color="primary">
+    <ion-title class="amiri">{{ressources.chapterTitle+chapterVm.chapter.title}}</ion-title>
+  </ion-navbar>
+</ion-header>
+<ion-content style="background-color: black;">
+  <loading *ngIf="!loaded">
+
+  </loading>
+  <div *ngIf="loaded" (swipe)="swipeEvent($event)" style="height: 100%;position: relative;">
+    <ion-card >
+      <img [src]="(offline)?getImgContent(currentPage?.base64):getImgContent(currentPage?.url)" alt="{{currentPage?.number}}" imageViewer>
     </ion-card>
-  </ion-list>
-  <ion-fab right bottom>
-    <button ion-button mini [disabled]="disableNextChapter" (click)="handleClickNextChapter()" >
-      <ion-icon name="arrow-round-forward"></ion-icon>
-      {{ressources.nextChapter}}
-    </button>
-  </ion-fab>
-  <ion-fab left bottom >
-    <button ion-button mini [disabled]="disablePreviousChapter" (click)="handleClickPreviousChapter()">
-      {{ressources.previousChapter}}
-      <ion-icon name="arrow-round-back"></ion-icon>
-    </button>
-  </ion-fab>
+  </div>
+
 </ion-content>
-  
+<ion-footer>
+  <ion-toolbar>
+    <ion-row>
+      <ion-col no-padding align-self-center text-center>
+        <button ion-button block clear color="text" (click)="swipeEvent({direction:4})">
+          <ion-icon name="skip-backward"></ion-icon>
+        </button>
+      </ion-col>
+      <ion-col no-padding align-self-center text-center>
+        <ion-title *ngIf="this.pages && this.currentPage">{{this.currentPage.number+'/'+this.pages?.length}}</ion-title>
+      </ion-col>
+      <ion-col no-padding align-self-center text-center>
+        <button ion-button block clear color="text" (click)="swipeEvent({direction:2})">
+          <ion-icon name="skip-forward"></ion-icon>
+        </button>
+      </ion-col>
+
+    </ion-row>
+  </ion-toolbar>
+</ion-footer>
