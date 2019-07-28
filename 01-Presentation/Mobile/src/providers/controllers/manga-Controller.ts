@@ -17,7 +17,7 @@ export class MangaController {
   * Initialize component
   ****************************************************/
   init() {
-    this.urlBase = "http://35.211.13.59";
+    this.urlBase = "http://35.211.13.59:80";
   }
   /****************************************************
   * properties

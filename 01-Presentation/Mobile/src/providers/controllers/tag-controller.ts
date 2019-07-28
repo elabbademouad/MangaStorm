@@ -14,18 +14,18 @@ export class TagController{
   * Initialize component
   ****************************************************/
   init() {
-    this.urlBase = "http://35.211.13.59";
-    this.getAllApi="/api/tag/GetAll";
+    this.urlBase = "http://35.211.13.59:80";
+    this.getAllApi=(source:string)=>{return this.urlBase + "/api/tag/GetAll?source="+source;};
   }
   /****************************************************
   * properties
  *****************************************************/
   urlBase: string;
-  getAllApi:string;
+  getAllApi:any;
   /****************************************************
   * Public methodes
  *****************************************************/
   public getAll(source:any) {
-    return this._http.get<Array<string>>(this.urlBase + this.getAllApi+source);
+    return this._http.get<Array<string>>(this.getAllApi(source));
   }
 }

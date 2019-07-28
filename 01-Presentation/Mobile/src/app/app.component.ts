@@ -12,7 +12,6 @@ import { SourceList } from '../pages/sources-list/sources-list';
 import { SourceViewModel } from '../ViewModel/source-view-model';
 import { MangaDownloadsPage } from '../pages/manga-downloads/manga-downloads';
 import { DownloadProvider } from '../providers/download/download';
-import { ManageDataPage } from '../pages/manage-data-page/manage-data-page';
 @Component({
   templateUrl: 'app.html'
 })
@@ -37,8 +36,7 @@ export class MyApp {
       { title: this.ressources.favoris, component: MangaFavorisPage, icon: 'heart' },
       { title: this.ressources.downloads, component: MangaDownloadsPage, icon: 'download' },
       { title: this.ressources.recents, component: RecentsPage, icon: 'time' },
-      { title: this.ressources.sourceMenu, component: SourceList, icon: 'create' },
-      // { title:this.ressources.manageData,component:ManageDataPage,icon:'pie'}
+      { title: this.ressources.sourceMenu, component: SourceList, icon: 'switch' },
     ];
   }
 
