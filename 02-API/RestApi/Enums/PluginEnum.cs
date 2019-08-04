@@ -9,6 +9,6 @@ namespace RestAPI.Enums
     {
         Default = 0,
         OnManga = 1,
-        GManga = 2,
+        Shaqqaa = 2,
     }
 }

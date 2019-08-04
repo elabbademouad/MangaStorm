@@ -32,6 +32,7 @@ namespace RestAPI.Controllers
                 string chapterId = Request.QueryString.Value.Split("chapterId=")[1];
                 var result = _cache.GetOrCreate<List<PageModel>>(string.Format(CacheKeys.PAGES, chapterId), (cachEntry) =>
                 {
+                    cachEntry.AbsoluteExpiration = DateTime.Now.AddDays(7);
                     var pageService = _pageServiceDelegate(source);
                     return Mapper.Map<List<PageModel>>(pageService.GetPagesByChapterId(chapterId));
                 });
@@ -63,6 +64,7 @@ namespace RestAPI.Controllers
                 string chapterId = Request.QueryString.Value.Split("chapterId=")[1];
                 var result = _cache.GetOrCreate(string.Format(CacheKeys.DOWNLOADCHAPTER, chapterId), (c) =>
                 {
+                    c.AbsoluteExpiration = DateTime.Now.AddDays(7);
                     var pageService = _pageServiceDelegate(source);
                     var pages = Mapper.Map<List<PageModel>>(pageService.GetPagesByChapterId(chapterId));
                     foreach (var item in pages)
