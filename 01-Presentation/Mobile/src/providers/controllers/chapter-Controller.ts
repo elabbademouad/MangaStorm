@@ -18,7 +18,7 @@ export class ChapterController {
     * Initialize component
     ****************************************************/
     init() {
-        this.urlBase = "http://35.211.13.59:80";
+        this.urlBase = "http://192.168.43.200:5100";
     }
     /****************************************************
     * properties

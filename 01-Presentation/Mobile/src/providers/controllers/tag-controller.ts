@@ -14,7 +14,7 @@ export class TagController{
   * Initialize component
   ****************************************************/
   init() {
-    this.urlBase = "http://35.211.13.59:80";
+    this.urlBase = "http://192.168.43.200:5100";
     this.getAllApi=(source:string)=>{return this.urlBase + "/api/tag/GetAll?source="+source;};
   }
   /****************************************************

@@ -34,6 +34,7 @@ namespace Api.Controllers
             {
                 List<MangaDetailsModel> result = _cache.GetOrCreate(string.Format(CacheKeys.GETALLMANGA, source, page, tag, filter), (cacheEntry) =>
                  {
+                     cacheEntry.AbsoluteExpiration = DateTime.Now.AddDays(7);
                      var mangaService = _mangaServiceDelegate(source);
                      return Mapper.Map<List<MangaDetailsModel>>(mangaService.GetMangaDetailsList(page, tag: tag, filtre: filter));
                  });
@@ -54,6 +55,7 @@ namespace Api.Controllers
                 string mangaId = Request.QueryString.Value.Split("mangaId=")[1];
                 var result = _cache.GetOrCreate(string.Format(CacheKeys.MANGA, mangaId), (c) =>
                 {
+                    c.AbsoluteExpiration = DateTime.Now.AddDays(7);
                     var mangaService = _mangaServiceDelegate(source);
                     return Mapper.Map<MangaDetailsModel>(mangaService.GetMangaDetailsById(mangaId));
                 });
@@ -87,6 +89,7 @@ namespace Api.Controllers
             {
                 List<MangaDetailsModel> result = _cache.GetOrCreate(string.Format(CacheKeys.FORYOU, source), (c) =>
                 {
+                    c.AbsoluteExpiration = DateTime.Now.AddDays(2);
                     var mangaService = _mangaServiceDelegate(source);
                     return Mapper.Map<List<MangaDetailsModel>>(mangaService.GetMangaForYou(count, tags));
                 });
@@ -105,6 +108,7 @@ namespace Api.Controllers
             {
                 List<MangaDetailsModel> result = _cache.GetOrCreate(string.Format(CacheKeys.NEWCHAPTERS, source), (c) =>
                 {
+                    c.AbsoluteExpiration = DateTime.Now.AddDays(1);
                     var mangaService = _mangaServiceDelegate(source);
                     return Mapper.Map<List<MangaDetailsModel>>(mangaService.GetMangaListHasNewChapter(count));
                 });
@@ -123,6 +127,7 @@ namespace Api.Controllers
             {
                 List<MangaDetailsModel> result = _cache.GetOrCreate(string.Format(CacheKeys.MOSTVIEWS, source), (c) =>
                 {
+                    c.AbsoluteExpiration = DateTime.Now.AddDays(7);
                     var mangaService = _mangaServiceDelegate(source);
                     return Mapper.Map<List<MangaDetailsModel>>(mangaService.GetMostViewed(count));
                 });
@@ -146,7 +151,7 @@ namespace Api.Controllers
                     new SourceModel()
                     {
                         Logo= _config["ApiSettings:BaseUrl"]+"mangastorm.png",
-                        Rating=4,
+                        Rating=3,
                         Source=new Source()
                         {
                             Id=0,
@@ -157,11 +162,23 @@ namespace Api.Controllers
                     new SourceModel()
                     {
                         Logo= _config["ApiSettings:BaseUrl"]+"on-manga.PNG",
-                        Rating=3,
+                        Rating=4,
                         Source=new Source()
                         {
                             Id=1,
                             Label="on-manga.ae",
+                        },
+                        Language="عربية"
+                    }
+                    ,
+                    new SourceModel()
+                    {
+                        Logo= _config["ApiSettings:BaseUrl"]+"shqqaa.png",
+                        Rating=3,
+                        Source=new Source()
+                        {
+                            Id=2,
+                            Label="shqqaa.com",
                         },
                         Language="عربية"
                     }

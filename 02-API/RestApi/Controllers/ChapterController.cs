@@ -32,6 +32,7 @@ namespace RestAPI.Controllers
                 string mangaId = Request.QueryString.Value.Split("mangaId=")[1];
                 var result = _cache.GetOrCreate(string.Format(CacheKeys.CHAPTERS, mangaId), (c) =>
                 {
+                    c.AbsoluteExpiration = DateTime.Now.AddDays(1);
                     var chapterService = _chapterServiceDelegate(source);
                     return Mapper.Map<List<ChapterModel>>(chapterService.GetChaptersByMangaId(mangaId));
                 });

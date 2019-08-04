@@ -11,6 +11,7 @@ using RestAPI.Enums;
 using RestAPI.MapperConfig;
 using System;
 using System.IO;
+using ShqqaaPlugin.Services;
 
 namespace Api
 {
@@ -52,6 +53,10 @@ namespace Api
             services.AddScoped<OnMangaChapterService>();
             services.AddScoped<OnMangaPageService>();
             services.AddScoped<OnMangaTagService>();
+            services.AddScoped<ShaqqaaMangaService>();
+            services.AddScoped<ShaqqaaChapterService>();
+            services.AddScoped<ShaqqaaPageService>();
+            services.AddScoped<ShaqqaaTagService>();
             services.AddTransient<Func<PluginEnum, IMangaService>>(serviceProvider => key =>
             {
                 switch (key)
@@ -60,6 +65,8 @@ namespace Api
                         return serviceProvider.GetService<DefaultMangaService>();
                     case PluginEnum.OnManga:
                         return serviceProvider.GetService<OnMangaMangaService>();
+                    case PluginEnum.Shaqqaa:
+                        return serviceProvider.GetService<ShaqqaaMangaService>();
                     default:
                         return serviceProvider.GetService<DefaultMangaService>();
                 }
@@ -72,6 +79,8 @@ namespace Api
                         return serviceProvider.GetService<DefaultChapterService>();
                     case PluginEnum.OnManga:
                         return serviceProvider.GetService<OnMangaChapterService>();
+                    case PluginEnum.Shaqqaa:
+                        return serviceProvider.GetService<ShaqqaaChapterService>();
                     default:
                         return serviceProvider.GetService<DefaultChapterService>();
                 }
@@ -84,6 +93,8 @@ namespace Api
                         return serviceProvider.GetService<DefaultPageService>();
                     case PluginEnum.OnManga:
                         return serviceProvider.GetService<OnMangaPageService>();
+                    case PluginEnum.Shaqqaa:
+                        return serviceProvider.GetService<ShaqqaaPageService>();
                     default:
                         return serviceProvider.GetService<DefaultPageService>();
                 }
@@ -96,6 +107,8 @@ namespace Api
                         return serviceProvider.GetService<DefaultTagService>();
                     case PluginEnum.OnManga:
                         return serviceProvider.GetService<OnMangaTagService>();
+                    case PluginEnum.Shaqqaa:
+                        return serviceProvider.GetService<ShaqqaaTagService>();
                     default:
                         return serviceProvider.GetService<DefaultTagService>();
                 }

@@ -3,7 +3,7 @@
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
     "iisExpress": {
-      "applicationUrl": "http://0.0.0.0:42540",
+      "applicationUrl": "http://192.168.43.200:42540",
       "sslPort": 44368
     }
   },
@@ -21,7 +21,7 @@
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Production"
       },
-      "applicationUrl": "http://0.0.0.0:80"
+      "applicationUrl": "http://192.168.43.200:5100"
     }
   }
 }
