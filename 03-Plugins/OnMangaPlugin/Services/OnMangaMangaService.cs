@@ -132,15 +132,9 @@ namespace DefaultPlugin.Services
 
         public List<MangaDetails> GetMangaForYou(int count, List<string> tag)
         {
-            var list = new List<MangaDetails>();
-            HtmlWeb htmlWeb = new HtmlWeb();
-            HtmlDocument htmlDocument = htmlWeb.Load("https://www.on-manga.me/");
-            var htmlExtract = htmlDocument.DocumentNode.SelectNodes(".//li[@class='list-group-item']");
-            Parallel.For(0, count, (i) =>
-            {
-                list.Add(this.GetMangaDetailsById(htmlExtract[i]?.SelectSingleNode(".//a").Attributes["href"].Value));
-            });
-            return list;
+            Random random = new Random();
+            var list = this.GetMangaDetailsList(random.Next(1, 14));
+            return list.OrderBy(m => random.Next()).Take(count).ToList();
         }
 
         public List<MangaDetails> GetMangaListHasNewChapter(int count)

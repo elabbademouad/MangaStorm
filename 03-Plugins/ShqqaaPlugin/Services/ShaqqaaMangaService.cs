@@ -137,10 +137,17 @@ namespace ShqqaaPlugin.Services
             HtmlDocument htmlDocumentNewChapter = htmlWebNewChapters.Load($"https://www.shqqaa.com/manga/chapters/");
 
             var newChapterHtmlExtract = htmlDocumentNewChapter.DocumentNode.SelectNodes(".//div[@class='text-truncate card-title mb-0']");
-            string newChapterStrings = "";
-            foreach (var item in newChapterHtmlExtract.Take(count))
+            List<string> newChapterStrings = new List<string>();
+            foreach (var item in newChapterHtmlExtract)
             {
-                newChapterStrings += item.SelectSingleNode(".//small").InnerText + " ";
+                if (newChapterStrings.Count < count)
+                {
+                    var temp = item.SelectSingleNode(".//small").InnerText.ToLower();
+                    if (!newChapterStrings.Contains(temp))
+                    {
+                        newChapterStrings.Add(temp);
+                    }
+                }
             }
 
             var allMangalist = new List<MangaDetails>();
@@ -167,7 +174,7 @@ namespace ShqqaaPlugin.Services
                     }
                 });
             }
-            return allMangalist.Where(m => newChapterStrings.Contains(m.Name)).ToList();
+            return allMangalist.Where(m => newChapterStrings.Contains(m.Name.ToLower())).ToList();
         }
 
         public List<MangaDetails> GetMostViewed(int count)
