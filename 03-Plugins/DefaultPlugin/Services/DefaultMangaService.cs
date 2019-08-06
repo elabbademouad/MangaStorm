@@ -127,7 +127,8 @@ namespace DefaultPlugin.Services
         }
         public List<MangaDetails> GetMangaForYou(int count, List<string> tag)
         {
-            var result = _mangaRepository.GetAll().OrderByDescending(m => m.CreatedDate).Take(count);
+            Random random = new Random();
+            var result = _mangaRepository.GetAll().OrderByDescending(m => random.Next()).Take(count);
             var mangaDetailsList = new List<MangaDetails>();
             foreach (var manga in result)
             {
@@ -181,10 +182,35 @@ namespace DefaultPlugin.Services
 
         public List<MangaDetails> GetMangaListHasNewChapter(int count)
         {
-            var mangaIdsHasNewChapter = _chapterRepository.GetAll().OrderByDescending(c => c.CreatedDate).Select(c => c.MangaId).Distinct().Take(count);
-            var mangaList = _mangaRepository.Query(m => mangaIdsHasNewChapter.Contains(m.Id));
+            //To Do 
+            //var mangaIdsHasNewChapter = _chapterRepository.GetAll().OrderByDescending(c => c.CreatedDate).Select(c => c.MangaId).Distinct().Take(count);
+            //var mangaList = _mangaRepository.Query(m => mangaIdsHasNewChapter.Contains(m.Id));
+            //var mangaDetailsList = new List<MangaDetails>();
+            //foreach (var manga in mangaList)
+            //{
+            //    mangaDetailsList.Add(new MangaDetails
+            //    {
+            //        Cover = manga.CoverInternalUrl,
+            //        Date = manga.Date,
+            //        Id = (Guid)manga.Id,
+            //        Name = manga.Name,
+            //        Resume = manga.Resume,
+            //        State = manga.State,
+            //        Tags = manga.Tags,
+            //        CountChapters = _chapterRepository.Count(c => c.MangaId == manga.Id),
+            //        Views = manga.Views,
+            //        Source = new Source()
+            //        {
+            //            Id = 0,
+            //            Label = "mangaStorm"
+            //        }
+            //    });
+            //}
+            //return mangaDetailsList;
+            Random random = new Random();
+            var result = _mangaRepository.GetAll().OrderByDescending(m => random.Next()).Take(count);
             var mangaDetailsList = new List<MangaDetails>();
-            foreach (var manga in mangaList)
+            foreach (var manga in result)
             {
                 mangaDetailsList.Add(new MangaDetails
                 {
