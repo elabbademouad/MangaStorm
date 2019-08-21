@@ -1,6 +1,0 @@
-<div *ngIf="loaded" class="flex-container" >
-    <app-manga-item *ngFor="let manga of mangaList" [item]="manga" (click)="handlerMangaItemClick(manga.id)" ></app-manga-item>
-</div>
-<mat-spinner *ngIf="!loaded" style="margin:auto;margin-top: 20%;"
-        [color]="primary">
-</mat-spinner>

@@ -1,0 +1,20 @@
+﻿{
+  "iisSettings": {
+    "windowsAuthentication": false,
+    "anonymousAuthentication": true,
+    "iisExpress": {
+      "applicationUrl": "http://192.168.43.200:32847",
+      "sslPort": 44316
+    }
+  },
+  "profiles": {
+    "Web": {
+      "commandName": "Project",
+      "launchBrowser": false,
+      "applicationUrl": "http://192.168.43.200:5003",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      }
+    }
+  }
+}
