@@ -1,4 +1,0 @@
-*Run api in the background
-sudo nohup dotnet run kestrel > /dev/null 2>&1
-
-sudo dotnet run --unsafe-perm=true --allow-root
